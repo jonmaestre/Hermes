@@ -14,7 +14,7 @@ public class Jugador extends Datos {
 	}
 	
 	public void setId(int id) {
-		Id = id;
+		this.Id = id;
 	}
 	
 	public String getNombre() {
