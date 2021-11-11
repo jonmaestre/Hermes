@@ -6,6 +6,8 @@ public class Main2 {
 		// TODO Auto-generated method stub
 		System.out.println("Hola Main2");
 		System.out.println("Hola progrers");
+		String putosFeos = "";
+		
 	}
 
 }
