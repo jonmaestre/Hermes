@@ -2,7 +2,7 @@ package datos.Hermes;
 
 public class Jugador extends Datos {
 	
-	private int Id = 0;
+	private int id = 0;
 	private String nombre = "";
 	private int nivel = 0;
 	private int cartera = 0; // Monedas que posee el jugador
@@ -10,11 +10,11 @@ public class Jugador extends Datos {
 	private int dia = 0;
 	
 	public int getId() {
-		return Id;
+		return id;
 	}
 	
 	public void setId(int id) {
-		this.Id = id;
+		this.id = id;
 	}
 	
 	public String getNombre() {
