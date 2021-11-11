@@ -8,6 +8,7 @@ public class Main {
 		System.out.println("Main 1");
 		System.out.println("HOLAMUNDO");
 		System.out.println("Hola Bobos");
+		System.out.println("Free covid");
 	}
 
 }
