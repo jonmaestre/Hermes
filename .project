@@ -14,6 +14,13 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>src/recursosAudiovisuales/fondoVentanaInicial.png</name>
+			<type>1</type>
+			<location>C:/Users/Usuario/Downloads/fondoVentanaInicial.png</location>
+		</link>
+	</linkedResources>
 	<filteredResources>
 		<filter>
 			<id>1636627017523</id>
