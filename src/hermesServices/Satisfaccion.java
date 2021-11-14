@@ -3,20 +3,15 @@ package hermesServices;
 
 public class Satisfaccion extends Estadisticas_totales {
 		private String nombre_satisfaccion = ""; // estilo muy satisfactorio,satisfactorio,normal, mal, muy mal igual hay que ponerlo en un enum
-		private float catidadSatisfactoria = 100 ; // he pensado en empezar con 100 % y que cuando no cumpla un requisito baje
+		private float cantidadSatisfactoria = 100 ; // he pensado en empezar con 100 % y que cuando no cumpla un requisito baje
 		
-		public Satisfaccion(float satisfaccion_total, float monedas_tota, String nombre_satisfaccion,
-				float catidadSatisfactoria) {
-			super(satisfaccion_total, monedas_tota);
+
+		public Satisfaccion(float satisfaccion, float monedas, float satisfaccion_total, float monedas_total,
+				String nombre_satisfaccion, float cantidadSatisfactoria) {
+			super(satisfaccion, monedas, satisfaccion_total, monedas_total);
 			this.nombre_satisfaccion = nombre_satisfaccion;
-			this.catidadSatisfactoria = catidadSatisfactoria;
+			this.cantidadSatisfactoria = cantidadSatisfactoria;
 		}
-
-
-	public Satisfaccion(float satisfa, float moneda) {
-		super(satisfa, moneda);
-		// TODO Auto-generated constructor stub
-	}
 
 		public String getNombre_satisfaccion() {
 			return nombre_satisfaccion;
@@ -26,12 +21,12 @@ public class Satisfaccion extends Estadisticas_totales {
 			this.nombre_satisfaccion = nombre_satisfaccion;
 		}
 
-		public float getCatidadSatisfactoria() {
-			return catidadSatisfactoria;
+		public float getCantidadSatisfactoria() {
+			return cantidadSatisfactoria;
 		}
 
-		public void setCatidadSatisfactoria(float catidadSatisfactoria) {
-			this.catidadSatisfactoria = catidadSatisfactoria;
+		public void setCantidadSatisfactoria(float cantidadSatisfactoria) {
+			this.cantidadSatisfactoria = cantidadSatisfactoria;
 		}
 
 }
