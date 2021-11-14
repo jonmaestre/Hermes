@@ -1,6 +1,6 @@
 package hermesServices;
 
-public class Estadisticas_totales extends Estadisticas {
+public class Estadisticas_totales  {
 	private float satisfaccion_total = 0;
 	private float monedas_tota = 0;
 	
