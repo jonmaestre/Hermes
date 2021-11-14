@@ -11,7 +11,7 @@ public class Main {
 		ventanaInicial v= new ventanaInicial(100,200,"Hermes");
 		
 
-
+fdabb
 
 	}
 
