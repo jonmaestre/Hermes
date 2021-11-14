@@ -6,7 +6,7 @@ public class Dias extends Datos {
 	
 	
 	private int contador = 0 ;
-	// esto es para cunado lo relacionemos con los eventos
+	// esto es para cuando lo relacionemos con los eventos
 	private ArrayList<String> festivo;
 	
 	
