@@ -1,76 +1,101 @@
 package hermesServices;
 
 import java.awt.BorderLayout;
-import java.awt.Container;
-import java.awt.FlowLayout;
-import java.awt.Graphics;
-import java.awt.GridLayout;
-import java.awt.Image;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.util.List;
+import java.awt.Color;
+import java.awt.Window;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.Iterator;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
+
 
 public class ventanaInicial extends Main {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private JPanel panelbotones= new JPanel();
-	private JLabel panelFondo;
-	private JButton btnCrear= new JButton("Crear Partida");
-	private JButton btnElegir= new JButton("Elegir Partida");
-	
 
-	public ventanaInicial(int ancho, int altura, String titulo) {
-		JFrame  v= new JFrame(titulo);
-		panelbotones.setLayout(new GridLayout(1,2));
-		
-		
-		v.setSize(ancho, altura);
-		v.setLayout(new BorderLayout());
-		v.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		v.setVisible(true);
-		
-		
-		panelbotones.add(btnCrear);
-		panelbotones.add(btnElegir);
-		v.add(panelbotones,BorderLayout.SOUTH);
-		v.add(panelFondo);
-		
-		btnCrear.addMouseListener(new MouseAdapter()	{
+JLabel textoInicio=new JLabel(" ",JLabel.CENTER);
+private JLabel imagen;
 
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				// TODO Auto-generated method stub
-				//juego.empezar();
-				System.out.println("Nueva");
-			}
 
-		});
-		
-		
-		btnElegir.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				// TODO Auto-generated method stub
-				//juego.cargar();
-				System.out.println("Carga");
-			}
-		});
-		
-	}
-	
+public ventanaInicial(int ancho, int altura, String titulo) {
+JFrame  v= new JFrame(titulo);
+textoInicio.setText("PRESS ENTER TO START");
+textoInicio.setForeground(Color.BLUE);
+imagen= new JLabel("", JLabel.CENTER);
+imagen.setIcon(new ImageIcon("C:/Users/Usuario/git/Hermes/src/recursosAudioVisuales/fondoVentanaInicial.png"));
 
-	
+v.setSize(ancho, altura);
+v.setLayout(new BorderLayout());
+v.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+v.add(imagen, BorderLayout.CENTER);
+v.add(textoInicio, BorderLayout.SOUTH);
+v.setVisible(true);
+
+
+
+
+v.addWindowListener(new WindowAdapter() {
+
+
+public void windowOpened(WindowEvent e) {//Hilo parpadeo del texto
+// TODO Auto-generated method stub
+
+
+
+(new Thread() {
+public void run() {
+
+
+textoInicio.setVisible(true);
+
+try {
+Thread.sleep( 500 );
+} catch (InterruptedException e) {}
+
+textoInicio.setVisible(false);
 
 }
 
 
+}).start();
+
+
+}
+
+
+});
+
+
+v.addKeyListener(new KeyAdapter() {//Evento cerrar la ventana para saltar a la siguiente
+
+public void keyPressed(KeyEvent e) {
+// TODO Auto-generated method stub
+if(e.getKeyCode()==KeyEvent.VK_ENTER) {
+v.dispose();
+//ventanaSaveSlots v1= ventanaSaveSlots();
+}
+}
+
+});
+
+
+
+
+
+}
+
+
+
+
+}
 
