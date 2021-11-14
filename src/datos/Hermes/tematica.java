@@ -1,5 +1,6 @@
 package datos.Hermes;
 
 public enum tematica {
-
+	PRIMAVERA, VERANO, OTOÑO, INVIERNO, HALLOWEEN, NAVIDAD, ANYO_NUEVO_CHINO,
+	ST_PATRICKS_DAY;
 }
