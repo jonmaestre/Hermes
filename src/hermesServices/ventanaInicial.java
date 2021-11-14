@@ -4,6 +4,9 @@ import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -33,7 +36,39 @@ public class ventanaInicial extends Main {
 		panelCentro.add(b2);
 		panelCentro.add(b3);
 		v.add(panelCentro,BorderLayout.CENTER);
-	};
+		
+		b1.addMouseListener(new MouseAdapter()	{
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				//juego.empezar();
+				System.out.println("Nueva");
+			}
+
+		});
+		
+		b2.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				//juego.borrar();
+				System.out.println("Borrar");
+			}
+		});
+		b3.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				//juego.cargar();
+				System.out.println("Carga");
+			}
+		});
+	}
+	
+		
+	
+	
 	
 	
 	
