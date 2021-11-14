@@ -1,31 +1,31 @@
 package hermesServices;
 
-public class Estadisticas extends Estadisticas_totales  {
+public class Estadisticas   {
 	
 // Esta es para mostrar estadisticas totales y tambien los objetos guardados en cada cuenta
-	private float Satisfacion = 0; // la satisfaciion media de todos los dias
-	private float Monedas = 0 ; // las monedas maximas ganadas hasta ahora como en el clasroyale cuando te muestra trofeos max
+	private float satisfaccion = 0; // la satisfaciion media de todos los dias
+	private float monedas = 0 ; // las monedas maximas ganadas hasta ahora como en el clasroyale cuando te muestra trofeos max
 	
-	public Estadisticas(float satisfaccion_total, float monedas_tota, float satisfacion, float monedas) {
-		super(satisfaccion_total, monedas_tota);
-		Satisfacion = satisfacion;
-		Monedas = monedas;
+	public Estadisticas(float satisfa, float moneda) {
+		
+		this.satisfaccion = satisfa;
+		this.monedas = moneda;
 	}
 
-	public float getSatisfacion() {
-		return Satisfacion;
+	public float getsatisfacion() {
+		return satisfaccion;
 	}
 
-	public void setSatisfacion(float satisfacion) {
-		Satisfacion = satisfacion;
+	public void setsatisfacion(float satisfa) {
+		satisfaccion = satisfa;
 	}
 
 	public float getMonedas() {
-		return Monedas;
+		return monedas;
 	}
 
-	public void setMonedas(float monedas) {
-		Monedas = monedas;
+	public void setMonedas(float moneda) {
+		monedas = moneda;
 	}
 	
 	
