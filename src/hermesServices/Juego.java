@@ -11,7 +11,7 @@ import datos.Hermes.Jugador;
 public class Juego{
 	
 	protected ArrayList<Jugador> jugadores;
-	private HashMap<Integer,String> clasJugador;
+	protected HashMap<Integer,String> clasJugador;
 	
 	public Juego(ArrayList<Jugador> jugadores,HashMap<Integer,String> clasJugador) {
 		super();
@@ -30,6 +30,12 @@ public class Juego{
 		this.jugadores = jugadores;
 	}
 	
+	public HashMap<Integer, String> getClasJugador() {
+		return clasJugador;
+	}
+	public void setClasJugador(HashMap<Integer, String> clasJugador) {
+		this.clasJugador = clasJugador;
+	}
 	public void cargarDatosJugadores() {
 		FileReader fr = null;
 		BufferedReader br = null;
