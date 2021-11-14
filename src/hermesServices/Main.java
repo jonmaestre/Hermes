@@ -9,9 +9,6 @@ public class Main {
 		System.out.println("Main 1");
 		System.out.println("HOLAMUNDO");
 		ventanaInicial v= new ventanaInicial(100,200,"Hermes");
-		
-
-fdabb
 
 	}
 
