@@ -9,15 +9,6 @@ public class Jugador extends Datos {
 	// Hacer lista de entidades objeto
 	private int dia = 0;
 	
-	public Jugador(String tipo, int id, String nombre, int nivel, int cartera, int dia) {
-		super(tipo);
-		this.id = id;
-		this.nombre = nombre;
-		this.nivel = nivel;
-		this.cartera = cartera;
-		this.dia = dia;
-	}
-	
 	public int getId() {
 		return id;
 	}
@@ -57,6 +48,5 @@ public class Jugador extends Datos {
 	public void setDia(int dia) {
 		this.dia = dia;
 	}
-
-
+	
 }
