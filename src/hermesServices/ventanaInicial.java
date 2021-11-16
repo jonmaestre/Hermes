@@ -32,7 +32,7 @@ JFrame  v= new JFrame(titulo);
 textoInicio.setText("PRESS ENTER TO START");
 textoInicio.setForeground(Color.BLUE);
 imagen= new JLabel("", JLabel.CENTER);
-imagen.setIcon(new ImageIcon("C:/Users/Usuario/git/Hermes/src/recursosAudioVisuales/fondoVentanaInicial.png"));
+imagen.setIcon(new ImageIcon("src/recursosAudiovisuales/fondoVentanalinicial.png"));
 
 v.setSize(ancho, altura);
 v.setLayout(new BorderLayout());
