@@ -23,37 +23,37 @@ import javax.swing.JTextField;
 
 public class ventanaInicial extends Main {
 
-JLabel textoInicio=new JLabel(" ",JLabel.CENTER);
-private JLabel imagen;
+	JLabel textoInicio=new JLabel(" ",JLabel.CENTER);
+	private JLabel imagen;
 
 
 public ventanaInicial(int ancho, int altura, String titulo) {
-JFrame  v= new JFrame(titulo);
-textoInicio.setText("PRESS ENTER TO START");
-textoInicio.setForeground(Color.BLUE);
-imagen= new JLabel("", JLabel.CENTER);
-imagen.setIcon(new ImageIcon("src/recursosAudiovisuales/fondoVentanalinicial.png"));
+	JFrame  v= new JFrame(titulo);
+	textoInicio.setText("PRESS ENTER TO START");
+	textoInicio.setForeground(Color.BLUE);
+	imagen= new JLabel("", JLabel.CENTER);
+	imagen.setIcon(new ImageIcon("src/recursosAudiovisuales/fondoVentanalinicial.png"));
 
-v.setSize(ancho, altura);
-v.setLayout(new BorderLayout());
-v.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-v.add(imagen, BorderLayout.CENTER);
-v.add(textoInicio, BorderLayout.SOUTH);
-v.setVisible(true);
-
-
+	v.setSize(ancho, altura);
+	v.setLayout(new BorderLayout());
+	v.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	v.add(imagen, BorderLayout.CENTER);
+	v.add(textoInicio, BorderLayout.SOUTH);
+	v.setVisible(true);
 
 
-v.addWindowListener(new WindowAdapter() {
+
+
+	v.addWindowListener(new WindowAdapter() {
 
 
 public void windowOpened(WindowEvent e) {//Hilo parpadeo del texto
-// TODO Auto-generated method stub
+	// TODO Auto-generated method stub
 
 
 
-(new Thread() {
-public void run() {
+	(new Thread() {
+	public void run() {
 
 
 textoInicio.setVisible(true);
@@ -70,20 +70,20 @@ textoInicio.setVisible(false);
 }).start();
 
 
-}
+	}
 
 
 });
 
 
-v.addKeyListener(new KeyAdapter() {//Evento cerrar la ventana para saltar a la siguiente
+	v.addKeyListener(new KeyAdapter() {//Evento cerrar la ventana para saltar a la siguiente
 
 public void keyPressed(KeyEvent e) {
-// TODO Auto-generated method stub
-if(e.getKeyCode()==KeyEvent.VK_ENTER) {
-v.dispose();
-//ventanaSaveSlots v1= ventanaSaveSlots();
-}
+	// TODO Auto-generated method stub
+	if(e.getKeyCode()==KeyEvent.VK_ENTER) {
+	v.dispose();
+	//ventanaSaveSlots v1= ventanaSaveSlots();
+	}
 }
 
 });
