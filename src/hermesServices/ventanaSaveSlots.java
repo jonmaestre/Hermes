@@ -44,6 +44,7 @@ public class ventanaSaveSlots {
 	
 
 	public ventanaSaveSlots(int ancho, int altura, String titulo) {
+		
 		JFrame  v= new JFrame(titulo);
 		panelNorth.setLayout(new GridLayout(1,2));
 		panelCenter.setLayout(new GridLayout(1,2));
@@ -84,7 +85,6 @@ public class ventanaSaveSlots {
 
 		
 		datosLista = new DefaultListModel();
-		listSlot = new JList(datosLista);
 		JScrollPane scrollLista = new JScrollPane(listSlot);
 		scrollLista.setPreferredSize(new Dimension(400, 300));
 		
