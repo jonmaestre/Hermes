@@ -7,15 +7,14 @@ public class Almacen extends Datos {
 	protected tipoMueble nombre;
 	protected int stock;
 	protected int capacidad;
-	protected ArrayList<Producto> listaProductos;
+
 	
-	public Almacen(int codAlm, tipoMueble nombre, int stock, int capacidad, ArrayList<Producto> listaProductos) {
+	public Almacen(int codAlm, tipoMueble nombre, int stock, int capacidad) {
 		super();
 		this.codAlm = codAlm;
 		this.nombre = nombre;
 		this.stock = stock;
 		this.capacidad = capacidad;
-		this.listaProductos = listaProductos;
 	}
 
 	public int getCodAlm() {
@@ -48,24 +47,5 @@ public class Almacen extends Datos {
 
 	public void setCapacidad(int capacidad) {
 		this.capacidad = capacidad;
-	}
-
-	public ArrayList<Producto> getListaProductos() {
-		return listaProductos;
-	}
-
-	public void setListaProductos(ArrayList<Producto> listaProductos) {
-		for(Producto i:listaProductos) { //Para meter todos los productos de cada tipo en el almacen correspondiente.
-			if(nombre==i.getTipoMueble()) {
-				this.listaProductos = listaProductos;
-		}
-		
-		}
-		
-	}
-	
-	
-	
-	
-	
+	}	
 }

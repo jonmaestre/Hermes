@@ -9,9 +9,13 @@ public class Producto extends Datos {
 	protected material material;
 	protected float precioVenta;
 	protected float precioCompra;
+	protected Tiendas tienda; //Para saber de que tienda proviene el producto correspondiente.
+	protected Almacen almacen;//Para saber en qué almacén se guarda el producto correspondiente.
 	
+
 	public Producto(String codigoObjeto, datos.Hermes.tipoMueble tipoMueble, datos.Hermes.tematica tematica,
-			datos.Hermes.color color, datos.Hermes.material material, float precioVenta, float precioCompra) {
+			datos.Hermes.color color, datos.Hermes.material material, float precioVenta, float precioCompra,
+			Tiendas tienda, Almacen almacen) {
 		super();
 		this.codigoObjeto = codigoObjeto;
 		this.tipoMueble = tipoMueble;
@@ -20,6 +24,8 @@ public class Producto extends Datos {
 		this.material = material;
 		this.precioVenta = precioVenta;
 		this.precioCompra = precioCompra;
+		this.tienda = tienda;
+		this.almacen = almacen;
 	}
 
 	public String getCodigoObjeto() {
@@ -77,13 +83,20 @@ public class Producto extends Datos {
 	public void setPrecioCompra(float precioCompra) {
 		this.precioCompra = precioCompra;
 	}
-	
-	
-	
-	
 
+	public Tiendas getTienda() {
+		return tienda;
+	}
 
-	
+	public void setTienda(Tiendas tienda) {
+		this.tienda = tienda;
+	}
 
-	
+	public Almacen getAlmacen() {
+		return almacen;
+	}
+
+	public void setAlmacen(Almacen almacen) {
+		this.almacen = almacen;
+	}	
 }

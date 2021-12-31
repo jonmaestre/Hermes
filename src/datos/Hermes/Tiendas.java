@@ -6,14 +6,13 @@ public class Tiendas extends Datos {
 	protected int codTienda;
 	protected tematica estilo;
 	protected String nombreTienda;
-	protected ArrayList<Producto> listaProds;
 	
-	public Tiendas(int codTienda, tematica estilo, String nombreTienda, ArrayList<Producto> listaProds) {
+	public Tiendas(int codTienda, tematica estilo, String nombreTienda) {
 		super();
 		this.codTienda = codTienda;
 		this.estilo = estilo;
 		this.nombreTienda = nombreTienda;
-		this.listaProds = listaProds;
+		
 	}
 
 	public int getCodTienda() {
@@ -38,22 +37,5 @@ public class Tiendas extends Datos {
 
 	public void setNombreTienda(String nombreTienda) {
 		this.nombreTienda = nombreTienda;
-	}
-
-	public ArrayList<Producto> getListaProds() {
-		return listaProds;
-	}
-
-	public void setListaProds(ArrayList<Producto> listaProds) {
-		for(Producto i:listaProds) { //Para saber donde se venden los productos con el mismo estilo que esa tienda 
-			if (estilo==i.getTematica()) {
-				this.listaProds = listaProds;
-			}
-		}
-		
-	}
-	
-	
-	
-	
+	}	
 }
