@@ -16,7 +16,7 @@ public class Constantes {
 	public static int CENTRO_VENTANA_X= ANCHO_JUEGO/2;
 	public static int CENTRO_VENTANA_Y= ALTO_JUEGO/2;
 
-	public static final String RUTA_MAPA="/AudioVisual/fondo de juego de prueba.jpg";
+	public static final String RUTA_MAPA="/recursosAudiovisuales/Pueblo_Lavanda_RfVh.png";
     
 	public static final String RUTA_ICONO_RATON="/AudioVisual/windows-cursor-png.png";
     
@@ -24,4 +24,5 @@ public class Constantes {
     public static final String RUTA_VILLAGER="";
     public static final String RUTA_ICONO_VENTANA="";
     public static final String RUTA_OBJETOS="";
+    
 }
