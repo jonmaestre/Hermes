@@ -13,9 +13,15 @@ public class Constantes {
 	public static int ANCHO_JUEGO= 800;
 	public static int ALTO_JUEGO= 450;
 	
-	public static final String RUTA_ICONO_RATON="/AudioVisual/windows-cursor-png.png";
-	
 	public static int CENTRO_VENTANA_X= ANCHO_JUEGO/2;
 	public static int CENTRO_VENTANA_Y= ALTO_JUEGO/2;
 
+	public static final String RUTA_MAPA="/AudioVisual/fondo de juego de prueba.jpg";
+    
+	public static final String RUTA_ICONO_RATON="/AudioVisual/windows-cursor-png.png";
+    
+    public static final String RUTA_PERSONAJE="";
+    public static final String RUTA_VILLAGER="";
+    public static final String RUTA_ICONO_VENTANA="";
+    public static final String RUTA_OBJETOS="";
 }
