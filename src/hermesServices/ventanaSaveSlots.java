@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.Map;
 
 import javax.swing.DefaultListModel;
@@ -41,6 +42,7 @@ public class ventanaSaveSlots {
 	private JButton btnBorrar = new JButton("Borrar Partida");
 	private JList listSlot;
 	protected DefaultListModel datosLista;
+	protected ArrayList<Jugador> usu;
 	
 
 	public ventanaSaveSlots(int ancho, int altura, String titulo) {
@@ -84,27 +86,18 @@ public class ventanaSaveSlots {
 		panelCC.add(listSlot);
 
 		
+		//usu cargar usuarios de la bdd en la lista
+		
 		datosLista = new DefaultListModel();
 		JScrollPane scrollLista = new JScrollPane(listSlot);
 		scrollLista.setPreferredSize(new Dimension(400, 300));
 		
-		/*
-		listSlot = new JList();
-		Juego.cargarDatosJugadores();
-		
-		for (Map.Entry me : Juego.clasJugador.entrySet()) {
-	          System.out.println("Key: "+me.getKey() + " & Value: " + me.getValue());
-	        }
-		for (clasJugador.getIdJugador() j : Juego.clasJugador) {
-			listSlot.add(j);
-		}
-		*/
 		
 		btnNew.addMouseListener(new MouseAdapter()	{	
 			@Override
 			public void mouseClicked(MouseEvent e) {
 					// TODO Auto-generated method stub
-		
+					//crear nuevo usuario
 					System.out.println("Nueva");
 			}
 
@@ -115,7 +108,7 @@ public class ventanaSaveSlots {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub
-				//juego.cargar();
+				//cargar usuario elegido en el último punto
 				System.out.println("Carga");
 			}
 		});
@@ -124,8 +117,8 @@ public class ventanaSaveSlots {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub
-				//juego.cargar();
-				System.out.println("Carga");
+				//borrar usuario elegido (double check por si acaso)
+				System.out.println("Borrar");
 			}
 		});
 		
