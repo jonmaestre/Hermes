@@ -4,7 +4,7 @@ public class Jugador extends Datos {
 	
 	protected int idJugador;
 	protected String nombre;
-	private int dia = 0;
+	private int dia = 1;
 	protected int exp = 0;
 	protected int cartera = 0; 
 	
@@ -51,13 +51,14 @@ public class Jugador extends Datos {
 		this.dia = dia;
 	}
 
-	public Jugador(int idJugador, String nombre, int nivel, int exp, int cartera, int dia) {
+	public Jugador(int idJugador, String nombre, int dia, int exp, int cartera) {
 		super();
 		this.idJugador = idJugador;
 		this.nombre = nombre;
+		this.dia = dia;
 		this.exp = exp;
 		this.cartera = cartera;
-		this.dia = dia;
+		
 	}
 
 	@Override
