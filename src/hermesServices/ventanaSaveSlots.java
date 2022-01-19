@@ -19,9 +19,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 
-import datos.Hermes.Jugador;
-import examen.ord202201.LaunchesTableModel;
-import examen.ord202201.RocketLaunch;
 import hermesServices.*;
 import datos.Hermes.*;
 
@@ -74,6 +71,11 @@ public class ventanaSaveSlots {
 		
 		actualizarTabla(todosJugadores);
 		
+		jotaTabla.getColumnModel().getColumn(0).setMinWidth(100);
+		jotaTabla.getColumnModel().getColumn(1).setMinWidth(200);
+		jotaTabla.getColumnModel().getColumn(2).setMinWidth(100);
+		jotaTabla.getColumnModel().getColumn(3).setMinWidth(100);
+		jotaTabla.getColumnModel().getColumn(4).setMinWidth(100);
 		
 		btnNew.addMouseListener(new MouseAdapter()	{	
 			@Override

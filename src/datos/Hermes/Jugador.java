@@ -4,7 +4,7 @@ public class Jugador extends Datos {
 	
 	protected int idJugador;
 	protected String nombre;
-	private int dia = 1;
+	protected int dia = 1;
 	protected int exp = 0;
 	protected int cartera = 0; 
 	
