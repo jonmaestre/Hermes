@@ -45,48 +45,34 @@ public ventanaInicial(int ancho, int altura, String titulo) {
 
 
 	v.addWindowListener(new WindowAdapter() {
-
-
-public void windowOpened(WindowEvent e) {//Hilo parpadeo del texto
-	// TODO Auto-generated method stub
-
-
-
-	(new Thread() {
-	public void run() {
-
-
-textoInicio.setVisible(true);
-
-try {
-Thread.sleep( 500 );
-} catch (InterruptedException e) {}
-
-textoInicio.setVisible(false);
-
-}
-
-
-}).start();
-
-
-	}
-
-
-});
+		
+		public void windowOpened(WindowEvent e) {//Hilo parpadeo del texto
+			// TODO Auto-generated method stub
+			(new Thread() {
+				public void run() {
+					textoInicio.setVisible(true);
+					try {
+						Thread.sleep( 500 );
+					} catch (InterruptedException e) {}
+					textoInicio.setVisible(false);
+				}
+			}).start();
+		}
+	});
 
 
 	v.addKeyListener(new KeyAdapter() {//Evento cerrar la ventana para saltar a la siguiente
 
-public void keyPressed(KeyEvent e) {
-	// TODO Auto-generated method stub
-	if(e.getKeyCode()==KeyEvent.VK_ENTER) {
-	v.dispose();
-	//ventanaSaveSlots v1= ventanaSaveSlots();
-	}
-}
+		public void keyPressed(KeyEvent e) {
+			// TODO Auto-generated method stub
+			if(e.getKeyCode()==KeyEvent.VK_ENTER) {
+				v.dispose();
+				ventanaSaveSlots v= new ventanaSaveSlots(1900,800,"Hermes");
+				//ventanaSaveSlots v1= ventanaSaveSlots();
+			}
+		}
 
-});
+	});
 
 
 
