@@ -1,111 +1,86 @@
 package hermesServices;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Dimension;
+
 import java.awt.GridLayout;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.AbstractTableModel;
 
 import datos.Hermes.Jugador;
+import examen.ord202201.LaunchesTableModel;
+import examen.ord202201.RocketLaunch;
 import hermesServices.*;
 import datos.Hermes.*;
+
+
+//NECESITO METODO PARA CREAR BORRAR Y LLAMAR A USUARIOS
+
+
 
 public class ventanaSaveSlots {
 	
 	private static final long serialVersionUID = 1L;
-	private JPanel panelNorth= new JPanel();
-	private JPanel panelCenter= new JPanel();
 	private JPanel panelSouth= new JPanel();
-	private JPanel panelNC= new JPanel();
-	private JPanel panelNE= new JPanel();
-	private JPanel panelNO= new JPanel();
-	private JPanel panelCC= new JPanel();
-	private JPanel panelCE= new JPanel();
-	private JPanel panelCO= new JPanel();
-	private JPanel panelSC= new JPanel();
-	private JPanel panelSE= new JPanel();
-	private JPanel panelSO= new JPanel();
-	
+	private JTable jotaTabla;
+	private List<Jugador> todosJugadores;
 	private JButton btnNew= new JButton("Crear Partida");
 	private JButton btnLoad= new JButton("Cargar Partida");
 	private JButton btnBorrar = new JButton("Borrar Partida");
-	private JList listSlot;
-	protected DefaultListModel datosLista;
+	private BaseDatos bd;
+	protected ArrayList<Jugador> usu;
 	
 
-	public ventanaSaveSlots(int ancho, int altura, String titulo) {
+	public ventanaSaveSlots(int ancho, int altura) {
 		
-		JFrame  v= new JFrame(titulo);
-		panelNorth.setLayout(new GridLayout(1,2));
-		panelCenter.setLayout(new GridLayout(1,2));
+		JFrame  v= new JFrame("Hermes: Partidas");
+
 		panelSouth.setLayout(new GridLayout(1,2));
-		panelNC.setLayout(new GridLayout(1,2));
-		panelNE.setLayout(new GridLayout(1,2));
-		panelNO.setLayout(new GridLayout(1,2));
-		panelCC.setLayout(new GridLayout(1,2));
-		panelCE.setLayout(new GridLayout(1,2));
-		panelCO.setLayout(new GridLayout(1,2));
-		panelSC.setLayout(new GridLayout(1,2));
-		panelSE.setLayout(new GridLayout(1,2));
 		
 		
 		v.setSize(ancho, altura);
 		v.setLayout(new BorderLayout());
 		v.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		v.setVisible(true);
-		v.add(panelNorth,BorderLayout.NORTH);
-		v.add(panelCenter,BorderLayout.CENTER);
+		
 		v.add(panelSouth,BorderLayout.SOUTH);
-		panelNorth.add(panelNC,BorderLayout.CENTER);
-		panelNorth.add(panelNE,BorderLayout.EAST);
-		panelNorth.add(panelNO,BorderLayout.WEST);
-		panelCenter.add(panelCC,BorderLayout.CENTER);
-		panelCenter.add(panelCE,BorderLayout.EAST);
-		panelCenter.add(panelCO,BorderLayout.WEST);
-		panelSouth.add(panelSC,BorderLayout.CENTER);
-		panelSouth.add(panelSE,BorderLayout.EAST);
-		panelSouth.add(panelSO,BorderLayout.WEST);
-		
-		
-		
-		panelSE.add(btnNew);
-		panelSC.add(btnLoad);
-		panelSO.add(btnBorrar);
-		panelCC.add(listSlot);
+		panelSouth.add(btnNew);
+		panelSouth.add(btnLoad);
+		panelSouth.add(btnBorrar);
 
 		
-		datosLista = new DefaultListModel();
-		JScrollPane scrollLista = new JScrollPane(listSlot);
-		scrollLista.setPreferredSize(new Dimension(400, 300));
+		//usu cargar usuarios de la bdd en la lista
+		bd = new BaseDatos();
 		
-		/*
-		listSlot = new JList();
-		Juego.cargarDatosJugadores();
+		jotaTabla = new JTable();
+		v.add(new JScrollPane(jotaTabla), BorderLayout.CENTER);
 		
-		for (Map.Entry me : Juego.clasJugador.entrySet()) {
-	          System.out.println("Key: "+me.getKey() + " & Value: " + me.getValue());
-	        }
-		for (clasJugador.getIdJugador() j : Juego.clasJugador) {
-			listSlot.add(j);
-		}
-		*/
+		try {
+			bd.abrirConexion("???",false);
+			//todosJugadores = bd.getUsuarios();
+		} catch (Exception e) {}
+		
+		actualizarTabla(todosJugadores);
+		
 		
 		btnNew.addMouseListener(new MouseAdapter()	{	
 			@Override
 			public void mouseClicked(MouseEvent e) {
 					// TODO Auto-generated method stub
-		
-					System.out.println("Nueva");
+					nuevoUsuario(v,todosJugadores);
+					System.out.println("Nuevo");
 			}
 
 		});
@@ -115,7 +90,7 @@ public class ventanaSaveSlots {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub
-				//juego.cargar();
+				//cargar usuario elegido en el último punto
 				System.out.println("Carga");
 			}
 		});
@@ -124,13 +99,114 @@ public class ventanaSaveSlots {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub
-				//juego.cargar();
-				System.out.println("Carga");
+				int row = jotaTabla.getSelectedRow();
+				Jugador j= new Jugador((Integer) jotaTabla.getValueAt(row, 0),jotaTabla.getValueAt(row, 1).toString(), (Integer) jotaTabla.getValueAt(row, 2), (Integer) jotaTabla.getValueAt(row, 3), (Integer) jotaTabla.getValueAt(row, 4));
+				borrarUsuario(v,j,todosJugadores);
+				System.out.println("Borrar");
 			}
 		});
 		
+		//Evento volver a la ventana inicio
+		v.addKeyListener(new KeyAdapter() {//Evento cerrar la ventana para saltar a la siguiente
+
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				if(e.getKeyCode()==KeyEvent.VK_ESCAPE) {
+					v.dispose();
+					ventanaI v= new ventanaI(1900,800);
+				}
+			}
+
+		});
+
+	
+	
 	}
 	
+	private void actualizarTabla(List<Jugador> jugadores) {
+		jotaTabla.setModel(new LaunchTab(jugadores));
+		//infoLabel.setText(String.format("%d launches", launches.size()));
+	}
+	
+	private void nuevoUsuario(JFrame  frame,List<Jugador> jugadores) {
+		String s = "";
+		while (s == "") {
+			s = (String)JOptionPane.showInputDialog(frame,"Introduce el nombre de tu jugador\nQue no esté vacío, y no sea un nombre ya escogido","Nuevo jugador",JOptionPane.PLAIN_MESSAGE,null,null,"Nombre");
+			for (Jugador j : jugadores) {
+				if (s== j.getNombre()) {
+					s="";
+					JOptionPane.showMessageDialog(frame,"Ha ocurrido un error al introducir tu usuario \nPrueba otra vez","Error",JOptionPane.WARNING_MESSAGE);
+					break;
+				}
+			}
+		}
+		int cont=0;
+		for (Jugador j : jugadores) {
+			if (cont==j.getIdJugador()) {
+				cont++;
+			}
+		}
+		
+		Jugador n =new Jugador(cont, s, 1, 0, 0);
+		jugadores.add(n);
+		//METODO PARA METER USUARIO EN LA BD
+		actualizarTabla(jugadores);
+		JOptionPane.showMessageDialog(frame,"La operación se ha realizado exitosamente");
+	}
+	
+	private void borrarUsuario(JFrame  frame, Jugador jug, List<Jugador> jugadores) {
+		Object[] options = {"Sí","No"};
+		int n = JOptionPane.showOptionDialog(frame,"La acción que vas a realizar implica eliminar datos que no se pueden recuperar. \n¿Seguro que quieres borrar el usuario "+jug.getNombre()+"?","Aviso",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE,null,options,options[0]);
+		
+		if (n == 0) {
+			//jugadores.remove(jug);
+			//METODO PARA ELIMINAR USUARIO DE LA BD
+			//actualizarTabla(jugadores);
+		}
+		
+		
+	}
+	
+	
+	public class LaunchTab  extends AbstractTableModel {
+		
+		
+		private static final long serialVersionUID = 1L;
+		private final List<String> headers = Arrays.asList("Codigo", "Nombre", "Dia", "Exp", "Kromer");
+		private List<Jugador> jugadores;
+		
+		public LaunchTab(List<Jugador> jugadores1) {
+			this.jugadores = jugadores1;
+		}
+		
+		@Override
+		public String getColumnName(int column) {
+			return headers.get(column);
+		}
 
+		@Override
+		public int getRowCount() {
+			return jugadores.size();
+		}
+
+		@Override
+		public int getColumnCount() {
+			return headers.size(); 
+		}
+
+		@Override
+		public Object getValueAt(int rowIndex, int columnIndex) {
+			Jugador j = jugadores.get(rowIndex);
+			switch (columnIndex) {
+				case 0: return j.getIdJugador();
+				case 1: return j.getNombre();
+				case 2: return j.getDia();
+				case 3: return j.getExp();
+				case 4: return j.getCartera();
+				default: return null;
+			}
+		}
+
+	}
 	
 }
