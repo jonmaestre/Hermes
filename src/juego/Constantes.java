@@ -32,14 +32,14 @@ public class Constantes {
 	public static String RUTA_MAPA = "";
 	public static String RUTA_ICONO_RATON = "";
 	public static String RUTA_PERSONAJE = "";
-	public static String RUTA_PERSONAJE_PISTOLA = "";
+	//public static String RUTA_PERSONAJE_PISTOLA = "";
 	public static String RUTA_ICONO_VENTANA = "";
 	public static String RUTA_LOGOTIPO = "";
 	public static String RUTA_OBJETOS = "";
-	public static String RUTA_OBJETOS_ARMAS = "";
-	public static String RUTA_ENEMIGOS = "";
-	public static String RUTA_OBJETOS_CURATIVOS = "";
-	public static String RUTA_ARMAS = "";
+	//public static String RUTA_OBJETOS_ARMAS = "";
+	//public static String RUTA_ENEMIGOS = "";
+	//public static String RUTA_OBJETOS_CURATIVOS = "";
+	//public static String RUTA_ARMAS = "";
 
 	public static Font FUENTE_PIXEL = CargadorRecursos.cargarFuente("");
 }

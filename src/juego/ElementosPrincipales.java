@@ -8,9 +8,9 @@ import mapas.MapaTiled;
 //me falta rellenar
 public class ElementosPrincipales {
 	
-	public static MapaTiled mapa = new MapaTiled("/mapas/mapa-apocaliptico.json");
-	//public static Mapa mapa = new Mapa(Constantes.RUTA_MAPA);
+	//public static MapaTiled mapa = new MapaTiled("");
+	public static Mapa mapa = new Mapa(Constantes.RUTA_MAPA);
 	public static Jugador jugador = new Jugador();
-	public static Inventario inventario = new Inventario();
+	//public static Inventario inventario = new Inventario();
 
 }
