@@ -57,7 +57,7 @@ public class BDynamic {
 		sent = "DROP TABLE IF EXISTS producto";
 		logger.log( Level.INFO, "Statement: " + sent );
 		statement.executeUpdate( sent );
-		sent = "CREATE TABLE producto (codigoProducto INT(3) NOT NULL, tipoMueble varchar(20), tematica varchar(30), color varchar(30), material varchar(30), precioVenta dec, precioCompra dec, diaCompra int(2), codTienda int(3),cod_u INT(3) NOT NULL, PRIMARY KEY(codigoProducto),FOREIGN KEY(cod_u) REFERENCES usuario(cod_u));";
+		sent = "CREATE TABLE producto (codigoProducto INT(3) NOT NULL, tipoMueble varchar(20), tematica varchar(30), color varchar(30), material varchar(30), precioVenta dec, precioCompra dec, diaCompra int(2), codTienda varchar(20) ,cod_u INT(3) NOT NULL, PRIMARY KEY(codigoProducto),FOREIGN KEY(cod_u) REFERENCES usuario(cod_u));";
 		logger.log( Level.INFO, "Statement: " + sent );
 		statement.executeUpdate( sent );
 		
@@ -65,7 +65,7 @@ public class BDynamic {
 		sent = "DROP TABLE IF EXISTS ventas";
 		logger.log( Level.INFO, "Statement: " + sent );
 		statement.executeUpdate( sent );
-		sent = "CREATE TABLE ventas (codigoVenta INT(3) NOT NULL, tipoMueble varchar(20), tematica varchar(30), color varchar(30), material varchar(30), precioVenta dec, precioCompra dec, diaCompra int(2), codTienda int(3),cod_u INT(3) NOT NULL, PRIMARY KEY(codigoVenta),FOREIGN KEY(cod_u) REFERENCES usuario(cod_u) ;";
+		sent = "CREATE TABLE ventas (codigoVenta INT(3) NOT NULL, tipoMueble varchar(20), tematica varchar(30), color varchar(30), material varchar(30), precioVenta dec, precioCompra dec, diaCompra int(2), codTienda varchar(20),cod_u INT(3) NOT NULL, PRIMARY KEY(codigoVenta),FOREIGN KEY(cod_u) REFERENCES usuario(cod_u) ;";
 		logger.log( Level.INFO, "Statement: " + sent );
 		statement.executeUpdate( sent );		
 
@@ -94,14 +94,14 @@ public class BDynamic {
 				
 				List<Producto> prods= bd.seleccionarProducto(jugador);
 				for (Producto producto : prods) {
-					sent = "insert into producto (codigoProducto, tipoMueble, tematica, color, material, precioVenta, precioCompra,diaCompra, codTienda, cod_u) values (" + producto.getCodigoObjeto() + ",'" + producto.getTipoMueble() + "','" + producto.getTematica() + "','" + producto.getColor() + "','" + producto.getMaterial() + "'," + producto.getPrecioVenta() + "," + producto.getPrecioCompra() + "," + producto.getDiaCompra() + "," + producto.getTienda() + "," + producto.getCodU() +");";
+					sent = "insert into producto (codigoProducto, tipoMueble, tematica, color, material, precioVenta, precioCompra,diaCompra, codTienda, cod_u) values (" + producto.getCodigoObjeto() + ",'" + producto.getTipoMueble() + "','" + producto.getTematica() + "','" + producto.getColor() + "','" + producto.getMaterial() + "'," + producto.getPrecioVenta() + "," + producto.getPrecioCompra() + "," + producto.getDiaCompra() + ",'" + producto.getTienda() + "'," + producto.getCodU() +");";
 					logger.log( Level.INFO, "Statement: " + sent );
 					statement.executeUpdate( sent );
 				}
 				
 				List<Venta> ventas= bd.seleccionarVenta(jugador);;
 				for (Venta venta : ventas) {
-					sent = "insert into ventas (codigoVenta, tipoMueble, tematica, color, material, precioVenta, precioCompra,diaCompra, codTienda, cod_u) values (" + venta.getCodigoVenta() + ",'" + venta.getTipoMueble() + "','" + venta.getTematica() + "','" + venta.getColor() + "','" + venta.getMaterial() + "'," + venta.getPrecioVenta() + "," + venta.getPrecioCompra() + "," + venta.getDiaVenta() + "," + venta.getTienda() + "," + jugador.getIdJugador() +");";
+					sent = "insert into ventas (codigoVenta, tipoMueble, tematica, color, material, precioVenta, precioCompra,diaCompra, codTienda, cod_u) values (" + venta.getCodigoVenta() + ",'" + venta.getTipoMueble() + "','" + venta.getTematica() + "','" + venta.getColor() + "','" + venta.getMaterial() + "'," + venta.getPrecioVenta() + "," + venta.getPrecioCompra() + "," + venta.getDiaVenta() + ",'" + venta.getTienda() + "'," + jugador.getIdJugador() +");";
 					logger.log( Level.INFO, "Statement: " + sent );
 					statement.executeUpdate( sent );
 				}
@@ -113,9 +113,9 @@ public class BDynamic {
 		}
 	
 	//Agregar un nuevo producto a la BD.
-	public void insertarProducto( Producto producto, Tiendas tienda, Jugador jugador) {
+	public void insertarProducto( Producto producto, String tienda, Jugador jugador) {
 		try (Statement statement = ((java.sql.Connection) conn).createStatement()) {
-			String sent = "insert into producto (codigoProducto, tipoMueble, tematica, color, material, precioVenta, precioCompra,diaCompra, codTienda, cod_u) values (" + producto.getCodigoObjeto() + ",'" + producto.getTipoMueble() + "','" + producto.getTematica() + "','" + producto.getColor() + "','" + producto.getMaterial() + "'," + producto.getPrecioVenta() + "," + producto.getPrecioCompra() + "," + jugador.getDia() + "," + tienda.getCodTienda() + "," + jugador.getIdJugador() +");";
+			String sent = "insert into producto (codigoProducto, tipoMueble, tematica, color, material, precioVenta, precioCompra,diaCompra, codTienda, cod_u) values (" + producto.getCodigoObjeto() + ",'" + producto.getTipoMueble() + "','" + producto.getTematica() + "','" + producto.getColor() + "','" + producto.getMaterial() + "'," + producto.getPrecioVenta() + "," + producto.getPrecioCompra() + "," + jugador.getDia() + ",'" + tienda + "'," + jugador.getIdJugador() +");";
 			logger.log( Level.INFO, "Statement: " + sent );
 			statement.executeUpdate( sent );
 		} catch (Exception e) {
@@ -136,7 +136,7 @@ public class BDynamic {
 	//Agregar una nueva venta a la BD.
 	public void insertarVenta(Venta venta, Jugador jugador) {
 		try (Statement statement = ((java.sql.Connection) conn).createStatement()) {
-			String sent = "insert into ventas (codigoVenta, tipoMueble, tematica, color, material, precioVenta, precioCompra,diaCompra, codTienda, cod_u) values (" + venta.getCodigoVenta() + ",'" + venta.getTipoMueble() + "','" + venta.getTematica() + "','" + venta.getColor() + "','" + venta.getMaterial() + "'," + venta.getPrecioVenta() + "," + venta.getPrecioCompra() + "," + venta.getDiaVenta() + "," + venta.getTienda() + "," + jugador.getIdJugador() +");";
+			String sent = "insert into ventas (codigoVenta, tipoMueble, tematica, color, material, precioVenta, precioCompra,diaCompra, codTienda, cod_u) values (" + venta.getCodigoVenta() + ",'" + venta.getTipoMueble() + "','" + venta.getTematica() + "','" + venta.getColor() + "','" + venta.getMaterial() + "'," + venta.getPrecioVenta() + "," + venta.getPrecioCompra() + "," + venta.getDiaVenta() + ",'" + venta.getTienda() + "'," + jugador.getIdJugador() +");";
 			logger.log( Level.INFO, "Statement: " + sent );
 			statement.executeUpdate( sent );
 		} catch (Exception e) {
