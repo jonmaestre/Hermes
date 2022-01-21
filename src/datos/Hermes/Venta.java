@@ -11,7 +11,7 @@ public class Venta extends Datos {
 	protected float precioCompra;
 	protected int diaCompra;
 	protected int diaVenta;
-	protected Tiendas tienda; //Para saber de que tienda proviene el producto correspondiente.
+	protected int tienda; //Para saber de que tienda proviene el producto correspondiente.
 	protected int codU;
 	
 	
@@ -69,10 +69,10 @@ public class Venta extends Datos {
 	public void setDiaVenta(int diaVenta) {
 		this.diaVenta = diaVenta;
 	}
-	public Tiendas getTienda() {
+	public int getTienda() {
 		return tienda;
 	}
-	public void setTienda(Tiendas tienda) {
+	public void setTienda(int tienda) {
 		this.tienda = tienda;
 	}
 	public int getCodU() {
@@ -84,7 +84,7 @@ public class Venta extends Datos {
 	
 	public Venta(String codigoVenta, datos.Hermes.tipoMueble tipoMueble, datos.Hermes.tematica tematica,
 			datos.Hermes.color color, datos.Hermes.material material, float precioVenta, float precioCompra,
-			int diaCompra, int diaVenta, Tiendas tienda, int codU) {
+			int diaCompra, int diaVenta, int tienda, int codU) {
 		super();
 		this.codigoVenta = codigoVenta;
 		this.tipoMueble = tipoMueble;
