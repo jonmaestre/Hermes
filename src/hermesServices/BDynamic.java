@@ -162,10 +162,10 @@ public class BDynamic {
 		return u;
 	}
 	
-	public ArrayList<Producto> selectProducto(Jugador usuario) throws SQLException{
+	public ArrayList<Producto> selectProducto() throws SQLException{
 		ArrayList<Producto> listaProds= new ArrayList<>();
 		try(Statement statement = ((java.sql.Connection) conn).createStatement()){
-			ResultSet rs= statement.executeQuery("SELECT * FROM producto WHERE cod_u= " + usuario.getIdJugador() + ";");
+			ResultSet rs= statement.executeQuery("SELECT * FROM producto;");
 			while(rs.next()) {
 				Producto p=new Producto(
 						rs.getInt("codigoObjeto"),
@@ -176,7 +176,7 @@ public class BDynamic {
 						rs.getFloat("precioVenta"),
 						rs.getFloat("precioCompra"),
 						rs.getInt("diaCompra"),
-						rs.getInt("tienda"),
+						rs.getString("tienda"),
 						rs.getInt("codU")
 						);
 				listaProds.add(p);
@@ -185,10 +185,10 @@ public class BDynamic {
 		return listaProds;
 	}
 	
-	public ArrayList<Venta> selectVenta(Jugador usuario) throws SQLException{
+	public ArrayList<Venta> selectVenta() throws SQLException{
 		ArrayList<Venta> listaVentas= new ArrayList<>();
 		try(Statement statement = ((java.sql.Connection) conn).createStatement()){
-			ResultSet rs= statement.executeQuery("SELECT * FROM venta WHERE cod_u= " + usuario.getIdJugador() + ";");
+			ResultSet rs= statement.executeQuery("SELECT * FROM venta;");
 			while(rs.next()) {
 				Venta v=new Venta(
 						rs.getInt("codigoVenta"),
@@ -200,7 +200,7 @@ public class BDynamic {
 						rs.getFloat("precioCompra"),
 						rs.getInt("diaCompra"),
 						rs.getInt("diaVenta"),
-						rs.getInt("tienda"),
+						rs.getString("tienda"),
 						rs.getInt("codU")
 						);
 				listaVentas.add(v);
@@ -213,8 +213,8 @@ public class BDynamic {
 		try (Statement statement = ((java.sql.Connection) conn).createStatement()) {
 			
 			Jugador jugador= selectUsuario();
-			List<Producto> productos=selectProducto(jugador);
-			List<Venta> ventas=selectVenta(jugador);
+			List<Producto> productos=selectProducto();
+			List<Venta> ventas=selectVenta();
 			
 			bd = new BDStatic();
 			try {
@@ -227,12 +227,28 @@ public class BDynamic {
 			
 			// METODOS PARA METER LOS ELEMENTOS EN LA STATIC
 			
-		}
-		
-		
-		
+		}		
 	}
 	
+	public int generadorCodP(List<Producto> productos) {
+		int code=0;
+		for (Producto p : productos) {
+			if (code==p.getCodigoObjeto()) {
+				code++;
+			}
+		}
+		return code;
+	}
+	
+	public int generadorCodV(List<Venta> ventas) {
+		int code=0;
+		for (Venta v : ventas) {
+			if (code==v.getCodigoVenta()) {
+				code++;
+			}
+		}
+		return code;
+	}
 	
 
 

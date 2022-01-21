@@ -151,7 +151,6 @@ public class ventanaSaveSlots {
 	
 	private void actualizarTabla(List<Jugador> jugadores) {
 		jotaTabla.setModel(new LaunchTab(jugadores));
-		//infoLabel.setText(String.format("%d launches", launches.size()));
 	}
 	
 	private void nuevoUsuario(JFrame  frame,List<Jugador> jugadores) throws SQLException {
