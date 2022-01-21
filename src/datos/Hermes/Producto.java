@@ -10,7 +10,7 @@ public class Producto extends Datos {
 	protected float precioVenta;
 	protected float precioCompra;
 	protected int diaCompra;
-	protected Tiendas tienda; //Para saber de que tienda proviene el producto correspondiente.
+	protected int tienda; //Para saber de que tienda proviene el producto correspondiente.
 	protected int codU;
 
 	
@@ -79,11 +79,11 @@ public class Producto extends Datos {
 		this.codU = codU;
 	}
 
-	public Tiendas getTienda() {
+	public int getTienda() {
 		return tienda;
 	}
 
-	public void setTienda(Tiendas tienda) {
+	public void setTienda(int tienda) {
 		this.tienda = tienda;
 	}
 	
@@ -98,7 +98,7 @@ public class Producto extends Datos {
 	
 	public Producto(int codigoObjeto, tipoMueble tipoMueble, tematica tematica,
 			color color, material material, float precioVenta, float precioCompra, int diaCompra,
-			Tiendas tienda, int codU) {
+			int tienda, int codU) {
 		super();
 		this.codigoObjeto = codigoObjeto;
 		this.tipoMueble = tipoMueble;
