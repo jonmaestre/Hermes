@@ -28,6 +28,7 @@ public class Juego {
 		this.ancho = ancho;
 		this.alto = alto;
 	}
+	//los syso son formas diferentes de ejecutar (segun un video que e visto)
 	public static void main(String[] args) {
 		//Para OpenGL en Mac/Linux
 		System.setProperty("sun.java2d.opengl", "True");
@@ -58,6 +59,7 @@ public class Juego {
 		ventana = new Ventana(titulo, sd);
 		
 	}
+	//para conocer info de lo que se esta ejecutando
 	private void iniciarBuclePrincipal() {
 		int actualizacionesAcumuladas = 0;
 		int framesAcumulados = 0;

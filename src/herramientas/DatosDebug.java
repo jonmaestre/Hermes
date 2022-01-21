@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
+//un resete de ventana (color)
 public class DatosDebug {
 	private static ArrayList<String> datos = new ArrayList<String>();
 

@@ -6,6 +6,7 @@ import herramientas.CargadorRecursos;
 
 public class Constantes {
 
+	// Hay que meter toda la informacion AQUI !!!!!!! IMPORTANTE NS DIBUJAR EN PHOTOSOP XD
 	public static final int LADO_SPRITE = 32;
 
 	public static int ANCHO_JUEGO = 640;

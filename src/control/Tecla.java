@@ -1,5 +1,7 @@
 package control;
 
+//funcion de mantener y click de teclas
+
 public class Tecla {
 
 	private boolean pulsada = false;

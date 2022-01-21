@@ -24,6 +24,7 @@ public class Ventana extends JFrame {
 
 		configurarVentana(sd);
 	}
+	//simple ventana donde se dibujara con SuperficieDibujo
 
 	private void configurarVentana(final SuperficieDibujo sd) {
 		setTitle(titulo);

@@ -39,10 +39,12 @@ public class SuperficieDibujo extends Canvas {
 		requestFocus();
 	}
 
+	//para que el cursor vuelva a su sitio
 	public void actualizar() {
 		raton.actualizar(this);
 	}
 
+	//dibuja lo que es el fondo y escoge 32x32 bits para repetir el proceso
 	public void dibujar(final GestorEstados ge) {
 		final BufferStrategy buffer = getBufferStrategy();
 

@@ -13,7 +13,7 @@ import sonido.Sonido;
 
 public class Teclado implements KeyListener {
 	
-	
+	//teclas que se toca y acciones que ocurren
 	
 	public Tecla arriba = new Tecla();
 	public Tecla abajo = new Tecla();

@@ -7,6 +7,7 @@ import juego.Constantes;
 
 public class GeneradorTooltip {
 
+	//posicionamiento del mapa cada vez que se mueve 
 	public static Point generarTooltip(final Point pi) {
 
 		final int x = pi.x;

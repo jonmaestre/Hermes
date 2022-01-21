@@ -26,6 +26,7 @@ public class Raton extends MouseAdapter {
 
 	public final int ladoCursor;
 
+	// configuracion para el raton diseño y funcion
 	public Raton(final SuperficieDibujo sd) {
 		Toolkit configuracion = Toolkit.getDefaultToolkit();
 
@@ -47,11 +48,13 @@ public class Raton extends MouseAdapter {
 		click2 = false;
 	}
 
+	
 	public void actualizar(final SuperficieDibujo sd) {
 		actualizarPosicion(sd);
 
 	}
 
+	//posicionamiento
 	public void dibujar(final Graphics g) {
 		DatosDebug.enviarDato("RX: " + posicion.getX());
 		DatosDebug.enviarDato("RY: " + posicion.getY());
@@ -61,6 +64,7 @@ public class Raton extends MouseAdapter {
 		return this.cursor;
 	}
 
+	//reposicion del cursor cada vez que carga
 	private void actualizarPosicion(final SuperficieDibujo sd) {
 		final Point posicionInicial = MouseInfo.getPointerInfo().getLocation();
 

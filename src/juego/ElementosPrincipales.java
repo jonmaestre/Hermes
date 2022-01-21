@@ -1,10 +1,11 @@
 package juego;
 
-import principal.entes.Jugador;
-import principal.inventario.Inventario;
-import principal.mapas.Mapa;
-import principal.mapas.MapaTiled;
+import entes.Jugador;
+import inventario.Inventario;
+import mapas.Mapa;
+import mapas.MapaTiled;
 
+//me falta rellenar
 public class ElementosPrincipales {
 	
 	public static MapaTiled mapa = new MapaTiled("/mapas/mapa-apocaliptico.json");

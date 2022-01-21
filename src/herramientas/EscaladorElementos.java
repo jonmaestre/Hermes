@@ -4,7 +4,7 @@ import java.awt.Point;
 import java.awt.Rectangle;
 
 import juego.Constantes;
-
+//cuenta estas posiciones de 32x32
 public class EscaladorElementos {
 
 	public static Rectangle escalarRectanguloArriba(final Rectangle r) {
