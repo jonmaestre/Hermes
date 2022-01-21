@@ -2,7 +2,7 @@ package datos.Hermes;
 
 public class Venta extends Datos {
 	
-	protected String codigoVenta;
+	protected int codigoVenta;
 	protected tipoMueble tipoMueble;
 	protected tematica tematica;
 	protected color color;
@@ -15,10 +15,10 @@ public class Venta extends Datos {
 	protected int codU;
 	
 	
-	public String getCodigoVenta() {
+	public int getCodigoVenta() {
 		return codigoVenta;
 	}
-	public void setCodigoVenta(String codigoVenta) {
+	public void setCodigoVenta(int codigoVenta) {
 		this.codigoVenta = codigoVenta;
 	}
 	public tipoMueble getTipoMueble() {
@@ -82,7 +82,7 @@ public class Venta extends Datos {
 		this.codU = codU;
 	}
 	
-	public Venta(String codigoVenta, datos.Hermes.tipoMueble tipoMueble, datos.Hermes.tematica tematica,
+	public Venta(int codigoVenta, datos.Hermes.tipoMueble tipoMueble, datos.Hermes.tematica tematica,
 			datos.Hermes.color color, datos.Hermes.material material, float precioVenta, float precioCompra,
 			int diaCompra, int diaVenta, int tienda, int codU) {
 		super();

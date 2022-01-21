@@ -164,9 +164,18 @@ public class ventanaSaveSlots {
 			//jugadores.remove(jug);
 			//METODO PARA ELIMINAR USUARIO DE LA BD
 			//actualizarTabla(jugadores);
-		}
+		}	
+	}
+	
+	private void cargarUsuario(Jugador jug) {
+		Object[] options = {"Sí","No"};
+		int n = JOptionPane.showOptionDialog(frame,"La acción que vas a realizar implica eliminar datos que no se pueden recuperar. \n¿Seguro que quieres borrar el usuario "+jug.getNombre()+"?","Aviso",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE,null,options,options[0]);
 		
-		
+		if (n == 0) {
+			//jugadores.remove(jug);
+			//METODO PARA ELIMINAR USUARIO DE LA BD
+			//actualizarTabla(jugadores);
+		}	
 	}
 	
 	

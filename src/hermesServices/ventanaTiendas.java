@@ -18,7 +18,7 @@ public class ventanaTiendas {
 	private JTable tablaVenta;
 	private List<Producto> todoProd;
 	private JButton btnComprar= new JButton("Comprar producto");
-	private BaseDatos bd;
+	private BDynamic bd;
 	
 	public ventanaTiendas(int ancho, int altura) {
 		
@@ -33,13 +33,13 @@ public class ventanaTiendas {
 		
 
 		//usu cargar usuarios de la bdd en la lista
-		bd = new BaseDatos();
+		bd = new BDynamic();
 		
 		tablaVenta = new JTable();
 		v.add(new JScrollPane(tablaVenta), BorderLayout.CENTER);
 		
 		try {
-			bd.abrirConexion("???",false);
+			bd.abrirBD();
 			//todosJugadores = bd.getUsuarios();
 		} catch (Exception e) {}
 		
