@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,6 +18,7 @@ import datos.Hermes.*;
 public class BDynamic {
 	
 	private Connection conn;
+	private BDStatic bd;
 	private Logger logger = Logger.getLogger( "BaseDatos" );
 	
 	//nombre sirve para buscar el nombre de la base de datos deseada y reiniciar si lo pones a true borra lo que haya dentro
@@ -45,6 +47,13 @@ public class BDynamic {
 		Statement statement =  ((java.sql.Connection) conn).createStatement();
 		String sent;
 		
+		sent = "DROP TABLE IF EXISTS usuario";
+		logger.log( Level.INFO, "Statement: " + sent );
+		statement.executeUpdate( sent );
+		sent = "CREATE TABLE usuario (cod_u INT(3) NOT NULL, nombre_u varchar (20), dia INT(2), exp INT(9), kromer INT(9), PRIMARY KEY(cod_u));";
+		logger.log( Level.INFO, "Statement: " + sent );
+		statement.executeUpdate( sent );
+		
 		sent = "DROP TABLE IF EXISTS producto";
 		logger.log( Level.INFO, "Statement: " + sent );
 		statement.executeUpdate( sent );
@@ -60,13 +69,6 @@ public class BDynamic {
 		logger.log( Level.INFO, "Statement: " + sent );
 		statement.executeUpdate( sent );		
 
-		sent = "DROP TABLE IF EXISTS usuario";
-		logger.log( Level.INFO, "Statement: " + sent );
-		statement.executeUpdate( sent );
-		sent = "CREATE TABLE usuario (cod_u INT(3) NOT NULL, nombre_u varchar (20), dia INT(2), exp INT(9), kromer INT(9), PRIMARY KEY(cod_u));";
-		logger.log( Level.INFO, "Statement: " + sent );
-		statement.executeUpdate( sent );
-		
 		} catch (Exception e) {
 			logger.log(Level.SEVERE,"Excepcion en el reinicio de la BD",e);
 		}
@@ -81,16 +83,23 @@ public class BDynamic {
 				logger.log( Level.INFO, "Statement: " + sent );
 				statement.executeUpdate( sent );
 				
-				List<Producto> prods;
-				//prods=  BD.SELECTPRODUCTOS(jugador);
+				bd = new BDStatic();
+				try {
+					bd.abrirConexion();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+
+				
+				List<Producto> prods= bd.seleccionarProducto(jugador);
 				for (Producto producto : prods) {
 					sent = "insert into producto (codigoProducto, tipoMueble, tematica, color, material, precioVenta, precioCompra,diaCompra, codTienda, cod_u) values (" + producto.getCodigoObjeto() + ",'" + producto.getTipoMueble() + "','" + producto.getTematica() + "','" + producto.getColor() + "','" + producto.getMaterial() + "'," + producto.getPrecioVenta() + "," + producto.getPrecioCompra() + "," + producto.getDiaCompra() + "," + producto.getTienda() + "," + producto.getCodU() +");";
 					logger.log( Level.INFO, "Statement: " + sent );
 					statement.executeUpdate( sent );
 				}
 				
-				List<Venta> ventas;
-				//prods=  BD.SELECTVENTAS(jugador);
+				List<Venta> ventas= bd.seleccionarVenta(jugador);;
 				for (Venta venta : ventas) {
 					sent = "insert into ventas (codigoVenta, tipoMueble, tematica, color, material, precioVenta, precioCompra,diaCompra, codTienda, cod_u) values (" + venta.getCodigoVenta() + ",'" + venta.getTipoMueble() + "','" + venta.getTematica() + "','" + venta.getColor() + "','" + venta.getMaterial() + "'," + venta.getPrecioVenta() + "," + venta.getPrecioCompra() + "," + venta.getDiaVenta() + "," + venta.getTienda() + "," + jugador.getIdJugador() +");";
 					logger.log( Level.INFO, "Statement: " + sent );
@@ -136,72 +145,96 @@ public class BDynamic {
 	
 	}
 	
-		
-	
-	
-	
-	
-	
-	/*
-	
-	 Busca los árboles de una zona en la tabla abierta de BD, usando la sentencia SELECT de SQL
-	 (Atención: esta operación es síncrona, no devuelve el control hasta que se ejecuta completamente en base de datos)
-	 @param st	Sentencia ya abierta de Base de Datos (con la estructura de tabla correspondiente)
-	 @param codZona	Código de zona a buscar
-	 @return Lista de árboles en esa zona, null si hay cualquier error de BD
-	
-	public static ArrayList<Arbol> arbolSelect( Statement st, String codZona ) {
-		String sentSQL = "";
-		try {
-			ArrayList<Arbol> ret = new ArrayList<>();
-			sentSQL = "select * from arbol where zona='" + secu(codZona) + "'";
-			log( Level.INFO, "BD\t" + sentSQL, null );
-			ResultSet rs = st.executeQuery( sentSQL );
-			while (rs.next()) {
-				double lat = rs.getDouble( "latitud" );
-				double lon = rs.getDouble( "longitud" );
-				String nom = rs.getString( "nombre" );
-				int edad = rs.getInt( "edad" );
-				int color = rs.getInt( "color" );
-				Arbol arbol = new Arbol( new PuntoGPS( lat,  lon ), nom, edad );
-				arbol.setColor( new Color( color ));
-				ret.add( arbol );
+	public Jugador selectUsuario() throws SQLException{
+		Jugador u = new Jugador(0, null, 0, 0, 0);
+		try(Statement statement = ((java.sql.Connection) conn).createStatement()){
+			ResultSet rs= statement.executeQuery("SELECT * FROM usuario;");
+			while(rs.next()) {
+				u=new Jugador(
+					rs.getInt("idJugador"),
+					rs.getString("nombre"),
+					rs.getInt("dia"),
+					rs.getInt("exp"),
+					rs.getInt("cartera")
+					);
 			}
-			rs.close();
-			return ret;
-		} catch (Exception e) {
-			log( Level.SEVERE, "Error en BD\t" + sentSQL, e );
-			lastError = e;
-			e.printStackTrace();
-			return null;
 		}
+		return u;
 	}
-	*/
 	
+	public ArrayList<Producto> selectProducto(Jugador usuario) throws SQLException{
+		ArrayList<Producto> listaProds= new ArrayList<>();
+		try(Statement statement = ((java.sql.Connection) conn).createStatement()){
+			ResultSet rs= statement.executeQuery("SELECT * FROM producto WHERE cod_u= " + usuario.getIdJugador() + ";");
+			while(rs.next()) {
+				Producto p=new Producto(
+						rs.getInt("codigoObjeto"),
+						tipoMueble.valueOf(rs.getString("tipoMueble")),
+						tematica.valueOf(rs.getString("tematica")),
+						color.valueOf(rs.getString("color")),
+						material.valueOf(rs.getString("material")),
+						rs.getFloat("precioVenta"),
+						rs.getFloat("precioCompra"),
+						rs.getInt("diaCompra"),
+						rs.getInt("tienda"),
+						rs.getInt("codU")
+						);
+				listaProds.add(p);
+			}
+		}
+		return listaProds;
+	}
 	
-	/*
-	 Borra un árbol de la tabla abierta de BD, usando la sentencia DELETE de SQL.
-	 @param st	Sentencia ya abierta de Base de Datos (con la estructura de tabla correspondiente)
-	@param codZona	Código de zona del árbol
-	 @param latitud	Latitud de posicionamiento del árbol
-	 @param longitud	Longitud de posicionamiento del árbol
-
-	public static void arbolDelete( final Statement st, final String codZona, final double latitud, final double longitud ) {
-		tareasPendientes.add( new Runnable() { @Override public void run() {
-			String sentSQL = "";
+	public ArrayList<Venta> selectVenta(Jugador usuario) throws SQLException{
+		ArrayList<Venta> listaVentas= new ArrayList<>();
+		try(Statement statement = ((java.sql.Connection) conn).createStatement()){
+			ResultSet rs= statement.executeQuery("SELECT * FROM venta WHERE cod_u= " + usuario.getIdJugador() + ";");
+			while(rs.next()) {
+				Venta v=new Venta(
+						rs.getInt("codigoVenta"),
+						tipoMueble.valueOf(rs.getString("tipoMueble")),
+						tematica.valueOf(rs.getString("tematica")),
+						color.valueOf(rs.getString("color")),
+						material.valueOf(rs.getString("material")),
+						rs.getFloat("precioVenta"),
+						rs.getFloat("precioCompra"),
+						rs.getInt("diaCompra"),
+						rs.getInt("diaVenta"),
+						rs.getInt("tienda"),
+						rs.getInt("codU")
+						);
+				listaVentas.add(v);
+			}
+		}
+		return listaVentas;
+	}
+		
+	public void guardarDatos() throws SQLException {
+		try (Statement statement = ((java.sql.Connection) conn).createStatement()) {
+			
+			Jugador jugador= selectUsuario();
+			List<Producto> productos=selectProducto(jugador);
+			List<Venta> ventas=selectVenta(jugador);
+			
+			bd = new BDStatic();
 			try {
-				sentSQL = "delete from arbol " +
-						" where zona='" + codZona + "' AND latitud = " + latitud + " AND longitud = " + longitud;
-				int val = st.executeUpdate( sentSQL );
-				log( Level.INFO, "BD modificada " + val + " fila\t" + sentSQL, null );
-			} catch (SQLException e) {
-				log( Level.SEVERE, "Error en BD\t" + sentSQL, e );
-				lastError = e;
+				bd.abrirConexion();
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		} } );
+			
+			
+			
+			// METODOS PARA METER LOS ELEMENTOS EN LA STATIC
+			
+		}
+		
+		
+		
 	}
-	 */
+	
+	
+
 
 	
 }

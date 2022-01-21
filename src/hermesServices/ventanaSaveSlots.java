@@ -7,6 +7,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -36,7 +37,8 @@ public class ventanaSaveSlots {
 	private JButton btnNew= new JButton("Crear Partida");
 	private JButton btnLoad= new JButton("Cargar Partida");
 	private JButton btnBorrar = new JButton("Borrar Partida");
-	private BaseDatos bd;
+	private BDStatic bds;
+	private BDynamic bdd;
 	protected ArrayList<Jugador> usu;
 	
 
@@ -59,15 +61,17 @@ public class ventanaSaveSlots {
 
 		
 		//usu cargar usuarios de la bdd en la lista
-		bd = new BaseDatos();
 		
 		jotaTabla = new JTable();
 		v.add(new JScrollPane(jotaTabla), BorderLayout.CENTER);
-		
+		bds = new BDStatic();
 		try {
-			bd.abrirConexion("???",false);
-			//todosJugadores = bd.getUsuarios();
-		} catch (Exception e) {}
+			bds.abrirConexion();
+			todosJugadores = bds.seleccionarUsuario();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		actualizarTabla(todosJugadores);
 		
@@ -81,8 +85,17 @@ public class ventanaSaveSlots {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 					// TODO Auto-generated method stub
-					nuevoUsuario(v,todosJugadores);
-					System.out.println("Nuevo");
+					try {
+						nuevoUsuario(v,todosJugadores);
+						todosJugadores = bds.seleccionarUsuario();
+						actualizarTabla(todosJugadores);
+						System.out.println("Nuevo");
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
+					
 			}
 
 		});
@@ -93,6 +106,9 @@ public class ventanaSaveSlots {
 			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub
 				//cargar usuario elegido en el último punto
+				int row = jotaTabla.getSelectedRow();
+				Jugador j= new Jugador((Integer) jotaTabla.getValueAt(row, 0),jotaTabla.getValueAt(row, 1).toString(), (Integer) jotaTabla.getValueAt(row, 2), (Integer) jotaTabla.getValueAt(row, 3), (Integer) jotaTabla.getValueAt(row, 4));
+				cargarUsuario(v, j);
 				System.out.println("Carga");
 			}
 		});
@@ -101,10 +117,18 @@ public class ventanaSaveSlots {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub
+				try {
 				int row = jotaTabla.getSelectedRow();
 				Jugador j= new Jugador((Integer) jotaTabla.getValueAt(row, 0),jotaTabla.getValueAt(row, 1).toString(), (Integer) jotaTabla.getValueAt(row, 2), (Integer) jotaTabla.getValueAt(row, 3), (Integer) jotaTabla.getValueAt(row, 4));
-				borrarUsuario(v,j,todosJugadores);
+				borrarUsuario(v,j);
+				todosJugadores = bds.seleccionarUsuario();
+				actualizarTabla(todosJugadores);
 				System.out.println("Borrar");
+				
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		
@@ -130,7 +154,7 @@ public class ventanaSaveSlots {
 		//infoLabel.setText(String.format("%d launches", launches.size()));
 	}
 	
-	private void nuevoUsuario(JFrame  frame,List<Jugador> jugadores) {
+	private void nuevoUsuario(JFrame  frame,List<Jugador> jugadores) throws SQLException {
 		String s = "";
 		while (s == "") {
 			s = (String)JOptionPane.showInputDialog(frame,"Introduce el nombre de tu jugador\nQue no esté vacío, y no sea un nombre ya escogido","Nuevo jugador",JOptionPane.PLAIN_MESSAGE,null,null,"Nombre");
@@ -150,31 +174,35 @@ public class ventanaSaveSlots {
 		}
 		
 		Jugador n =new Jugador(cont, s, 1, 0, 0);
-		jugadores.add(n);
-		//METODO PARA METER USUARIO EN LA BD
-		actualizarTabla(jugadores);
+		bds.insertarUsuario(n);
 		JOptionPane.showMessageDialog(frame,"La operación se ha realizado exitosamente");
 	}
 	
-	private void borrarUsuario(JFrame  frame, Jugador jug, List<Jugador> jugadores) {
+	private void borrarUsuario(JFrame  frame, Jugador jug) throws SQLException {
 		Object[] options = {"Sí","No"};
 		int n = JOptionPane.showOptionDialog(frame,"La acción que vas a realizar implica eliminar datos que no se pueden recuperar. \n¿Seguro que quieres borrar el usuario "+jug.getNombre()+"?","Aviso",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE,null,options,options[0]);
 		
 		if (n == 0) {
-			//jugadores.remove(jug);
-			//METODO PARA ELIMINAR USUARIO DE LA BD
-			//actualizarTabla(jugadores);
-		}	
+			bds.borrarUsuario(jug);
+			JOptionPane.showMessageDialog(frame,"La operación se ha realizado exitosamente");
+		}
 	}
 	
-	private void cargarUsuario(Jugador jug) {
+	private void cargarUsuario(JFrame  frame,Jugador jug) {
 		Object[] options = {"Sí","No"};
-		int n = JOptionPane.showOptionDialog(frame,"La acción que vas a realizar implica eliminar datos que no se pueden recuperar. \n¿Seguro que quieres borrar el usuario "+jug.getNombre()+"?","Aviso",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE,null,options,options[0]);
+		int n = JOptionPane.showOptionDialog(frame,"¿Seguro que quieres cargar la partida de el usuario "+jug.getNombre()+"?","Confirmación",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE,null,options,options[0]);
 		
 		if (n == 0) {
-			//jugadores.remove(jug);
-			//METODO PARA ELIMINAR USUARIO DE LA BD
-			//actualizarTabla(jugadores);
+			bdd = new BDynamic();
+			try {
+				bdd.abrirBD();
+				bdd.inicializarBD(jug);
+				//FALTA DIRECCIONAR A LA NUEVA LOCALIZACIÓN
+				
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}	
 	}
 	
