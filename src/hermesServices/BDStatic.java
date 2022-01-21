@@ -68,7 +68,7 @@ public class BDStatic {
 			ResultSet rs= stmnt.executeQuery("SELECT * FROM producto WHERE codU= " + usuario.getIdJugador() + ";");
 			while(rs.next()) {
 				Producto p=new Producto(
-						rs.getString("codigoObjeto"),
+						rs.getInt("codigoObjeto"),
 						tipoMueble.valueOf(rs.getString("tipoMueble")),
 						tematica.valueOf(rs.getString("tematica")),
 						color.valueOf(rs.getString("color")),
@@ -91,7 +91,7 @@ public class BDStatic {
 			ResultSet rs= stmnt.executeQuery("SELECT * FROM venta WHERE codU= " + usuario.getIdJugador() + ";");
 			while(rs.next()) {
 				Venta v=new Venta(
-						rs.getString("codigoVenta"),
+						rs.getInt("codigoVenta"),
 						tipoMueble.valueOf(rs.getString("tipoMueble")),
 						tematica.valueOf(rs.getString("tematica")),
 						color.valueOf(rs.getString("color")),
