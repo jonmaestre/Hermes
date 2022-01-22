@@ -11,7 +11,7 @@ import javax.swing.JLabel;
 
 public class ventanaI {
 	
-	JLabel textoInicio=new JLabel(" ",JLabel.CENTER);
+	private JLabel textoInicio;
 	private JLabel imagen;
 
 
