@@ -50,7 +50,7 @@ public class BDynamic {
 		sent = "DROP TABLE IF EXISTS usuario";
 		logger.log( Level.INFO, "Statement: " + sent );
 		statement.executeUpdate( sent );
-		sent = "CREATE TABLE usuario (cod_u INT(3) NOT NULL, nombre_u varchar (20), dia INT(2), exp INT(9), kromer INT(9), PRIMARY KEY(cod_u));";
+		sent = "CREATE TABLE usuario (cod_u INT(3) NOT NULL, nombre_u varchar (20), dia INT(2), exp INT(9), kromer dec(9,2), PRIMARY KEY(cod_u));";
 		logger.log( Level.INFO, "Statement: " + sent );
 		statement.executeUpdate( sent );
 		
@@ -140,10 +140,21 @@ public class BDynamic {
 			logger.log( Level.INFO, "Statement: " + sent );
 			statement.executeUpdate( sent );
 		} catch (Exception e) {
-			logger.log( Level.SEVERE, "ExcepciÃ³n", e );
+			logger.log( Level.SEVERE, "Excepcion en la insercion de ventas", e );
 		}
-	
 	}
+	
+	public void updateUsuario (Jugador jugador) {
+		try (Statement statement = ((java.sql.Connection) conn).createStatement()) {
+			String sent = "update usuario set dia="+ jugador.getDia()+",exp="+ jugador.getExp()+",kromer="+ jugador.getCartera()+" where cod_u="+ jugador.getIdJugador()+";";
+			logger.log( Level.INFO, "Statement: " + sent );
+			statement.executeUpdate( sent );
+		} catch (Exception e) {
+			logger.log( Level.SEVERE, "Excepcion en la actualización de datos", e );
+		}
+	}
+	
+	//usuario (cod_u, nombre_u, dia, exp, kromer)
 	
 	public Jugador selectUsuario() throws SQLException{
 		Jugador u = new Jugador(0, null, 0, 0, 0);
@@ -155,7 +166,7 @@ public class BDynamic {
 					rs.getString("nombre"),
 					rs.getInt("dia"),
 					rs.getInt("exp"),
-					rs.getInt("cartera")
+					rs.getFloat("cartera")
 					);
 			}
 		}

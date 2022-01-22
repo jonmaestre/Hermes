@@ -2,11 +2,18 @@ package hermesServices;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -34,7 +41,6 @@ public class ventanaTiendas {
 		v.setLayout(new BorderLayout());
 		v.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		v.setVisible(true);
-		
 		v.add(btnComprar,BorderLayout.SOUTH);
 		
 
@@ -55,28 +61,73 @@ public class ventanaTiendas {
 		}
 		
 		display=displayTienda(todoProd,jugador,nombre);
-		actualizarTienda(todoProd);
+		actualizarTienda(display);
 		
+		btnComprar.addMouseListener(new MouseAdapter()	{	
+			@Override
+			public void mouseClicked(MouseEvent e) {
+					// TODO Auto-generated method stub
+				try {
+				int row = tablaVenta.getSelectedRow();
+				Producto p= new Producto((Integer) tablaVenta.getValueAt(row, 0), tipoMueble.valueOf(tablaVenta.getValueAt(row, 1).toString()), tematica.valueOf(tablaVenta.getValueAt(row, 2).toString()), color.valueOf(tablaVenta.getValueAt(row, 3).toString()), material.valueOf(tablaVenta.getValueAt(row, 4).toString()), (Integer) tablaVenta.getValueAt(row, 5), (Integer) tablaVenta.getValueAt(row, 6), (Integer) tablaVenta.getValueAt(row, 7), tablaVenta.getValueAt(row, 8).toString(), (Integer) tablaVenta.getValueAt(row, 9));
+				float kromer= jugador.getCartera();
+				if (kromer >= p.getPrecioCompra()) {
+					compraProducto(p,jugador,nombre);
+					todoProd.remove(p);
+					display.remove(p);
+					jugador = bd.selectUsuario();
+					almacenProd=bd.selectProducto();
+					actualizarTienda(display);
+				} else {
+					JOptionPane.showMessageDialog(v,"No tienes suficiente Kromer para realizar esta compra.");
+
+				}
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+					
+			}
+
+		});
 		
-		
+		v.addKeyListener(new KeyAdapter() {//Evento cerrar la ventana para saltar a la siguiente
+
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				if(e.getKeyCode()==KeyEvent.VK_ESCAPE) {
+					v.dispose();
+				}
+			}
+
+		});
 	}
 	
 	private void actualizarTienda(List<Producto> productos) {
 		tablaVenta.setModel(new LaunchTienda(productos));
 	}
 	
+	
+	private void compraProducto(Producto producto, Jugador jugador, String tienda) {
+		float cartera= jugador.getCartera();
+		float precio= producto.getPrecioCompra();
+		jugador.setCartera(cartera-precio);
+		bd.updateUsuario(jugador);
+		bd.insertarProducto(producto, tienda, jugador);
+	}
+	
 	private List<Producto> displayTienda(List<Producto> productos, Jugador jugador,String tienda) {
 		List<Producto> display= new ArrayList<Producto>();
-		//producto (codigoProducto, tipoMueble, tematica, color, material, precioVenta, precioCompra,diaCompra, codTienda, cod_u)
-		if(tienda == "Muebles Carmele") {
+		
+		if(tienda == "Muebles Carmele") { //PORCENTAJE DE INGRESO NO SUPERIOS AL 20%
 			if(jugador.getDia()==1) {
-				Producto p = new Producto(bd.generadorCodP(productos), tipoMueble.MESA, tematica.PRIMAVERA , color.ROJO, material.M_ROBLE, 30, 20, jugador.getDia(), tienda, jugador.getIdJugador());
+				Producto p = new Producto(bd.generadorCodP(productos), tipoMueble.MESA, tematica.PRIMAVERA , color.ROJO, material.M_ROBLE, 36, 30, jugador.getDia(), tienda, jugador.getIdJugador());
 				productos.add(p);
 				display.add(p);
-				p = new Producto(bd.generadorCodP(productos), tipoMueble.SILLA, tematica.PRIMAVERA , color.AMARILLO, material.M_PINO, 20, 15, jugador.getDia(), tienda, jugador.getIdJugador());
+				p = new Producto(bd.generadorCodP(productos), tipoMueble.SILLA, tematica.RUSTICO, color.AMARILLO, material.M_PINO, 18, 15, jugador.getDia(), tienda, jugador.getIdJugador());
 				productos.add(p);
 				display.add(p);
-				p = new Producto(bd.generadorCodP(productos), tipoMueble.ESTANTERIA, tematica.PRIMAVERA , color.BLANCO, material.M_ABEDUL, 8, 6, jugador.getDia(), tienda, jugador.getIdJugador());
+				p = new Producto(bd.generadorCodP(productos), tipoMueble.ESTANTERIA, tematica.PRIMAVERA , color.BLANCO, material.M_ABEDUL, 11, 10, jugador.getDia(), tienda, jugador.getIdJugador());
 				productos.add(p);
 				display.add(p);
 				return display;
@@ -92,8 +143,11 @@ public class ventanaTiendas {
 				return display;
 			}
 			
-		} else if(tienda == "Colchones Iñaki") {
+		} else if(tienda == "Colchones Iñaki") { //PORCENTAJE DE INGRESO SUPERIOR AL 50%
 			if(jugador.getDia()==1) {
+				Producto p = new Producto(bd.generadorCodP(productos), tipoMueble.CAMA, tematica.OTOÑO , color.NARANJA, material.M_ROBLE, 450, 200, jugador.getDia(), tienda, jugador.getIdJugador());
+				productos.add(p);
+				display.add(p);
 				return display;
 			} else if(jugador.getDia()==2) {
 				return display;
@@ -106,8 +160,17 @@ public class ventanaTiendas {
 			} else {
 				return display;
 			}
-		} else if(tienda == "Interiores Alex") {
+		} else if(tienda == "Interiores Alex") { //PORCENTAJE DE INGRESO NO SUPERIOR AL 50%
 			if(jugador.getDia()==1) {
+				Producto p = new Producto(bd.generadorCodP(productos), tipoMueble.LAMPARA, tematica.HALLOWEEN , color.MORADO, material.PLASTICO, 90, 60, jugador.getDia(), tienda, jugador.getIdJugador());
+				productos.add(p);
+				display.add(p);
+				p = new Producto(bd.generadorCodP(productos), tipoMueble.PUERTA, tematica.INDUSTRIAL , color.GRIS, material.ACERO, 55, 40, jugador.getDia(), tienda, jugador.getIdJugador());
+				productos.add(p);
+				display.add(p);
+				p = new Producto(bd.generadorCodP(productos), tipoMueble.ARMARIO, tematica.ST_PATRICKS_DAY , color.VERDE, material.M_ABEDUL, 275, 200, jugador.getDia(), tienda, jugador.getIdJugador());
+				productos.add(p);
+				display.add(p);
 				return display;
 			} else if(jugador.getDia()==2) {
 				return display;
@@ -122,6 +185,9 @@ public class ventanaTiendas {
 			}
 		} else {
 			if(jugador.getDia()==1) {
+				Producto p = new Producto(bd.generadorCodP(productos), tipoMueble.DESCONOCIDO, tematica.ANYO_NUEVO_CHINO, color.DESCONOCIDO, material.DESCONOCIDO, 1000, 500, jugador.getDia(), tienda, jugador.getIdJugador());
+				productos.add(p);
+				display.add(p);
 				return display;
 			} else if(jugador.getDia()==2) {
 				return display;
@@ -136,6 +202,8 @@ public class ventanaTiendas {
 			}
 		}
 	}
+	
+	
 	
 public class LaunchTienda  extends AbstractTableModel {
 		

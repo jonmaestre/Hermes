@@ -1,6 +1,6 @@
 package datos.Hermes;
 
-public class Venta extends Datos {
+public class Venta{
 	
 	protected int codigoVenta;
 	protected tipoMueble tipoMueble;

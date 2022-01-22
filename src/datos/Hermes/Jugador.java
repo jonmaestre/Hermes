@@ -6,7 +6,7 @@ public class Jugador extends Datos {
 	protected String nombre;
 	protected int dia = 1;
 	protected int exp = 0;
-	protected int cartera =500; 
+	protected float cartera =500; 
 	
 	
 	
@@ -35,12 +35,12 @@ public class Jugador extends Datos {
 		this.exp = exp;
 	}
 
-	public int getCartera() {
+	public float getCartera() {
 		return cartera;
 	}
 	
-	public void setCartera(int cartera) {
-		this.cartera = cartera;
+	public void setCartera(float f) {
+		this.cartera = f;
 	}
 	
 	public int getDia() {
@@ -51,7 +51,7 @@ public class Jugador extends Datos {
 		this.dia = dia;
 	}
 
-	public Jugador(int idJugador, String nombre, int dia, int exp, int cartera) {
+	public Jugador(int idJugador, String nombre, int dia, int exp, float cartera) {
 		super();
 		this.idJugador = idJugador;
 		this.nombre = nombre;
@@ -60,12 +60,4 @@ public class Jugador extends Datos {
 		this.cartera = cartera;
 		
 	}
-
-	@Override
-	public String toString() {
-		return "Jugador [ID="+idJugador +"nombre=" + nombre + ", exp=" + exp
-				+ ", cartera=" + cartera + ", dia=" + dia + "]";
-	}
-	
-	
 }
