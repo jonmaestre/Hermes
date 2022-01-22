@@ -8,8 +8,8 @@ import juego.ElementosPrincipales;
 import herramientas.CargadorRecursos;
 import herramientas.DatosDebug;
 import herramientas.DibujoDebug;
-import principal.interfaz_usuario.MenuInferior;
-import principal.mapas.Mapa;
+import maquinaestado.MenuInferior;
+import mapas.Mapa;
 import maquinaestado.EstadoJuego;
 
 public class GestorJuego implements EstadoJuego {

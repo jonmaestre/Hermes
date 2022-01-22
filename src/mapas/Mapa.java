@@ -218,7 +218,6 @@ public class Mapa {
     public void actualizar() {
         actualizarAreasColision();
         actualizarZonaSalida();
-        actualizarRecogidaObjetos();
     }
 
     private void actualizarAreasColision() {
@@ -282,7 +281,7 @@ public class Mapa {
             }
         }
 
-        if (!objetosMapa.isEmpty()) {
+       /* if (!objetosMapa.isEmpty()) {
             for (ContenedorObjetos contenedor : objetosMapa) {
                 final int puntoX = contenedor.obtenerPosicion().x * Constantes.LADO_SPRITE
                         - ElementosPrincipales.jugador.obtenerPosicionXInt() + MARGEN_X;
@@ -301,7 +300,7 @@ public class Mapa {
                         - (int) ElementosPrincipales.jugador.obtenerPosicionY() + MARGEN_Y;
                 enemigo.dibujar(g, puntoX, puntoY);
             }
-        }
+        }*/
     }
 
     public Rectangle obtenerBordes(final int posicionX, final int posicionY) {

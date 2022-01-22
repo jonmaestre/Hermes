@@ -52,9 +52,9 @@ public class Teclado implements KeyListener {
 		case KeyEvent.VK_I:
 			inventarioActivo = !inventarioActivo;
 			break;
-		case KeyEvent.VK_SPACE:
+		/*case KeyEvent.VK_SPACE:
 			atacando = true;
-			break;
+			break;*/
 		case KeyEvent.VK_ESCAPE:
 			System.exit(0);
 		}
@@ -80,9 +80,9 @@ public class Teclado implements KeyListener {
 		case KeyEvent.VK_SHIFT:
 			corriendo = false;
 			break;
-		case KeyEvent.VK_SPACE:
+		/*case KeyEvent.VK_SPACE:
 			atacando = false;
-			break;
+			break;*/
 		}
 	}
 

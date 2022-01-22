@@ -140,7 +140,7 @@ public class CargadorRecursos {
 			FloatControl gainControl = 
 				    (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
 			gainControl.setValue(-reduccionVolumenDecibelios);
-			//OJO NO FUNCIONA CON OPENJDK Y PULSEAUDIO EN NUCLEOS UBUNTU
+			//NO FUNCIONA CON OPENJDK Y PULSEAUDIO EN NUCLEOS UBUNTU
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

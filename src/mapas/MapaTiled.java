@@ -9,6 +9,7 @@ import java.util.Iterator;
 import juego.Constantes;
 import juego.ElementosPrincipales;
 import control.GestorControles;
+import dijkstra.Dijkstra;
 //import principal.dijkstra.Dijkstra;
 import herramientas.CalculadoraDistancia;
 import herramientas.CargadorRecursos;
@@ -37,7 +38,7 @@ public class MapaTiled {
 	
 	private Sprite[] paletaSprites;
 	
-//	private Dijkstra d;
+	private Dijkstra d;
 	
  
 

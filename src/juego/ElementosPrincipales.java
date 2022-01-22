@@ -1,7 +1,6 @@
 package juego;
 
-import entes.Jugador;
-import inventario.Inventario;
+import jugador.Jugador;
 import mapas.Mapa;
 import mapas.MapaTiled;
 
