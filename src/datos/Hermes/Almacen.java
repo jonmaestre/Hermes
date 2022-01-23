@@ -2,7 +2,7 @@ package datos.Hermes;
 
 import java.util.ArrayList;
 
-public class Almacen extends Datos {
+public class Almacen{
 	protected int codAlm;
 	protected tipoMueble nombre;
 	protected int stock;

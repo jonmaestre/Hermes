@@ -1,6 +1,6 @@
 package datos.Hermes;
 
-public class Jugador extends Datos {
+public class Jugador{
 	
 	protected int idJugador;
 	protected String nombre;

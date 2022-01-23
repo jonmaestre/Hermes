@@ -7,8 +7,8 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
-	<classpathentry kind="lib" path="C:/Users/nicol/eclipse-workspace/sqlite-jdbc-3.36.0.3.jar"/>
-	<classpathentry kind="lib" path="C:/Users/aitor/Downloads/json-simple-1.1.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/aitor/Downloads/sqlite-jdbc-3.36.0.3.jar"/>
+	<classpathentry kind="lib" path="sqlite-jdbc-3.36.0.3.jar"/>
+	<classpathentry kind="lib" path="json-simple-1.1.1.jar"/>
+	<classpathentry kind="lib" path="jfreechart-1.0.19-demo.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
