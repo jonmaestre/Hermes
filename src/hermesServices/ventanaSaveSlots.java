@@ -28,7 +28,7 @@ import datos.Hermes.*;
 
 
 
-public class ventanaSaveSlots {
+public class ventanaSaveSlots extends JFrame {
 	
 	private static final long serialVersionUID = 1L;
 	private JPanel panelSouth= new JPanel();
@@ -42,14 +42,14 @@ public class ventanaSaveSlots {
 	protected ArrayList<Jugador> usu;
 	
 
-	public ventanaSaveSlots(int ancho, int altura) {
+	public ventanaSaveSlots() {
 		
 		JFrame  v= new JFrame("Hermes: Partidas");
 
 		panelSouth.setLayout(new GridLayout(1,2));
 		
 		
-		v.setSize(ancho, altura);
+		v.setSize(1900, 800);
 		v.setLayout(new BorderLayout());
 		v.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		v.setVisible(true);
@@ -133,13 +133,17 @@ public class ventanaSaveSlots {
 		});
 		
 		//Evento volver a la ventana inicio
-		v.addKeyListener(new KeyAdapter() {//Evento cerrar la ventana para saltar a la siguiente
+		this.addKeyListener(new KeyAdapter() {//Evento cerrar la ventana para saltar a la siguiente
 
 			public void keyPressed(KeyEvent e) {
 				// TODO Auto-generated method stub
 				if(e.getKeyCode()==KeyEvent.VK_ESCAPE) {
-					v.dispose();
-					ventanaI v= new ventanaI(1900,800);
+					ventanaI vi= new ventanaI();
+					vi.setVisible(true);
+					v.setVisible(false);
+					
+					
+					
 				}
 			}
 

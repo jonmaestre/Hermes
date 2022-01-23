@@ -7,8 +7,8 @@ public class Venta{
 	protected tematica tematica;
 	protected color color;
 	protected material material;
-	protected float precioVenta;
-	protected float precioCompra;
+	protected double precioVenta;
+	protected double precioCompra;
 	protected int diaCompra;
 	protected int diaVenta;
 	protected String tienda; //Para saber de que tienda proviene el producto correspondiente.
@@ -45,16 +45,16 @@ public class Venta{
 	public void setMaterial(material material) {
 		this.material = material;
 	}
-	public float getPrecioVenta() {
+	public double getPrecioVenta() {
 		return precioVenta;
 	}
-	public void setPrecioVenta(float precioVenta) {
+	public void setPrecioVenta(double precioVenta) {
 		this.precioVenta = precioVenta;
 	}
-	public float getPrecioCompra() {
+	public double getPrecioCompra() {
 		return precioCompra;
 	}
-	public void setPrecioCompra(float precioCompra) {
+	public void setPrecioCompra(double precioCompra) {
 		this.precioCompra = precioCompra;
 	}
 	public int getDiaCompra() {
@@ -83,7 +83,7 @@ public class Venta{
 	}
 	
 	public Venta(int codigoVenta, datos.Hermes.tipoMueble tipoMueble, datos.Hermes.tematica tematica,
-			datos.Hermes.color color, datos.Hermes.material material, float precioVenta, float precioCompra,
+			datos.Hermes.color color, datos.Hermes.material material, double precioVenta, double precioCompra,
 			int diaCompra, int diaVenta, String tienda, int codU) {
 		super();
 		this.codigoVenta = codigoVenta;
@@ -98,6 +98,15 @@ public class Venta{
 		this.tienda = tienda;
 		this.codU = codU;
 	}
+	@Override
+	public String toString() {
+		return "Venta [codigoVenta=" + codigoVenta + ", tipoMueble=" + tipoMueble + ", tematica=" + tematica
+				+ ", color=" + color + ", material=" + material + ", precioVenta=" + precioVenta + ", precioCompra="
+				+ precioCompra + ", diaCompra=" + diaCompra + ", diaVenta=" + diaVenta + ", tienda=" + tienda
+				+ ", codU=" + codU + "]";
+	}
+	
+	
 	
 	
 	

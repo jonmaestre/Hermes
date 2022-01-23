@@ -60,4 +60,12 @@ public class Jugador{
 		this.cartera = cartera;
 		
 	}
+
+	@Override
+	public String toString() {
+		return nombre + "(" + idJugador  + ", dia=" + dia + ", exp=" + exp + ", cartera="
+				+ cartera + ")";
+	}
+	
+	
 }

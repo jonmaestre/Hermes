@@ -111,5 +111,14 @@ public class Producto{
 		this.tienda = tienda;
 		this.codU = codU;
 	}
+
+	@Override
+	public String toString() {
+		return "Producto [codigoObjeto=" + codigoObjeto + ", tipoMueble=" + tipoMueble + ", tematica=" + tematica
+				+ ", color=" + color + ", material=" + material + ", precioVenta=" + precioVenta + ", precioCompra="
+				+ precioCompra + ", diaCompra=" + diaCompra + ", tienda=" + tienda + ", codU=" + codU + "]";
+	}
+	
+	
 	
 }

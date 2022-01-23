@@ -9,32 +9,35 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-public class ventanaI {
+public class ventanaI extends JFrame{
 	
 	private JLabel textoInicio;
 	private JLabel imagen;
 
 
-	public ventanaI(int ancho, int altura) {
+	public ventanaI(){
 		JFrame  v= new JFrame("Hermes: Pantalla inicial");
-		textoInicio.setText("PRESS ENTER TO START");
+		textoInicio=new JLabel("PRESS ENTER TO START");
 		textoInicio.setForeground(Color.BLUE);
 		imagen= new JLabel("", JLabel.CENTER);
 		imagen.setIcon(new ImageIcon("src/recursosAudioVisuales/fondoVentanaInicial.png"));
-
-		v.setSize(ancho, altura);
-		v.setLayout(new BorderLayout());
-		v.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		v.add(imagen, BorderLayout.CENTER);
-		v.add(textoInicio, BorderLayout.SOUTH);
-		v.setVisible(true);
-		v.addKeyListener(new KeyAdapter() {//Evento cerrar la ventana para saltar a la siguiente
+		this.setSize(1900, 800);
+		this.setLayout(new BorderLayout());
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.add(imagen, BorderLayout.CENTER);
+		this.add(textoInicio, BorderLayout.SOUTH);
+		this.addKeyListener(new KeyAdapter() {//Evento cerrar la ventana para saltar a la siguiente
 
 			public void keyPressed(KeyEvent e) {
 				// TODO Auto-generated method stub
 				if(e.getKeyCode()==KeyEvent.VK_ENTER) {
-					v.dispose();
-					ventanaSaveSlots v= new ventanaSaveSlots(1900,800);
+					ventanaSaveSlots vss= new ventanaSaveSlots();
+					vss.setVisible(true);
+					v.setVisible(false);
+					
+					
+					
+					
 					//ventanaSaveSlots v1= ventanaSaveSlots();
 				}
 			}
