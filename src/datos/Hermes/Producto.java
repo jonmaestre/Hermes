@@ -71,7 +71,7 @@ public class Producto{
 		this.precioCompra = precioCompra;
 	}
 	
-	public float getCodU() {
+	public int getCodU() {
 		return diaCompra;
 	}
 
@@ -87,7 +87,7 @@ public class Producto{
 		this.tienda = tienda;
 	}
 	
-	public float getDiaCompra() {
+	public int getDiaCompra() {
 		return diaCompra;
 	}
 
