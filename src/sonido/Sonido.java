@@ -7,7 +7,7 @@ import herramientas.CargadorRecursos;
 
 public class Sonido {
 
-	final private Clip sonido;
+	final private Clip sonido ;
 
 	public Sonido(final String ruta) {
 		sonido = CargadorRecursos.cargarSonido(ruta);
