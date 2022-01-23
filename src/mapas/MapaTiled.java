@@ -154,7 +154,7 @@ public class MapaTiled {
 				}
 			}	
 		}
-		
+		/*
 		//OBTENER OBJETOS
 		objetosMapa = new ArrayList<>();
 		JSONArray coleccionObjetos = obtenerArrayJSON(globalJSON.get("objetos").toString());
@@ -171,7 +171,7 @@ public class MapaTiled {
 			ObjetoUnicoTiled objetoUnico = new ObjetoUnicoTiled(posicionObjeto, objeto);
 			objetosMapa.add(objetoUnico);
 		}
-		
+		*//*
 		//OBTENER ENEMIGOS
 		enemigosMapa = new ArrayList<>();
 		JSONArray coleccionEnemigos = obtenerArrayJSON(globalJSON.get("enemigos").toString());
@@ -187,16 +187,14 @@ public class MapaTiled {
 			enemigo.establecerPosicion(posicionEnemigo.x, posicionEnemigo.y);
 			
 			enemigosMapa.add(enemigo);
-		}
+		}*/
 		
 		areasColisionPorActualizacion = new ArrayList<>();
 	}
 	
 	public void actualizar() {
 		actualizarAreasColision();
-		actualizarRecogidaObjetos();
-		actualizarEnemigos();
-		actualizarAtaques();
+
 		
 		Point punto = new Point(ElementosPrincipales.jugador.obtenerPosicionXInt(),
 				ElementosPrincipales.jugador.obtenerPosicionYInt());
@@ -220,7 +218,7 @@ public class MapaTiled {
 			areasColisionPorActualizacion.add(rFinal);
 		}
 	}
-	
+	/*
 	private void actualizarRecogidaObjetos() {
 		if (!objetosMapa.isEmpty()) {
             final Rectangle areaJugador = new Rectangle(ElementosPrincipales.jugador.obtenerPosicionXInt(),
@@ -309,7 +307,7 @@ public class MapaTiled {
                 ElementosPrincipales.jugador.puntos += 100;
             }
         }
-    }
+    }*/
 	
 	public void dibujar(Graphics g) {
 		for (int i = 0; i < capasSprites.size(); i++) {
@@ -337,7 +335,7 @@ public class MapaTiled {
 				}
 			}
 		}
-		
+		/*
 		for (int i = 0; i < objetosMapa.size(); i++) {
 			ObjetoUnicoTiled objetoActual = objetosMapa.get(i);
 			
@@ -373,7 +371,7 @@ public class MapaTiled {
 			
 			enemigo.dibujar(g, puntoX, puntoY);
 			//DibujoDebug.dibujarRectanguloContorno(g, puntoX, puntoY, 32, 32);
-		}
+		}*/
 	}
 	
 	private JSONObject obtenerObjetoJSON(final String codigoJSON) {
