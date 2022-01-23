@@ -66,7 +66,7 @@ public class ventanaTiendas {
 				try {
 				int row = tablaVenta.getSelectedRow();
 				Producto p= new Producto((Integer) tablaVenta.getValueAt(row, 0), tipoMueble.valueOf(tablaVenta.getValueAt(row, 1).toString()), tematica.valueOf(tablaVenta.getValueAt(row, 2).toString()), color.valueOf(tablaVenta.getValueAt(row, 3).toString()), material.valueOf(tablaVenta.getValueAt(row, 4).toString()), (Integer) tablaVenta.getValueAt(row, 5), (Integer) tablaVenta.getValueAt(row, 6), (Integer) tablaVenta.getValueAt(row, 7), tablaVenta.getValueAt(row, 8).toString(), (Integer) tablaVenta.getValueAt(row, 9));
-				float kromer= jugador.getCartera();
+				double kromer= jugador.getCartera();
 				if (kromer >= p.getPrecioCompra()) {
 					compraProducto(p,jugador,nombre);
 					todoProd.remove(p);
@@ -105,8 +105,8 @@ public class ventanaTiendas {
 	
 	
 	private void compraProducto(Producto producto, Jugador jugador, String tienda) {
-		float cartera= jugador.getCartera();
-		float precio= producto.getPrecioCompra();
+		double cartera= jugador.getCartera();
+		double precio= producto.getPrecioCompra();
 		jugador.setCartera(cartera-precio);
 		bd.updateUsuario(jugador);
 		bd.insertarProducto(producto, tienda, jugador);

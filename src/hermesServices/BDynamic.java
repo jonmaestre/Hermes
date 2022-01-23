@@ -166,7 +166,7 @@ public class BDynamic {
 					rs.getString("nombre"),
 					rs.getInt("dia"),
 					rs.getInt("exp"),
-					rs.getFloat("cartera")
+					rs.getDouble("cartera")
 					);
 			}
 		}
@@ -184,8 +184,8 @@ public class BDynamic {
 						tematica.valueOf(rs.getString("tematica")),
 						color.valueOf(rs.getString("color")),
 						material.valueOf(rs.getString("material")),
-						rs.getFloat("precioVenta"),
-						rs.getFloat("precioCompra"),
+						rs.getDouble("precioVenta"),
+						rs.getDouble("precioCompra"),
 						rs.getInt("diaCompra"),
 						rs.getString("tienda"),
 						rs.getInt("codU")
@@ -207,8 +207,8 @@ public class BDynamic {
 						tematica.valueOf(rs.getString("tematica")),
 						color.valueOf(rs.getString("color")),
 						material.valueOf(rs.getString("material")),
-						rs.getFloat("precioVenta"),
-						rs.getFloat("precioCompra"),
+						rs.getDouble("precioVenta"),
+						rs.getDouble("precioCompra"),
 						rs.getInt("diaCompra"),
 						rs.getInt("diaVenta"),
 						rs.getString("tienda"),
