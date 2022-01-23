@@ -7,11 +7,12 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import hermesServices.ventanaHermes;
 import juego.Constantes;
 import juego.ElementosPrincipales;
 import control.GestorControles;
 import dijkstra.Dijkstra;
-//import principal.dijkstra.Dijkstra;
+import dijkstra.Dijkstra;
 import herramientas.CalculadoraDistancia;
 import herramientas.CargadorRecursos;
 import herramientas.DibujoDebug;
@@ -437,6 +438,11 @@ public class MapaTiled {
 		ventanaTiendas Izquierda = new  ventanaTiendas(100, 200,"Interiores Alex");
 		
 		return Izquierda;
+	}
+	public Object ventanaSalida(final int posicionXsalida, final int posicionYsalida) {
+		ventanaHermes salida = new ventanaHermes( "SALIDA");
+		
+		return salida;
 	}
 
 
