@@ -1,6 +1,7 @@
 package mapas;
 
 import java.awt.Graphics;
+import hermesServices.ventanaTiendas;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
@@ -421,4 +422,22 @@ public class MapaTiled {
 
         return new Rectangle(x, y, ancho, alto);
 	}
+	public Object ventanaColisionMU(final int posicionX, final int posicionY) {
+		ventanaTiendas Derecha = new  ventanaTiendas(100, 200,"Muebles Carmele");
+		
+		return Derecha ;
+	}
+	public Object ventanaColisionCO(final int posicionX, final int posicionY) {
+		ventanaTiendas Abajo = new  ventanaTiendas(100, 200,"Colchones Iñaki");
+		
+		return Abajo;
+	}
+
+	public Object ventanaColisionI(final int posicionX, final int posicionY) {
+		ventanaTiendas Izquierda = new  ventanaTiendas(100, 200,"Interiores Alex");
+		
+		return Izquierda;
+	}
+
+
 }
