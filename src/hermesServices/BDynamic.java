@@ -220,12 +220,12 @@ public class BDynamic {
 		return listaVentas;
 	}
 		
-	public void guardarDatos() throws SQLException {
+	public void guardarDatos() throws SQLException, Exception {
 		try (Statement statement = ((java.sql.Connection) conn).createStatement()) {
 			
 			Jugador jugador= selectUsuario();
-			List<Producto> productos=selectProducto();
-			List<Venta> ventas=selectVenta();
+			ArrayList<Producto> productos=selectProducto();
+			ArrayList<Venta> ventas=selectVenta();
 			
 			bd = new BDStatic();
 			try {
@@ -233,11 +233,12 @@ public class BDynamic {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+			bd.insertarProductos(productos);
+			bd.insertarVentas(ventas);
+			bd.actualizarUsuario(jugador);
 			
-			
-			
-			// METODOS PARA METER LOS ELEMENTOS EN LA STATIC
-			
+			reiniciarBD();
+			inicializarBD(jugador);
 		}		
 	}
 	
@@ -260,8 +261,4 @@ public class BDynamic {
 		}
 		return code;
 	}
-	
-
-
-	
 }

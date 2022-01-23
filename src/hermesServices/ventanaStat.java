@@ -3,6 +3,8 @@ package hermesServices;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
@@ -137,10 +139,7 @@ public class ventanaStat {
 		v.add(c,BorderLayout.NORTH);
 		v.add(s,BorderLayout.NORTH);
 		
-		JLabel textoDineroActual=new JLabel("Actualmente tienes: "+jugador.getCartera()+"k");
 		
-
-		JLabel textoExperienciaActual=new JLabel("Actualmente tienes: "+jugador.getExp()+" exp");
 
 		Double ingresoNeto1=jugador.getCartera();
 		Double ingresoNeto2=jugador.getCartera();
@@ -162,24 +161,32 @@ public class ventanaStat {
 				contp++;
 			}
 		}
-	
-		JLabel textoIngresoNeto=new JLabel("El ingreso neto de hoy es: "+(ingresoNeto1-ingresoNeto2)+"k");
-		
-		
-		JLabel textoNumCompras=new JLabel("El numero de productos comprados hoy es: "+contp);
-		
-		JTextField textoNumVentas;
-		textoNumVentas.setText("El numero de productos vendidos hoy es: "+contp);
 		JLabel textoDineroActual=new JLabel("Actualmente tienes: "+jugador.getCartera()+"k");
+		JLabel textoExperienciaActual=new JLabel("Actualmente tienes: "+jugador.getExp()+" exp");
+		JLabel textoIngresoNeto=new JLabel("El ingreso neto de hoy es: "+(ingresoNeto1-ingresoNeto2)+"k");		
+		JLabel textoNumCompras=new JLabel("El numero de productos comprados hoy es: "+contp);		
+		JLabel textoNumVentas=new JLabel("El numero de productos vendidos hoy es: "+contp);
+		JLabel textoEscape=new JLabel("Pulsa Esc para salir de la ventana");
 		
-		JTextField textoEscape;
-		textoEscape.setText("Pulsa Esc para salir de la ventana");
-		JLabel textoDineroActual=new JLabel("Actualmente tienes: "+jugador.getCartera()+"k");
+		n.add(textoEscape);
+		n.add(textoDineroActual);
+		n.add(textoExperienciaActual);
+		c.add(textoIngresoNeto);
+		c.add(textoNumCompras);
+		c.add(textoNumVentas);
 		
-		n.add(tf);
-		n.add(combo);
-		n.add(btnDatos);
 		v.setVisible(true);
+		
+		v.addKeyListener(new KeyAdapter() {//Evento cerrar la ventana para saltar a la siguiente
+
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				if(e.getKeyCode()==KeyEvent.VK_ESCAPE) {
+					v.dispose();					
+				}
+			}
+
+		});
 	}
 	
 	public JFreeChart createDayAreaBegFin() {

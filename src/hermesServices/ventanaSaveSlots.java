@@ -93,11 +93,8 @@ public class ventanaSaveSlots extends JFrame {
 					} catch (SQLException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
-					}
-					
-					
+					}	
 			}
-
 		});
 		
 		
@@ -199,6 +196,7 @@ public class ventanaSaveSlots extends JFrame {
 			bdd = new BDynamic();
 			try {
 				bdd.abrirBD();
+				bdd.reiniciarBD();
 				bdd.inicializarBD(jug);
 				//FALTA DIRECCIONAR A LA NUEVA LOCALIZACIÓN
 				
