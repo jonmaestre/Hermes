@@ -92,6 +92,22 @@ public class ventanaTiendas {
 			public void keyPressed(KeyEvent e) {
 				// TODO Auto-generated method stub
 				if(e.getKeyCode()==KeyEvent.VK_ESCAPE) {
+					
+					
+					
+					
+					
+				}
+			}
+
+		});
+
+		
+		v.addKeyListener(new KeyAdapter() {//Evento cerrar la ventana para saltar a la siguiente
+
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				if(e.getKeyCode()==KeyEvent.VK_ESCAPE) {
 					v.dispose();
 				}
 			}
