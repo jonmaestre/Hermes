@@ -26,6 +26,8 @@ import org.jfree.data.general.DatasetUtilities;
 import org.jfree.data.xy.XYDataset;
 
 import datos.Hermes.*;
+import juego.Constantes;
+import juego.Juego;
 
 public class ventanaStat {
 	
@@ -125,7 +127,22 @@ public class ventanaStat {
 					ventanaSaveSlots vss= new ventanaSaveSlots(1900, 800);
 
 					
-					//AITOR H, METE LO Q TENGAS Q METER PARA PASAR DE ESTA VENTANA AL MAPA
+					//Para OpenGL en Mac/Linux
+					//System.setProperty("sun.java2d.opengl", "True");
+					
+					
+					//  Para Directx en Windows
+					  System.setProperty("sun.java2d.d3d", "True");
+					  System.setProperty("sun.java2d.ddforcevram", "True");
+					 
+					
+					//System.setProperty("sun.java2d.transaccel", "True");
+					
+					Juego gp = new Juego("JUEGO", Constantes.ANCHO_PANTALLA_COMPLETA,
+							Constantes.ALTO_PANTALLA_COMPLETA);
+
+					gp.iniciarJuego();
+					gp.iniciarBuclePrincipal();
 						
 					v.setVisible(false);
 					
