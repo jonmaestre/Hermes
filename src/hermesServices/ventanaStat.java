@@ -3,11 +3,8 @@ package hermesServices;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -19,6 +16,7 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.general.DatasetUtilities;
+import org.jfree.data.xy.XYDataset;
 
 import datos.Hermes.*;
 
@@ -33,7 +31,7 @@ public class ventanaStat {
 	private JFreeChart chart;
 	private ChartPanel cp;
 	private JTextField tf = new JTextField(30);
-	private JComboBox combo = new JComboBox();
+	private JComboBox combo = new JComboBox<String>();
 	private JButton btnDatos= new JButton("Más Datos");
 	
 	public ventanaStat(int ancho, int altura) {
@@ -41,21 +39,10 @@ public class ventanaStat {
 		JFreeChart chart= createDayAreaBegFin();
 		
 		cp = new ChartPanel(chart);
-		
-		ArrayList<String> comboBoxItems=new ArrayList<String>();
-	    comboBoxItems.add("A");
-	    comboBoxItems.add("B");
-	    comboBoxItems.add("C");
-	    comboBoxItems.add("D");
-	    comboBoxItems.add("E");
-	    final DefaultComboBoxModel model = new DefaultComboBoxModel();
-	    model.addAll(comboBoxItems);
-	    combo = new JComboBox(model);
-		
+
 		combo.addItem("G. Dinero invertido/Producido");
-		.addItem("G. Dinero invertido/Producido");
-		combo.addItem("dos");
-		combo.addItem("tres");		
+		combo.addItem("Crecimiento de dinero/dia");
+		combo.addItem("Movimiento de stock a través del tiempo");		
 		
 			
 		v.setSize(ancho, altura);
@@ -75,12 +62,15 @@ public class ventanaStat {
 					JFreeChart charts= createDayAreaBegFin();
 					refreshChartpanel(charts);
 					
+				} else if (combo.getSelectedItem().toString()=="Crecimiento de dinero/dia") {
+					JFreeChart charts= createLineaCrecimiento();
+					refreshChartpanel(charts);
+				} else if (combo.getSelectedItem().toString()=="Crecimiento de dinero/dia") {
+					JFreeChart charts= createLineaCrecimiento();
+					refreshChartpanel(charts);
 				}
 			}
 		});
-		
-		
-		
 
 //		//usu cargar usuarios de la bdd en la lista
 		bd = new BDynamic();
@@ -130,9 +120,64 @@ public class ventanaStat {
 		}
 		data[0]=iniciales;
 		data[1]=finales;
-        CategoryDataset dataset = DatasetUtilities.createCategoryDataset("S","C", data);
-        return ChartFactory.createStackedAreaChart("Dinero invertido/Producido","Kromer", "Day",dataset,PlotOrientation.VERTICAL,true,true,true);
-
+        CategoryDataset dataset = DatasetUtilities.createCategoryDataset("Kromer","Dia ", data);
+        return ChartFactory.createStackedAreaChart("Dinero invertido/Producido","Kromer", "Dia",dataset,PlotOrientation.VERTICAL,true,true,true);
     }
+	
+	public JFreeChart createLineaCrecimiento() {
+		
+		Double[][] data = new Double[0][jugador.getDia()-1];
+		Double dinero=500.0;
+		for (int i = 1; i < jugador.getDia(); i++) {
+			Double dineroCompra=0.0;
+			Double dineroVenta=0.0;
+			for (Venta v : todoVentas) {
+				if(v.getDiaCompra()==i) {
+					dineroCompra=dineroCompra+v.getPrecioCompra();
+				}
+				if (v.getDiaVenta()==i) {
+					dineroVenta=dineroVenta+v.getPrecioVenta();
+				}
+			}
+			for (Producto p : todoProductos) {
+				if(p.getDiaCompra()==i) {
+					dineroCompra=dineroCompra+p.getPrecioCompra();
+				}
+			}
+			dinero=dinero-dineroCompra+dineroVenta;
+			data[0][i-1]=dinero;
+			
+		}
+		CategoryDataset dataset = DatasetUtilities.createCategoryDataset("Kromer","Dia ", data);
+        return ChartFactory.createXYLineChart("Crecimiento de dinero/dia", "Dia", "Kromer", (XYDataset) dataset, PlotOrientation.VERTICAL, true, true, true);
+        		
+	}
+	
+public JFreeChart createStockMovimiento() {
+		
+		Double[][] data = new Double[1][jugador.getDia()-1];
+		
+		for (int i = 1; i < jugador.getDia(); i++) {
+			Double contCompra=0.0;
+			Double contVenta=0.0;
+			for (Venta v : todoVentas) {
+				if (v.getDiaVenta()==i) {
+					contVenta++;
+				}
+			}
+			for (Producto p : todoProductos) {
+				if(p.getDiaCompra()==i) {
+					contCompra++;
+				}
+			}
+			data[0][i-1]=contCompra;
+			data[1][i-1]=contVenta;
+		}
+		CategoryDataset dataset = DatasetUtilities.createCategoryDataset("Kromer","Dia ", data);
+        return ChartFactory.createBarChart("Movimiento de stock a través del tiempo", "Dia", "Stock", dataset);
+        		
+	}
+	
+		
 	
 }
