@@ -124,6 +124,7 @@ public class ventanaSaveSlots extends JFrame {
 
 				gp.iniciarJuego();
 				gp.iniciarBuclePrincipal();
+				v.dispose();
 				System.out.println("Carga");
 			}
 		});
