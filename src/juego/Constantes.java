@@ -29,7 +29,7 @@ public class Constantes {
 	public static int MARGEN_X = ANCHO_JUEGO / 2 - LADO_SPRITE / 2;
 	public static int MARGEN_Y = ALTO_JUEGO / 2 - LADO_SPRITE / 2;
 
-	public static String RUTA_MAPA = "";
+	public static String RUTA_MAPA = "/ImagenAudio/mapaHermes.json";
 	public static String RUTA_ICONO_RATON = "/ImagenAudio/New Piskel.png";
 	public static String RUTA_PERSONAJE = "";
 	public static String RUTA_ICONO_VENTANA = "";
