@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.logging.Level;
 
 import datos.Hermes.Jugador;
 import datos.Hermes.Producto;
@@ -22,7 +23,25 @@ public class BDStatic {
 	public void abrirConexion() throws ClassNotFoundException, SQLException {
 		Class.forName("org.sqlite.JDBC");
 		conn = DriverManager.getConnection("jdbc:sqlite:basedatossta.bd");
-		
+			
+		try(Statement statement = conn.createStatement()){
+		String sent = "DROP TABLE IF EXISTS tienda";
+		statement.executeUpdate( sent );
+		sent = "CREATE TABLE usuario (idJugador INTEGER PRIMARY KEY AUTOINCREMENT, nombre varchar (12), dia int(4), exp int(10), cartera int(10);";
+		statement.executeUpdate( sent );
+		sent = "DROP TABLE IF EXISTS almacen";
+		statement.executeUpdate( sent );
+		sent = "CREATE TABLE venta (codigoVenta INTEGER PRIMARY KEY AUTOINCREMENT, tipoMueble varchar(50), "
+				+ "tematica varchar(50), color varchar(50), material varchar(50), precioVenta dec, precioCompra dec,"
+				+ "diaCompra int(4), diaVenta int(4), tienda varchar(50), codU int(4) ;";
+		statement.executeUpdate( sent );
+		sent = "DROP TABLE IF EXISTS producto";
+		statement.executeUpdate( sent );
+		sent = "CREATE TABLE producto (codigoObjeto INTEGER PRIMARY KEY AUTOINCREMENT, tipoMueble varchar(50), "
+				+ "tematica varchar(50), color varchar(50), material varchar(50), precioVenta dec, precioCompra dec, "
+				+ "diaCompra int(4), tienda varchar(50), codU int(4) ;";
+		statement.executeUpdate( sent );
+		}
 	}
 	public void cerrarConexion() throws SQLException {
 		conn.close();
