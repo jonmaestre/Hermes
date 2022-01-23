@@ -37,7 +37,7 @@ public class BDStatic {
 		statement.executeUpdate( sent );
 		sent = "DROP TABLE IF EXISTS producto;";
 		statement.executeUpdate(sent);
-		sent = "CREATE TABLE producto (codigoVenta INTEGER PRIMARY KEY, tipoMueble varchar(50), "
+		sent = "CREATE TABLE producto (codigoObjeto INTEGER PRIMARY KEY, tipoMueble varchar(50), "
 				+ "tematica varchar(50), color varchar(50), material varchar(50), precioVenta dec, precioCompra dec,"
 				+ "diaCompra int(4), tienda varchar(50), codU int(4)) ;";
 		statement.executeUpdate( sent );
@@ -100,13 +100,13 @@ public class BDStatic {
 			ResultSet rs= stmnt.executeQuery("SELECT * FROM producto WHERE codU= " + usuario.getIdJugador() + ";");
 			while(rs.next()) {
 				Producto p=new Producto(
-						rs.getInt("codigoVenta"),
+						rs.getInt("codigoObjeto"),
 						tipoMueble.valueOf(rs.getString("tipoMueble")),
 						tematica.valueOf(rs.getString("tematica")),
 						color.valueOf(rs.getString("color")),
 						material.valueOf(rs.getString("material")),
-						rs.getFloat("precioVenta"),
-						rs.getFloat("precioCompra"),
+						rs.getDouble("precioVenta"),
+						rs.getDouble("precioCompra"),
 						rs.getInt("diaCompra"),
 						rs.getString("tienda"),
 						rs.getInt("codU")
@@ -128,8 +128,8 @@ public class BDStatic {
 						tematica.valueOf(rs.getString("tematica")),
 						color.valueOf(rs.getString("color")),
 						material.valueOf(rs.getString("material")),
-						rs.getFloat("precioVenta"),
-						rs.getFloat("precioCompra"),
+						rs.getDouble("precioVenta"),
+						rs.getDouble("precioCompra"),
 						rs.getInt("diaCompra"),
 						rs.getInt("diaVenta"),
 						rs.getString("tienda"),
