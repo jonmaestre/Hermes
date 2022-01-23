@@ -3,11 +3,18 @@ package hermesServices;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import org.jfree.chart.ChartFactory;
@@ -36,23 +43,43 @@ public class ventanaStat {
 	
 	public ventanaStat(int ancho, int altura) {
 		
-		JFreeChart chart= createDayAreaBegFin();
+		//JFreeChart chart= createDayAreaBegFin();
 		
-		cp = new ChartPanel(chart);
+		//cp = new ChartPanel(chart);
 
 		combo.addItem("G. Dinero invertido/Producido");
 		combo.addItem("Crecimiento de dinero/dia");
-		combo.addItem("Movimiento de stock a través del tiempo");		
+		combo.addItem("Demanda por tipo de mueble");
+		combo.addItem("Demanda por tematica");
+		combo.addItem("Demanda por color");
+		combo.addItem("Demanda por material");
 		
 			
+		
 		v.setSize(ancho, altura);
 		v.setLayout(new BorderLayout());
 		v.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//v.add(cp,BorderLayout.CENTER);
+		JPanel u= new JPanel();
+		v.add(u,BorderLayout.SOUTH);
+		u.add(tf);
+		u.add(combo);
+		u.add(btnDatos);
 		v.setVisible(true);
-		v.add(cp,BorderLayout.CENTER);
-		v.add(tf,BorderLayout.SOUTH);
-		v.add(combo,BorderLayout.SOUTH);
-		v.add(btnDatos,BorderLayout.SOUTH);
+		
+		
+		
+		
+//		//usu cargar usuarios de la bdd en la lista
+		bd = new BDynamic();
+		try {
+			bd.abrirBD();
+			//todosJugadores = bd.getUsuarios();
+			jugador = bd.selectUsuario();
+			todoProductos=bd.selectProducto();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 		combo.addActionListener(new ActionListener() {
 			@Override
@@ -65,25 +92,47 @@ public class ventanaStat {
 				} else if (combo.getSelectedItem().toString()=="Crecimiento de dinero/dia") {
 					JFreeChart charts= createLineaCrecimiento();
 					refreshChartpanel(charts);
-				} else if (combo.getSelectedItem().toString()=="Crecimiento de dinero/dia") {
-					JFreeChart charts= createLineaCrecimiento();
+				} else if (combo.getSelectedItem().toString()=="Demanda por tipo de mueble") {
+					JFreeChart charts= createSBTipoMueble();
+					refreshChartpanel(charts);
+				} else if (combo.getSelectedItem().toString()=="Demanda por tematica") {
+					JFreeChart charts= createSBTematica();
+					refreshChartpanel(charts);
+				} else if (combo.getSelectedItem().toString()=="Demanda por color") {
+					JFreeChart charts= createSBColor();
+					refreshChartpanel(charts);
+				} else if (combo.getSelectedItem().toString()=="Demanda por material") {
+					JFreeChart charts= createSBMaterial();
 					refreshChartpanel(charts);
 				}
 			}
 		});
+		
+		btnDatos.addMouseListener(new MouseAdapter()	{	
+			@Override
+			public void mouseClicked(MouseEvent e) {
+					// TODO Auto-generated method stub				
+				ventanamasDatos();
+			}
 
-//		//usu cargar usuarios de la bdd en la lista
-		bd = new BDynamic();
-		try {
-			bd.abrirBD();
-			//todosJugadores = bd.getUsuarios();
-			jugador = bd.selectUsuario();
-			todoProductos=bd.selectProducto();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		
+		});
+	
+		v.addKeyListener(new KeyAdapter() {//Evento cerrar la ventana para saltar a la siguiente
+
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				if(e.getKeyCode()==KeyEvent.VK_ENTER) {
+					ventanaSaveSlots vss= new ventanaSaveSlots(1900, 800);
+
+					
+					//AITOR H, METE LO Q TENGAS Q METER PARA PASAR DE ESTA VENTANA AL MAPA
+						
+					v.setVisible(false);
+					
+				}
+			}
+
+		});
 	}
 	
 	public void refreshChartpanel(JFreeChart charts) {
@@ -93,6 +142,67 @@ public class ventanaStat {
 		v.setVisible(true);
 	}
 	
+	public void ventanamasDatos() {
+		JFrame  v= new JFrame("Hermes: Estadisticas");
+		v.setSize(1900, 800);
+		v.setLayout(new BorderLayout());
+		v.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		JPanel n= new JPanel();
+		JPanel c= new JPanel();
+		JPanel s= new JPanel();
+		v.add(n,BorderLayout.NORTH);
+		v.add(c,BorderLayout.NORTH);
+		v.add(s,BorderLayout.NORTH);
+		
+		
+
+		Double ingresoNeto1=jugador.getCartera();
+		Double ingresoNeto2=jugador.getCartera();
+		int contp=0;
+		int contv=0;
+		for (Venta ve : todoVentas) {
+			if(ve.getDiaCompra()==jugador.getDia()) {
+				ingresoNeto2=ingresoNeto2+ve.getPrecioCompra();
+				contp++;
+			}
+			if (ve.getDiaVenta()==jugador.getDia()) {
+				ingresoNeto2=ingresoNeto2-ve.getPrecioVenta();
+				contv++;
+			}
+		}
+		for (Producto p : todoProductos) {
+			if(p.getDiaCompra()==jugador.getDia()) {
+				ingresoNeto2=ingresoNeto2+p.getPrecioCompra();
+				contp++;
+			}
+		}
+		JLabel textoDineroActual=new JLabel("Actualmente tienes: "+jugador.getCartera()+"k");
+		JLabel textoExperienciaActual=new JLabel("Actualmente tienes: "+jugador.getExp()+" exp");
+		JLabel textoIngresoNeto=new JLabel("El ingreso neto de hoy es: "+(ingresoNeto1-ingresoNeto2)+"k");		
+		JLabel textoNumCompras=new JLabel("El numero de productos comprados hoy es: "+contp);		
+		JLabel textoNumVentas=new JLabel("El numero de productos vendidos hoy es: "+contp);
+		JLabel textoEscape=new JLabel("Pulsa Esc para salir de la ventana");
+		
+		n.add(textoEscape);
+		n.add(textoDineroActual);
+		n.add(textoExperienciaActual);
+		c.add(textoIngresoNeto);
+		c.add(textoNumCompras);
+		c.add(textoNumVentas);
+		
+		v.setVisible(true);
+		
+		v.addKeyListener(new KeyAdapter() {//Evento cerrar la ventana para saltar a la siguiente
+
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				if(e.getKeyCode()==KeyEvent.VK_ESCAPE) {
+					v.dispose();					
+				}
+			}
+
+		});
+	}
 	
 	public JFreeChart createDayAreaBegFin() {
 		
@@ -153,9 +263,9 @@ public class ventanaStat {
         		
 	}
 	
-public JFreeChart createStockMovimiento() {
+	public JFreeChart createStockMovimiento() {
 		
-		Double[][] data = new Double[1][jugador.getDia()-1];
+		Double[][] data = new Double[1][jugador.getDia()-1];		
 		
 		for (int i = 1; i < jugador.getDia(); i++) {
 			Double contCompra=0.0;
@@ -178,6 +288,235 @@ public JFreeChart createStockMovimiento() {
         		
 	}
 	
+public JFreeChart createSBTipoMueble() {
 		
+	double[][] data = new double[jugador.getDia()-1][7];
+
+	for (int i = 1; i < jugador.getDia(); i++) {
+		double cod1=0.0;	//SOFA
+		double cod2=0.0;	//ARMARIO
+		double cod3=0.0;	//SILLA
+		double cod4=0.0;	//LAMPARA
+		double cod5=0.0;	//CAMA
+		double cod6=0.0;	//MESA
+		double cod7=0.0;	//PUERTA
+		double cod8=0.0;	//ESTANTERIA
+		for (Venta v : todoVentas) {
+			if (v.getDiaVenta()==i) {
+				if (v.getTipoMueble().toString()== "SOFA") {
+					cod1++;
+				
+				} else if (v.getTipoMueble().toString()== "ARMARIO") {
+					cod2++;
+				} else if (v.getTipoMueble().toString()== "SILLA") {
+					cod3++;
+				} else if (v.getTipoMueble().toString()== "LAMPARA") {
+					cod4++;
+				} else if (v.getTipoMueble().toString()== "CAMA") {
+					cod5++;
+				} else if (v.getTipoMueble().toString()== "MESA") {
+					cod6++;
+				} else if (v.getTipoMueble().toString()== "PUERTA") {
+					cod7++;
+				} else if (v.getTipoMueble().toString()== "ESTANTERIA") {
+					cod7++;
+				} else {}	
+			}
 	
+		}
+		data[i-1][0]=cod1;
+		data[i-1][1]=cod2;
+		data[i-1][2]=cod3;
+		data[i-1][3]=cod4;
+		data[i-1][4]=cod5;
+		data[i-1][5]=cod6;
+		data[i-1][6]=cod7;
+		data[i-1][7]=cod8;	
+	}    
+		CategoryDataset dataset = DatasetUtilities.createCategoryDataset("Dia ","Tipo de Mueble  ", data);
+        return ChartFactory.createStackedBarChart("Demanda por tipo de mueble", "", "Cantidad",dataset, PlotOrientation.HORIZONTAL, true, true, true);
+        		
+	}
+
+public JFreeChart createSBTematica() {
+	
+	double[][] data = new double[jugador.getDia()-1][10];
+
+	for (int i = 1; i < jugador.getDia(); i++) {
+		double cod1=0.0;	//PRIMAVERA
+		double cod2=0.0;	//VERANO
+		double cod3=0.0;	//OTOÑO
+		double cod4=0.0;	//INVIERNO
+		double cod5=0.0;	//HALLOWEEN
+		double cod6=0.0;	//NAVIDAD
+		double cod7=0.0;	//ANYO_NUEVO_CHINO
+		double cod8=0.0;	//ST_PATRICKS_DAY
+		double cod9=0.0;	//RUSTICO
+		double cod10=0.0;	//MEDIEVAL
+		double cod11=0.0;	//INDUSTRIAL
+		for (Venta v : todoVentas) {
+			if (v.getDiaVenta()==i) {
+				if (v.getTematica().toString()== "PRIMAVERA") {
+					cod1++;
+				} else if (v.getTematica().toString()== "VERANO") {
+					cod2++;
+				} else if (v.getTematica().toString()== "OTOÑO") {
+					cod3++;
+				} else if (v.getTematica().toString()== "INVIERNO") {
+					cod4++;
+				} else if (v.getTematica().toString()== "HALLOWEEN") {
+					cod5++;
+				} else if (v.getTematica().toString()== "NAVIDAD") {
+					cod6++;
+				} else if (v.getTematica().toString()== "ANYO_NUEVO_CHINO") {
+					cod7++;
+				} else if (v.getTematica().toString()== "ST_PATRICKS_DAY") {
+					cod8++;
+				} else if (v.getTematica().toString()== "RUSTICO") {
+					cod9++;
+				} else if (v.getTematica().toString()== "MEDIEVAL") {
+					cod10++;
+				} else if (v.getTematica().toString()== "INDUSTRIAL") {
+					cod11++;
+				}
+				else {}	
+			}
+		}
+		data[i-1][0]=cod1;
+		data[i-1][1]=cod2;
+		data[i-1][2]=cod3;
+		data[i-1][3]=cod4;
+		data[i-1][4]=cod5;
+		data[i-1][5]=cod6;
+		data[i-1][6]=cod7;
+		data[i-1][7]=cod8;
+		data[i-1][8]=cod9;
+		data[i-1][9]=cod10;
+		data[i-1][10]=cod11;
+	}    
+		CategoryDataset dataset = DatasetUtilities.createCategoryDataset("Dia ","Tematica  ", data);
+        return ChartFactory.createStackedBarChart("Demanda por tematica", "", "Cantidad",dataset, PlotOrientation.HORIZONTAL, true, true, true);
+        		
+	}
+
+public JFreeChart createSBColor() {
+	
+	double[][] data = new double[jugador.getDia()-1][13];
+
+	for (int i = 1; i < jugador.getDia(); i++) {
+		double cod1=0.0;	//NEGRO
+		double cod2=0.0;	//ROJO
+		double cod3=0.0;	//NARANJA
+		double cod4=0.0;	//GRIS
+		double cod5=0.0;	//AZUL
+		double cod6=0.0;	//AMARILLO
+		double cod7=0.0;	//VERDE
+		double cod8=0.0;	//ROSA
+		double cod9=0.0;	//BLANCO
+		double cod10=0.0;	//CYAN
+		double cod11=0.0;	//MAGENTA
+		double cod12=0.0;	//MARRON
+		double cod13=0.0;	//GRANATE
+		double cod14=0.0;	//MORADO
+		for (Venta v : todoVentas) {
+			if (v.getDiaVenta()==i) {
+				if (v.getColor().toString()== "NEGRO") {
+					cod1++;	
+				} else if (v.getColor().toString()== "ROJO") {
+					cod2++;
+				} else if (v.getColor().toString()== "NARANJA") {
+					cod3++;
+				} else if (v.getColor().toString()== "GRIS") {
+					cod4++;
+				} else if (v.getColor().toString()== "AZUL") {
+					cod5++;
+				} else if (v.getColor().toString()== "AMARILLO") {
+					cod6++;
+				} else if (v.getColor().toString()== "VERDE") {
+					cod7++;
+				} else if (v.getColor().toString()== "ROSA") {
+					cod8++;
+				} else if (v.getColor().toString()== "BLANCO") {
+					cod9++;
+				} else if (v.getColor().toString()== "CYAN") {
+					cod10++;
+				} else if (v.getColor().toString()== "MAGENTA") {
+					cod11++;
+				} else if (v.getColor().toString()== "MARRON") {
+					cod12++;
+				} else if (v.getColor().toString()== "GRANATE") {
+					cod13++;
+				} else if (v.getColor().toString()== "MORADO") {
+					cod14++;
+				}
+				
+				else {}	
+			}
+		}
+		data[i-1][0]=cod1;
+		data[i-1][1]=cod2;
+		data[i-1][2]=cod3;
+		data[i-1][3]=cod4;
+		data[i-1][4]=cod5;
+		data[i-1][5]=cod6;
+		data[i-1][6]=cod7;
+		data[i-1][7]=cod8;
+		data[i-1][8]=cod9;
+		data[i-1][9]=cod10;
+		data[i-1][10]=cod11;
+		data[i-1][11]=cod12;
+		data[i-1][12]=cod13;
+		data[i-1][13]=cod14;
+	}    
+		CategoryDataset dataset = DatasetUtilities.createCategoryDataset("Dia ","Color  ", data);
+        return ChartFactory.createStackedBarChart("Demanda por color", "", "Cantidad",dataset, PlotOrientation.HORIZONTAL, true, true, true);
+        		
+	}
+
+public JFreeChart createSBMaterial() {
+	double[][] data = new double[jugador.getDia()-1][7];
+	for (int i = 1; i < jugador.getDia(); i++) {		
+		double cod1=0.0;	//M_ABEDUL
+		double cod2=0.0;	//M_PINO
+		double cod3=0.0;	//M_ROBLE
+		double cod4=0.0;	//ACERO
+		double cod5=0.0;	//PLASTICO
+		double cod6=0.0;	//ALUMINIO
+		double cod7=0.0;	//MARMOL
+		double cod8=0.0;	//GRANITO
+		for (Venta v : todoVentas) {
+			if (v.getDiaVenta()==i) {
+				if (v.getMaterial().toString()== "M_ABEDUL") {
+					cod1++;	
+				} else if (v.getMaterial().toString()== "M_PINO") {
+					cod2++;
+				} else if (v.getMaterial().toString()== "M_ROBLE") {
+					cod3++;
+				} else if (v.getMaterial().toString()== "ACERO") {
+					cod4++;
+				} else if (v.getMaterial().toString()== "PLASTICO") {
+					cod5++;
+				} else if (v.getMaterial().toString()== "ALUMINIO") {
+					cod6++;
+				} else if (v.getMaterial().toString()== "MARMOL") {
+					cod7++;
+				} else if (v.getMaterial().toString()== "GRANITO") {
+					cod8++;
+				}
+				else {}	
+			}
+		}
+		data[i-1][0]=cod1;
+		data[i-1][1]=cod2;
+		data[i-1][2]=cod3;
+		data[i-1][3]=cod4;
+		data[i-1][4]=cod5;
+		data[i-1][5]=cod6;
+		data[i-1][6]=cod7;
+		data[i-1][7]=cod8;
+	}    
+		CategoryDataset dataset = DatasetUtilities.createCategoryDataset("Dia ","Material  ", data);
+        return ChartFactory.createStackedBarChart("Demanda por material", "", "Cantidad",dataset, PlotOrientation.HORIZONTAL, true, true, true);
+        		
+	}
 }

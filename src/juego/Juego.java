@@ -23,7 +23,7 @@ public class Juego {
 	
 	private Sonido musica = new Sonido("");
 	
-	private Juego(final String titulo, final int ancho, final int alto) {
+	public Juego(final String titulo, final int ancho, final int alto) {
 		this.titulo = titulo;
 		this.ancho = ancho;
 		this.alto = alto;
@@ -48,7 +48,7 @@ public class Juego {
 		gp.iniciarBuclePrincipal();
 	}
 	
-	private void iniciarJuego() {
+	public void iniciarJuego() {
 		enFuncionamiento = true;
 		inicializar();
 		musica.repetir();
@@ -60,7 +60,7 @@ public class Juego {
 		
 	}
 	//para conocer info de lo que se esta ejecutando
-	private void iniciarBuclePrincipal() {
+	public void iniciarBuclePrincipal() {
 		int actualizacionesAcumuladas = 0;
 		int framesAcumulados = 0;
 
