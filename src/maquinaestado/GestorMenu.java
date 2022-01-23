@@ -27,7 +27,6 @@ public class GestorMenu implements EstadoJuego {
 				estructuraMenu.BANNER_LATERAL.y + estructuraMenu.MARGEN_VERTICAL_ETIQUETAS,
 				estructuraMenu.ANCHO_ETIQUETAS, estructuraMenu.ALTO_ETIQUETAS);
 
-		secciones[0] = new MenuInventario("Inventario", etiquetaInventario, estructuraMenu);
 
 		final Rectangle etiquetaEquipo = new Rectangle(
 				estructuraMenu.BANNER_LATERAL.x + estructuraMenu.MARGEN_HORIZONTAL_ETIQUETAS,
@@ -45,9 +44,6 @@ public class GestorMenu implements EstadoJuego {
 					.intersects(secciones[i].obtenerEtiquetaMenuEscalada())) {
                 if (secciones[i] instanceof  MenuEquipo) {
                     MenuEquipo seccion = (MenuEquipo) secciones[i];
-                    if (seccion.objetoSeleccionado != null) {
-                        seccion.eliminarObjetoSeleccionado();
-                    }
                 }
 
 				seccionActual = secciones[i];

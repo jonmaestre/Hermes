@@ -8,12 +8,9 @@ import java.util.ArrayList;
 import juego.Constantes;
 import juego.ElementosPrincipales;
 import control.GestorControles;
-//import principal.entes.AlmacenEquipo;
 import herramientas.DibujoDebug;
-//import principal.inventario.RegistroObjetos;
-//import principal.inventario.armas.Arma;
-//import principal.inventario.armas.Desarmado;
 import sprites.HojaSprites;
+import mapas.MapaTiled;
 
 public class Jugador {
 

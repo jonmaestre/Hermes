@@ -12,9 +12,7 @@ import graficos.SuperficieDibujo;
 import herramientas.DibujoDebug;
 import herramientas.EscaladorElementos;
 import herramientas.MedidorStrings;
-//import principal.inventario.Objeto;
-//import principal.inventario.armas.Arma;
-//import principal.inventario.armas.Desarmado;
+
 
 public class MenuEquipo extends SeccionMenu {
 
@@ -34,79 +32,23 @@ public class MenuEquipo extends SeccionMenu {
 	final Rectangle etiquetaArma = new Rectangle(titularPanelEquipo.x + margenGeneral,
 			titularPanelEquipo.y + titularPanelEquipo.height + margenGeneral,
 			titularPanelEquipo.width - margenGeneral * 2,
-			margenGeneral * 2 + MedidorStrings.medirAltoPixeles(GestorPrincipal.sd.getGraphics(), "Arma"));
+			margenGeneral * 2 + MedidorStrings.medirAltoPixeles(Juego.sd.getGraphics(), "Arma"));
 	final Rectangle contenedorArma = new Rectangle(etiquetaArma.x + 1, etiquetaArma.y + etiquetaArma.height,
 			etiquetaArma.width - 2, Constantes.LADO_SPRITE);
 
-	Objeto objetoSeleccionado = null;
 
 	public MenuEquipo(String nombreSeccion, Rectangle etiquetaMenu, EstructuraMenu em) {
 		super(nombreSeccion, etiquetaMenu, em);
 	}
 
 	public void actualizar() {
-		actualizarPosicionesMenu();
-		actualizarSeleccionRaton();
-		actualizarObjetoSeleccionado();
+	//	actualizarPosicionesMenu();
+	//	actualizarSeleccionRaton();
+	//	actualizarObjetoSeleccionado();
 	}
 
-	private void actualizarPosicionesMenu() {
-		if (ElementosPrincipales.inventario.obtenerArmas().isEmpty()) {
-			return;
-		}
 
-		for (int i = 0; i < ElementosPrincipales.inventario.obtenerArmas().size(); i++) {
-			final Point puntoInicial = new Point(titularPanelObjetos.x + margenGeneral,
-					titularPanelObjetos.y + titularPanelObjetos.height + margenGeneral);
 
-			final int lado = Constantes.LADO_SPRITE;
-
-			int idActual = ElementosPrincipales.inventario.obtenerArmas().get(i).obtenerId();
-
-			ElementosPrincipales.inventario.obtenerObjeto(idActual).establecerPosicionMenu(
-					new Rectangle(puntoInicial.x + i * (lado + margenGeneral), puntoInicial.y, lado, lado));
-		}
-	}
-
-	private void actualizarSeleccionRaton() {
-		Rectangle posicionRaton = GestorPrincipal.sd.obtenerRaton().obtenerRectanguloPosicion();
-
-		if (posicionRaton.intersects(EscaladorElementos.escalarRectanguloArriba(panelObjetos))) {
-			if (ElementosPrincipales.inventario.obtenerArmas().isEmpty()) {
-				return;
-			}
-
-			for (Objeto objeto : ElementosPrincipales.inventario.obtenerArmas()) {
-				if (GestorPrincipal.sd.obtenerRaton().obtenerClick() && posicionRaton
-						.intersects(EscaladorElementos.escalarRectanguloArriba(objeto.obtenerPosicionMenu()))) {
-					objetoSeleccionado = objeto;
-				}
-			}
-		} else if (posicionRaton.intersects(EscaladorElementos.escalarRectanguloArriba(panelEquipo))) {
-			if (objetoSeleccionado != null && objetoSeleccionado instanceof Arma
-                    && GestorPrincipal.sd.obtenerRaton().obtenerClick()
-                    && posicionRaton.intersects(EscaladorElementos.escalarRectanguloArriba(contenedorArma))) {
-                ElementosPrincipales.jugador.obtenerAlmacenEquipo().cambiarArma1((Arma) objetoSeleccionado);
-                objetoSeleccionado = null;
-			}
-		} else if (posicionRaton.intersects(EscaladorElementos.escalarRectanguloArriba(panelAtributos))) {
-
-		}
-	}
-
-	private void actualizarObjetoSeleccionado() {
-		if (objetoSeleccionado != null) {
-			if (GestorPrincipal.sd.obtenerRaton().obtenerClick2()) {
-				objetoSeleccionado = null;
-				return;
-			}
-
-			Point posicionRaton = EscaladorElementos
-					.escalarPuntoAbajo(GestorPrincipal.sd.obtenerRaton().obtenerPuntoPosicion());
-			objetoSeleccionado.establecerPosicionFlotante(
-					new Rectangle(posicionRaton.x, posicionRaton.y, Constantes.LADO_SPRITE, Constantes.LADO_SPRITE));
-		}
-	}
 
 	public void dibujar(Graphics g, SuperficieDibujo sd, EstructuraMenu em) {
 		dibujarLimitePeso(g, em);
@@ -128,22 +70,19 @@ public class MenuEquipo extends SeccionMenu {
 	private void dibujarPanelObjetos(final Graphics g, final Rectangle panel, final Rectangle titularPanel,
 			final String nombrePanel) {
 		dibujarPanel(g, panel, titularPanel, nombrePanel);
-		dibujarElementosEquipables(g, panel, titularPanel);
+	//	dibujarElementosEquipables(g, panel, titularPanel);
 	}
 
-	private void dibujarElementosEquipables(final Graphics g, final Rectangle panelObjetos,
-			final Rectangle titularPanel) {
+	//private void dibujarElementosEquipables(final Graphics g, final Rectangle panelObjetos,
+		//	final Rectangle titularPanel) {
 
-		if (ElementosPrincipales.inventario.obtenerArmas().isEmpty()) {
-			return;
-		}
 
-		final Point puntoInicial = new Point(titularPanel.x + margenGeneral,
-				titularPanel.y + titularPanel.height + margenGeneral);
+		//final Point puntoInicial = new Point(titularPanel.x + margenGeneral,
+		//		titularPanel.y + titularPanel.height + margenGeneral);
 
-		final int lado = Constantes.LADO_SPRITE;
+		//final int lado = Constantes.LADO_SPRITE;
 
-		for (int i = 0; i < ElementosPrincipales.inventario.obtenerArmas().size(); i++) {
+		/*for (int i = 0; i < ElementosPrincipales.inventario.obtenerArmas().size(); i++) {
 
 			int idActual = ElementosPrincipales.inventario.obtenerArmas().get(i).obtenerId();
 			Objeto objetoActual = ElementosPrincipales.inventario.obtenerObjeto(idActual);
@@ -177,7 +116,7 @@ public class MenuEquipo extends SeccionMenu {
 			DibujoDebug.dibujarImagen(g, objetoSeleccionado.obtenerSprite().obtenerImagen(), new Point(
 					objetoSeleccionado.obtenerPosicionFlotante().x, objetoSeleccionado.obtenerPosicionFlotante().y));
 		}
-	}
+	}*/
 
 	private void dibujarPanelEquipo(final Graphics g, final Rectangle panel, final Rectangle titularPanel,
 			final String nombrePanel) {
@@ -188,13 +127,13 @@ public class MenuEquipo extends SeccionMenu {
 		DibujoDebug.dibujarRectanguloRelleno(g, etiquetaArma);
 		DibujoDebug.dibujarRectanguloContorno(g, contenedorArma);
 
-        if (!(ElementosPrincipales.jugador.obtenerAlmacenEquipo().obtenerArma1() instanceof Desarmado)) {
+      /*  if (!(ElementosPrincipales.jugador.obtenerAlmacenEquipo().obtenerArma1() instanceof Desarmado)) {
             Point coordenadaImagen = new Point(contenedorArma.x + contenedorArma.width / 2 - Constantes.LADO_SPRITE / 2,
                     contenedorArma.y);
 
             DibujoDebug.dibujarImagen(g, ElementosPrincipales.jugador.obtenerAlmacenEquipo().obtenerArma1().obtenerSprite().obtenerImagen(),
                     coordenadaImagen);
-        }
+        }*/
 
 		g.setColor(Color.white);
 		DibujoDebug.dibujarString(g, "Arma",
@@ -222,11 +161,4 @@ public class MenuEquipo extends SeccionMenu {
 		g.setColor(new Color(0xff6700));
 	}
 
-    public Objeto obtenerObjetoSeleccionado() {
-        return objetoSeleccionado;
-    }
-
-    public void eliminarObjetoSeleccionado() {
-        objetoSeleccionado = null;
-    }
 }
