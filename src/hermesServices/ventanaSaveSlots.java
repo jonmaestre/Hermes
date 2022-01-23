@@ -20,6 +20,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 
+import juego.Constantes;
+import juego.Juego;
 import hermesServices.*;
 import datos.Hermes.*;
 
@@ -106,6 +108,23 @@ public class ventanaSaveSlots extends JFrame {
 				int row = jotaTabla.getSelectedRow();
 				Jugador j= new Jugador((Integer) jotaTabla.getValueAt(row, 0),jotaTabla.getValueAt(row, 1).toString(), (Integer) jotaTabla.getValueAt(row, 2), (Integer) jotaTabla.getValueAt(row, 3), (Integer) jotaTabla.getValueAt(row, 4));
 				cargarUsuario(v, j);
+				//Para OpenGL en Mac/Linux
+				//System.setProperty("sun.java2d.opengl", "True");
+				
+				
+				  //Para Directx en Windows
+				  System.setProperty("sun.java2d.d3d", "True");
+				  System.setProperty("sun.java2d.ddforcevram", "True");
+				 
+				
+				//System.setProperty("sun.java2d.transaccel", "True");
+				
+				Juego gp = new Juego("JUEGO", Constantes.ANCHO_PANTALLA_COMPLETA,
+						Constantes.ALTO_PANTALLA_COMPLETA);
+
+				gp.iniciarJuego();
+				gp.iniciarBuclePrincipal();
+				v.dispose();
 				System.out.println("Carga");
 			}
 		});
