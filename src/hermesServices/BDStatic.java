@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.logging.Level;
+
 
 import datos.Hermes.Jugador;
 import datos.Hermes.Producto;
@@ -18,28 +18,28 @@ import datos.Hermes.tematica;
 import datos.Hermes.tipoMueble;
 
 public class BDStatic {
-	private Connection conn;
+	private static Connection conn;
 	
 	public void abrirConexion() throws ClassNotFoundException, SQLException {
 		Class.forName("org.sqlite.JDBC");
 		conn = DriverManager.getConnection("jdbc:sqlite:basedatossta.bd");
 			
 		try(Statement statement = conn.createStatement()){
-		String sent = "DROP TABLE IF EXISTS tienda";
+		String sent = "DROP TABLE IF EXISTS usuario;";
+		statement.executeUpdate(sent);
+		sent = "CREATE TABLE usuario (idJugador INTEGER PRIMARY KEY AUTOINCREMENT, nombre varchar (12), dia int(4), exp int(10), cartera dec);";
 		statement.executeUpdate( sent );
-		sent = "CREATE TABLE usuario (idJugador INTEGER PRIMARY KEY AUTOINCREMENT, nombre varchar (12), dia int(4), exp int(10), cartera int(10);";
-		statement.executeUpdate( sent );
-		sent = "DROP TABLE IF EXISTS almacen";
-		statement.executeUpdate( sent );
+		sent = "DROP TABLE IF EXISTS venta;";
+		statement.executeUpdate(sent);
 		sent = "CREATE TABLE venta (codigoVenta INTEGER PRIMARY KEY AUTOINCREMENT, tipoMueble varchar(50), "
 				+ "tematica varchar(50), color varchar(50), material varchar(50), precioVenta dec, precioCompra dec,"
-				+ "diaCompra int(4), diaVenta int(4), tienda varchar(50), codU int(4) ;";
+				+ "diaCompra int(4), diaVenta int(4), tienda varchar(50), codU int(4)) ;";
 		statement.executeUpdate( sent );
-		sent = "DROP TABLE IF EXISTS producto";
-		statement.executeUpdate( sent );
+		sent = "DROP TABLE IF EXISTS producto;";
+		statement.executeUpdate(sent);
 		sent = "CREATE TABLE producto (codigoObjeto INTEGER PRIMARY KEY AUTOINCREMENT, tipoMueble varchar(50), "
 				+ "tematica varchar(50), color varchar(50), material varchar(50), precioVenta dec, precioCompra dec, "
-				+ "diaCompra int(4), tienda varchar(50), codU int(4) ;";
+				+ "diaCompra int(4), tienda varchar(50), codU int(4)) ;";
 		statement.executeUpdate( sent );
 		}
 	}
@@ -86,7 +86,7 @@ public class BDStatic {
 					rs.getString("nombre"),
 					rs.getInt("dia"),
 					rs.getInt("exp"),
-					rs.getInt("cartera")
+					rs.getDouble("cartera")
 					);
 			listaUsu.add(u);
 			}
@@ -147,7 +147,7 @@ public class BDStatic {
 				String sent= "INSERT INTO producto VALUES(" + producto.getCodigoObjeto() + ",'" + producto.getTipoMueble() + 
 						"','" + producto.getTematica() + "','" + producto.getColor() + "','" + producto.getMaterial() + 
 						"'," +  producto.getPrecioVenta() + "," + producto.getPrecioCompra() + "," + producto.getDiaCompra() +
-						",'" + producto.getTienda() + "'," + producto.getCodU() + ";";
+						",'" + producto.getTienda() + "'," + producto.getCodU() + ");";
 				stmnt.executeUpdate(sent);	
 			}
 		}
@@ -159,7 +159,7 @@ public class BDStatic {
 				String sent= "INSERT INTO venta VALUES(" + ventas.getCodigoVenta() + ",'" + ventas.getTipoMueble() + 
 						"','" + ventas.getTematica() + "','" + ventas.getColor() + "','" + ventas.getMaterial() + 
 						"'," +  ventas.getPrecioVenta() + "," + ventas.getPrecioCompra() + "," + ventas.getDiaCompra() +
-						"," + ventas.getDiaVenta() + ",'" + ventas.getTienda() + "'," + ventas.getCodU() + ";";
+						"," + ventas.getDiaVenta() + ",'" + ventas.getTienda() + "'," + ventas.getCodU() + ");";
 				stmnt.executeUpdate(sent);	
 			}
 		}

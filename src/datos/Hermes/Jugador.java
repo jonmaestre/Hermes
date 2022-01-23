@@ -6,7 +6,7 @@ public class Jugador{
 	protected String nombre;
 	protected int dia = 1;
 	protected int exp = 0;
-	protected float cartera =500; 
+	protected double cartera =500; 
 	
 	
 	
@@ -35,11 +35,11 @@ public class Jugador{
 		this.exp = exp;
 	}
 
-	public float getCartera() {
+	public double getCartera() {
 		return cartera;
 	}
 	
-	public void setCartera(float f) {
+	public void setCartera(double f) {
 		this.cartera = f;
 	}
 	
@@ -51,7 +51,7 @@ public class Jugador{
 		this.dia = dia;
 	}
 
-	public Jugador(int idJugador, String nombre, int dia, int exp, float cartera) {
+	public Jugador(int idJugador, String nombre, int dia, int exp, double cartera) {
 		super();
 		this.idJugador = idJugador;
 		this.nombre = nombre;

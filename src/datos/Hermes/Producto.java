@@ -7,8 +7,8 @@ public class Producto{
 	protected tematica tematica;
 	protected color color;
 	protected material material;
-	protected float precioVenta;
-	protected float precioCompra;
+	protected double precioVenta;
+	protected double precioCompra;
 	protected int diaCompra;
 	protected String tienda; //Para saber de que tienda proviene el producto correspondiente.
 	protected int codU;
@@ -55,19 +55,19 @@ public class Producto{
 		this.material = material;
 	}
 
-	public float getPrecioVenta() {
+	public double getPrecioVenta() {
 		return precioVenta;
 	}
 
-	public void setPrecioVenta(float precioVenta) {
+	public void setPrecioVenta(double precioVenta) {
 		this.precioVenta = precioVenta;
 	}
 
-	public float getPrecioCompra() {
+	public double getPrecioCompra() {
 		return precioCompra;
 	}
 
-	public void setPrecioCompra(float precioCompra) {
+	public void setPrecioCompra(double precioCompra) {
 		this.precioCompra = precioCompra;
 	}
 	
@@ -97,7 +97,7 @@ public class Producto{
 	
 	
 	public Producto(int codigoObjeto, tipoMueble tipoMueble, tematica tematica,
-			color color, material material, float precioVenta, float precioCompra, int diaCompra,
+			color color, material material, double precioVenta, double precioCompra, int diaCompra,
 			String tienda, int codU) {
 		super();
 		this.codigoObjeto = codigoObjeto;

@@ -47,14 +47,14 @@ public class BDynamic {
 		Statement statement =  ((java.sql.Connection) conn).createStatement();
 		String sent;
 		
-		sent = "DROP TABLE IF EXISTS usuario";
+		sent = "DROP TABLE IF EXISTS usuario;";
 		logger.log( Level.INFO, "Statement: " + sent );
 		statement.executeUpdate( sent );
 		sent = "CREATE TABLE usuario (cod_u INT(3) NOT NULL, nombre_u varchar (20), dia INT(2), exp INT(9), kromer dec(9,2), PRIMARY KEY(cod_u));";
 		logger.log( Level.INFO, "Statement: " + sent );
 		statement.executeUpdate( sent );
 		
-		sent = "DROP TABLE IF EXISTS producto";
+		sent = "DROP TABLE IF EXISTS producto;";
 		logger.log( Level.INFO, "Statement: " + sent );
 		statement.executeUpdate( sent );
 		sent = "CREATE TABLE producto (codigoProducto INT(3) NOT NULL, tipoMueble varchar(20), tematica varchar(30), color varchar(30), material varchar(30), precioVenta dec, precioCompra dec, diaCompra int(2), codTienda varchar(20) ,cod_u INT(3) NOT NULL, PRIMARY KEY(codigoProducto),FOREIGN KEY(cod_u) REFERENCES usuario(cod_u));";
@@ -62,7 +62,7 @@ public class BDynamic {
 		statement.executeUpdate( sent );
 		
 		
-		sent = "DROP TABLE IF EXISTS ventas";
+		sent = "DROP TABLE IF EXISTS ventas;";
 		logger.log( Level.INFO, "Statement: " + sent );
 		statement.executeUpdate( sent );
 		sent = "CREATE TABLE ventas (codigoVenta INT(3) NOT NULL, tipoMueble varchar(20), tematica varchar(30), color varchar(30), material varchar(30), precioVenta dec, precioCompra dec, diaCompra int(2), codTienda varchar(20),cod_u INT(3) NOT NULL, PRIMARY KEY(codigoVenta),FOREIGN KEY(cod_u) REFERENCES usuario(cod_u) ;";
