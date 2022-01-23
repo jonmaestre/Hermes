@@ -31,7 +31,7 @@ public class Juego {
 	//los syso son formas diferentes de ejecutar (segun un video que e visto)
 	public static void main(String[] args) {
 		//Para OpenGL en Mac/Linux
-		System.setProperty("sun.java2d.opengl", "True");
+		//System.setProperty("sun.java2d.opengl", "True");
 		
 		/*
 		  Para Directx en Windows
@@ -41,7 +41,7 @@ public class Juego {
 		
 		//System.setProperty("sun.java2d.transaccel", "True");
 		
-		Juego gp = new Juego("Super", Constantes.ANCHO_PANTALLA_COMPLETA,
+		Juego gp = new Juego("JUEGO", Constantes.ANCHO_PANTALLA_COMPLETA,
 				Constantes.ALTO_PANTALLA_COMPLETA);
 
 		gp.iniciarJuego();

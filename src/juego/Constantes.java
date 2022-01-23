@@ -36,5 +36,5 @@ public class Constantes {
 	public static String RUTA_LOGOTIPO = "";
 	public static String RUTA_OBJETOS = "";
 
-	public static Font FUENTE_PIXEL = CargadorRecursos.cargarFuente("");
+	public static Font FUENTE_PIXEL = CargadorRecursos.cargarFuente("/ImagenAudio/px10.ttf");
 }
