@@ -42,7 +42,7 @@ public class ventanaSaveSlots extends JFrame {
 	protected ArrayList<Jugador> usu;
 	
 
-	public ventanaSaveSlots() {
+	public ventanaSaveSlots(int ancho, int altura) {
 		
 		JFrame  v= new JFrame("Hermes: Partidas");
 
