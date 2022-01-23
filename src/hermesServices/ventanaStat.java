@@ -111,10 +111,25 @@ public class ventanaStat {
 		btnDatos.addMouseListener(new MouseAdapter()	{	
 			@Override
 			public void mouseClicked(MouseEvent e) {
-					// TODO Auto-generated method stub
+					// TODO Auto-generated method stub				
+				ventanamasDatos();
+			}
+
+		});
+	
+		v.addKeyListener(new KeyAdapter() {//Evento cerrar la ventana para saltar a la siguiente
+
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				if(e.getKeyCode()==KeyEvent.VK_ENTER) {
+					ventanaSaveSlots vss= new ventanaSaveSlots(1900, 800);
+
 					
+					//AITOR H, METE LO Q TENGAS Q METER PARA PASAR DE ESTA VENTANA AL MAPA
+						
+					v.setVisible(false);
 					
-					
+				}
 			}
 
 		});
