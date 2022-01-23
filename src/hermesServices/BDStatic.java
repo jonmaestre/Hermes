@@ -7,10 +7,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.logging.Level;
 
 import datos.Hermes.Jugador;
 import datos.Hermes.Producto;
-import datos.Hermes.Tiendas;
 import datos.Hermes.Venta;
 import datos.Hermes.color;
 import datos.Hermes.material;
@@ -23,7 +23,25 @@ public class BDStatic {
 	public void abrirConexion() throws ClassNotFoundException, SQLException {
 		Class.forName("org.sqlite.JDBC");
 		conn = DriverManager.getConnection("jdbc:sqlite:basedatossta.bd");
-		
+			
+		try(Statement statement = conn.createStatement()){
+		String sent = "DROP TABLE IF EXISTS tienda";
+		statement.executeUpdate( sent );
+		sent = "CREATE TABLE usuario (idJugador INTEGER PRIMARY KEY AUTOINCREMENT, nombre varchar (12), dia int(4), exp int(10), cartera int(10);";
+		statement.executeUpdate( sent );
+		sent = "DROP TABLE IF EXISTS almacen";
+		statement.executeUpdate( sent );
+		sent = "CREATE TABLE venta (codigoVenta INTEGER PRIMARY KEY AUTOINCREMENT, tipoMueble varchar(50), "
+				+ "tematica varchar(50), color varchar(50), material varchar(50), precioVenta dec, precioCompra dec,"
+				+ "diaCompra int(4), diaVenta int(4), tienda varchar(50), codU int(4) ;";
+		statement.executeUpdate( sent );
+		sent = "DROP TABLE IF EXISTS producto";
+		statement.executeUpdate( sent );
+		sent = "CREATE TABLE producto (codigoObjeto INTEGER PRIMARY KEY AUTOINCREMENT, tipoMueble varchar(50), "
+				+ "tematica varchar(50), color varchar(50), material varchar(50), precioVenta dec, precioCompra dec, "
+				+ "diaCompra int(4), tienda varchar(50), codU int(4) ;";
+		statement.executeUpdate( sent );
+		}
 	}
 	public void cerrarConexion() throws SQLException {
 		conn.close();
@@ -36,8 +54,22 @@ public class BDStatic {
 			stmnt.executeUpdate(sent);
 		}
 	}
+	public void borrarVentas(Jugador usuario) throws SQLException {
+		try(Statement stmnt=conn.createStatement()){
+			String sent="DELETE FROM venta WHERE codU=" + usuario.getIdJugador() + ";";
+			stmnt.executeUpdate(sent);
+		}
+	}
+	public void borrarProductos(Jugador usuario) throws SQLException {
+		try(Statement stmnt=conn.createStatement()){
+			String sent="DELETE FROM producto WHERE codU=" + usuario.getIdJugador() + ";";
+			stmnt.executeUpdate(sent);
+		}
+	}
 	
 	public void borrarUsuario(Jugador usuario) throws SQLException {
+		borrarProductos(usuario);
+		borrarVentas(usuario);
 		try(Statement stmnt=conn.createStatement()){
 			String sent="DELETE FROM usuario WHERE idJugador=" + usuario.getIdJugador() + ";";
 			stmnt.executeUpdate(sent);
@@ -76,7 +108,7 @@ public class BDStatic {
 						rs.getFloat("precioVenta"),
 						rs.getFloat("precioCompra"),
 						rs.getInt("diaCompra"),
-						rs.getInt("tienda"),
+						rs.getString("tienda"),
 						rs.getInt("codU")
 						);
 				listaProds.add(p);
@@ -100,7 +132,7 @@ public class BDStatic {
 						rs.getFloat("precioCompra"),
 						rs.getInt("diaCompra"),
 						rs.getInt("diaVenta"),
-						rs.getInt("tienda"),
+						rs.getString("tienda"),
 						rs.getInt("codU")
 						);
 				listaVentas.add(v);
@@ -108,4 +140,37 @@ public class BDStatic {
 		}
 		return listaVentas;
 	}
+	
+	public void insertarProductos(ArrayList<Producto> listaProds) throws SQLException {
+		try(Statement stmnt=conn.createStatement()){
+			for (Producto producto : listaProds) {
+				String sent= "INSERT INTO producto VALUES(" + producto.getCodigoObjeto() + ",'" + producto.getTipoMueble() + 
+						"','" + producto.getTematica() + "','" + producto.getColor() + "','" + producto.getMaterial() + 
+						"'," +  producto.getPrecioVenta() + "," + producto.getPrecioCompra() + "," + producto.getDiaCompra() +
+						",'" + producto.getTienda() + "'," + producto.getCodU() + ";";
+				stmnt.executeUpdate(sent);	
+			}
+		}
+	}
+	
+	public void insertarVentas(ArrayList<Venta> listaVentas) throws SQLException {
+		try(Statement stmnt=conn.createStatement()){
+			for (Venta ventas : listaVentas) {
+				String sent= "INSERT INTO venta VALUES(" + ventas.getCodigoVenta() + ",'" + ventas.getTipoMueble() + 
+						"','" + ventas.getTematica() + "','" + ventas.getColor() + "','" + ventas.getMaterial() + 
+						"'," +  ventas.getPrecioVenta() + "," + ventas.getPrecioCompra() + "," + ventas.getDiaCompra() +
+						"," + ventas.getDiaVenta() + ",'" + ventas.getTienda() + "'," + ventas.getCodU() + ";";
+				stmnt.executeUpdate(sent);	
+			}
+		}
+	}
+	
+	public void actualizarUsuario(Jugador usuario) throws SQLException {
+		try(Statement stmnt=conn.createStatement()){
+			String sent="UPDATE usuario SET dia=" + usuario.getDia() + ",exp=" + usuario.getExp() + ",cartera=" + usuario.getCartera() +
+					"WHERE idJugador=" + usuario.getIdJugador() + ";";
+			stmnt.executeUpdate(sent);
+		}
+	}
+
 }
