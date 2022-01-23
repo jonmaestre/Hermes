@@ -41,7 +41,6 @@ public class ventanaHermes extends JFrame{
 	private JTable tablaVenta;
 	private Jugador jugador;
 	private List<Producto> almacenProd;
-	private List<Producto> todoProd;
 	private List<Producto> display;
 	private JButton btnVender= new JButton("Vender Producto");
 	private JButton btnFiltrar= new JButton("Filtrar Productos");
@@ -119,7 +118,6 @@ public class ventanaHermes extends JFrame{
 			//todosJugadores = bd.getUsuarios();
 			jugador = bd.selectUsuario();
 			almacenProd=bd.selectProducto();
-			todoProd=almacenProd;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -136,8 +134,7 @@ public class ventanaHermes extends JFrame{
 //		tablaVenta.getColumnModel().getColumn(9).setMinWidth(100);
 		
 		
-		display=displayTienda(todoProd,jugador,nombre);
-		actualizarTienda(display);
+		actualizarTabla(almacenProd);
 	
 		Thread hilo;
 		v.addKeyListener(new KeyAdapter() {
@@ -223,8 +220,8 @@ public class ventanaHermes extends JFrame{
 
 	
 	
-	private void actualizarTienda(List<Producto> productos) {
-		tablaVenta.setModel(new LaunchTienda(productos));
+	private void actualizarTabla(List<Producto> productos) {
+		tablaVenta.setModel(new LaunchTabla(productos));
 	}
 	private int satisfaccion(Cliente cliente, Venta v) {
 		int satis=0;
@@ -277,24 +274,21 @@ public class ventanaHermes extends JFrame{
 		int satis=satisfaccion(null, venta);
 		valoracion(satis);
 		bd.updateUsuario(jugador);
+		bd.eliminarProducto(p, jugador);
 		bd.insertarVenta(venta, jugador);
-	}
-	
-	private List<Producto> displayTienda(List<Producto> productos, Jugador jugador,String tienda) {
-		return productos;
-		
+		almacenProd.remove(p);
+		actualizarTabla(almacenProd);
 	}
 	
 	
-	
-public class LaunchTienda  extends AbstractTableModel {
+	public class LaunchTabla  extends AbstractTableModel {
 		
 		
 		private static final long serialVersionUID = 1L;
 		private final List<String> headers = Arrays.asList("Codigo", "Tipo de Mueble", "Tematica", "Color", "Material","PV","Precio Compra","Dia","Tienda","Id. Jugador");
 		private List<Producto> productos=new ArrayList<Producto>();
 		
-		public LaunchTienda(List<Producto> productos) {
+		public LaunchTabla(List<Producto> productos) {
 			this.productos = productos;
 		}
 		
