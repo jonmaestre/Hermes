@@ -5,7 +5,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -38,8 +40,20 @@ public class ventanaStat {
 		
 		JFreeChart chart= createDayAreaBegFin();
 		
-		ChartPanel cp = new ChartPanel(chart);
+		cp = new ChartPanel(chart);
+		
+		ArrayList<String> comboBoxItems=new ArrayList<String>();
+	    comboBoxItems.add("A");
+	    comboBoxItems.add("B");
+	    comboBoxItems.add("C");
+	    comboBoxItems.add("D");
+	    comboBoxItems.add("E");
+	    final DefaultComboBoxModel model = new DefaultComboBoxModel();
+	    model.addAll(comboBoxItems);
+	    combo = new JComboBox(model);
+		
 		combo.addItem("G. Dinero invertido/Producido");
+		.addItem("G. Dinero invertido/Producido");
 		combo.addItem("dos");
 		combo.addItem("tres");		
 		
@@ -48,7 +62,10 @@ public class ventanaStat {
 		v.setLayout(new BorderLayout());
 		v.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		v.setVisible(true);
-		v.add(cp,BorderLayout.SOUTH);
+		v.add(cp,BorderLayout.CENTER);
+		v.add(tf,BorderLayout.SOUTH);
+		v.add(combo,BorderLayout.SOUTH);
+		v.add(btnDatos,BorderLayout.SOUTH);
 		
 		combo.addActionListener(new ActionListener() {
 			@Override
