@@ -7,6 +7,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -20,6 +22,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.table.AbstractTableModel;
 
 import datos.Hermes.Cliente;
@@ -47,19 +51,23 @@ public class ventanaHermes extends JFrame{
 	private JComboBox<color> comBoxColor= new JComboBox<>();;
 	private JComboBox<material> comBoxMaterial= new JComboBox<>();;
 	private ArrayList<Producto> listaProd;
+	private JLabel texto=new JLabel("");
 	
 	public ventanaHermes( String nombre) {
 		
 		JFrame  v= new JFrame("Tienda Hermes");	
 		JPanel panBotones=new JPanel();
 		JPanel filtro=new JPanel();
+		JPanel panelAbajo=new JPanel();
+		panelAbajo.add(texto);
 		this.setSize(1900, 800);
 		this.setLayout(new BorderLayout());
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setVisible(true);
 		panBotones.add(btnVender);
 		panBotones.add(btnFiltrar);
-		this.add(panBotones,BorderLayout.SOUTH);
+		this.add(panBotones,BorderLayout.EAST);
+		this.add(panelAbajo,BorderLayout.SOUTH);
 		
 		for(tipoMueble tm:tipoMueble.values()) {
 			comBoxMueble.addItem(tm);
@@ -90,7 +98,13 @@ public class ventanaHermes extends JFrame{
 		this.add(filtro,BorderLayout.NORTH);
 		this.setVisible(true);
 		
-		
+		Cliente c11=new Cliente("Nico", tipoMueble.SILLA, tematica.RUSTICO, color.AMARILLO, material.M_PINO, "Buenos días, quiero una silla de colores chillones. Añoro mi juventud en el campo, con ese olor a pino tan característico.");
+		Cliente c12=new Cliente("Sara",tipoMueble.CAMA, tematica.OTOÑO, color.NARANJA, material.M_ROBLE,"¡Quiero dormir mejor!Lo quiero de un estilo Otoñal, y de esos colores que recuerdan al Otoño.¿El material? ¡Siempre Madera!");
+		Cliente c13=new Cliente("Andoni", tipoMueble.MESA,tematica.PRIMAVERA,color.ROJO,material.M_ROBLE,"Me apetece tener un sitio donde comer que me recuerde a la primavera y a esos colores vivos!.");
+		ArrayList<Cliente> listaCliente1= new ArrayList<>();
+		listaCliente1.add(c11);
+		listaCliente1.add(c12);
+		listaCliente1.add(c13);
 
 		//usu cargar usuarios de la bdd en la lista
 		bd = new BDynamic();
@@ -109,6 +123,7 @@ public class ventanaHermes extends JFrame{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	
 //		tablaVenta.getColumnModel().getColumn(0).setMinWidth(100);
 //		tablaVenta.getColumnModel().getColumn(1).setMinWidth(200);
 //		tablaVenta.getColumnModel().getColumn(2).setMinWidth(100);
@@ -123,6 +138,34 @@ public class ventanaHermes extends JFrame{
 		
 		display=displayTienda(todoProd,jugador,nombre);
 		actualizarTienda(display);
+	
+		Thread hilo;
+		v.addKeyListener(new KeyAdapter() {
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode()==KeyEvent.VK_ESCAPE) {
+					(new Thread() {
+						public void run() {
+							for (Cliente cliente : listaCliente1) {
+								texto.setText(cliente.getDescripcion());
+								try {
+									Thread.sleep(2000);
+								}catch(InterruptedException e) {
+									
+								}
+							}
+						}
+					}).start();
+				}
+			}
+			
+		});
+			
+			
+			
+			
+			
+			
+	
 		
 		btnFiltrar.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
@@ -142,11 +185,13 @@ public class ventanaHermes extends JFrame{
 						}
 					}
 					
+					
 				}catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
+		
 		});
 		btnVender.addMouseListener(new MouseAdapter()	{	
 			@Override
@@ -162,7 +207,7 @@ public class ventanaHermes extends JFrame{
 			}
 					
 		}
-
+		
 	});
 		
 		v.addKeyListener(new KeyAdapter() {//Evento cerrar la ventana para saltar a la siguiente
@@ -173,8 +218,9 @@ public class ventanaHermes extends JFrame{
 					v.dispose();
 				}
 			}
-			
-	});
+		});
+	}
+
 	
 	
 	private void actualizarTienda(List<Producto> productos) {
@@ -246,10 +292,10 @@ public class LaunchTienda  extends AbstractTableModel {
 		
 		private static final long serialVersionUID = 1L;
 		private final List<String> headers = Arrays.asList("Codigo", "Tipo de Mueble", "Tematica", "Color", "Material","PV","Precio Compra","Dia","Tienda","Id. Jugador");
-		private List<Producto> productos;
+		private List<Producto> productos=new ArrayList<Producto>();
 		
-		public LaunchTienda(List<Producto> productos1) {
-			this.productos = productos1;
+		public LaunchTienda(List<Producto> productos) {
+			this.productos = productos;
 		}
 		
 		@Override
