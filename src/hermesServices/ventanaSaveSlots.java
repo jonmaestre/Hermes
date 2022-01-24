@@ -22,7 +22,6 @@ import javax.swing.table.AbstractTableModel;
 
 import juego.Constantes;
 import juego.Juego;
-import hermesServices.*;
 import datos.Hermes.*;
 
 
@@ -149,7 +148,7 @@ public class ventanaSaveSlots extends JFrame {
 		});
 		
 		//Evento volver a la ventana inicio
-		this.addKeyListener(new KeyAdapter() {//Evento cerrar la ventana para saltar a la siguiente
+		v.addKeyListener(new KeyAdapter() {//Evento cerrar la ventana para saltar a la siguiente
 
 			public void keyPressed(KeyEvent e) {
 				// TODO Auto-generated method stub
