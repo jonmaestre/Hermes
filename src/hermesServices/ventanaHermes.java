@@ -45,6 +45,7 @@ public class ventanaHermes extends JFrame{
 	private List<Producto> display;
 	private JButton btnVender= new JButton("Vender Producto");
 	private JButton btnFiltrar= new JButton("Filtrar Productos");
+	private JButton btnVista= new JButton("Enseñar Todos Los Producto");
 	private BDynamic bd;
 	private JComboBox<tipoMueble> comBoxMueble= new JComboBox<>();;
 	private JComboBox<tematica> comBoxTematica= new JComboBox<>();;
@@ -64,9 +65,10 @@ public class ventanaHermes extends JFrame{
 		this.setLayout(new BorderLayout());
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setVisible(true);
-		panBotones.setLayout(new GridLayout(2,1));
+		panBotones.setLayout(new GridLayout(3,1));
 		panBotones.add(btnVender);
 		panBotones.add(btnFiltrar);
+		panBotones.add(btnVista);
 		this.add(panBotones,BorderLayout.EAST);
 		this.add(panelAbajo,BorderLayout.SOUTH);
 		
@@ -80,9 +82,7 @@ public class ventanaHermes extends JFrame{
 		}
 		
 		for (color color : color.values()) {
-			String c="Color." + color; 
 			comBoxColor.addItem(color);
-			comBoxColor.setBackground(new Color(10,10,10));
 			
 		}
 		
@@ -140,13 +140,13 @@ public class ventanaHermes extends JFrame{
 						public void run() {
 							for (Cliente cliente : listaCliente1) {
 								texto.setText(cliente.getNombre() + ":   " + cliente.getDescripcion());
-								texto.setBackground(Color.BLUE);
 								try {
-									Thread.sleep(6000);
+									Thread.sleep(60000);
 								}catch(InterruptedException e) {
 									
 								}
 							}
+							texto.setText("Cuando finalices el último pedido, puedes dar por concluido el día. Pulse ESC para terminar el día.");
 						}
 					}).start();
 				}
@@ -170,15 +170,16 @@ public class ventanaHermes extends JFrame{
 					Object tematica=comBoxMueble.getSelectedItem();
 					Object c=comBoxColor.getSelectedItem();
 					Object mat=comBoxMaterial.getSelectedItem();
+					filtrarTabla(tm,tematica,c,mat);
 					
-					for (Producto producto : almacenProd) {
-						if(tm.equals(producto.getTipoMueble()) & tematica.equals(producto.getTematica())
-								& c.equals(producto.getColor()) & mat.equals(producto.getMaterial())) {
-							listaProd.add(producto);
-						}else {
-							JOptionPane.showMessageDialog(v, "No se han encontrado productos de esas características");
-						}
-					}
+//					for (Producto producto : almacenProd) {
+//						if(tm.equals(producto.getTipoMueble()) & tematica.equals(producto.getTematica())
+//								& c.equals(producto.getColor()) & mat.equals(producto.getMaterial())) {
+//							listaProd.add(producto);
+//						}else {
+//							JOptionPane.showMessageDialog(v, "No se han encontrado productos de esas características");
+//						}
+//					}
 					
 					
 				}catch (Exception e1) {
@@ -188,6 +189,12 @@ public class ventanaHermes extends JFrame{
 			}
 		
 		});
+		btnVista.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+			actualizarTabla(almacenProd);
+			}
+		});
+		
 		btnVender.addMouseListener(new MouseAdapter()	{	
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -205,11 +212,12 @@ public class ventanaHermes extends JFrame{
 		
 	});
 		
-		v.addKeyListener(new KeyAdapter() {//Evento cerrar la ventana para saltar a la siguiente
+		this.addKeyListener(new KeyAdapter() {//Evento cerrar la ventana para saltar a la siguiente
 
 			public void keyPressed(KeyEvent e) {
 				// TODO Auto-generated method stub
 				if(e.getKeyCode()==KeyEvent.VK_ESCAPE) {
+					ventanaStat vs=new ventanaStat(1900, 800);
 					v.dispose();
 				}
 			}
@@ -277,7 +285,20 @@ public class ventanaHermes extends JFrame{
 		almacenProd.remove(p);
 		actualizarTabla(almacenProd);
 	}
-	
+
+	public void filtrarTabla(Object a, Object b, Object c, Object d) {
+		listaProd= new ArrayList<Producto>();
+		for (Producto producto : almacenProd) {
+		if(a.equals(producto.getTipoMueble()) & b.equals(producto.getTematica())
+		& c.equals(producto.getColor()) & d.equals(producto.getMaterial())) {
+		listaProd.add(producto);
+		actualizarTabla(listaProd);
+		}else {
+		JOptionPane.showMessageDialog(this, "No se han encontrado productos de esas características");
+		}
+		}
+
+		}
 	
 	public class LaunchTabla  extends AbstractTableModel {
 		
