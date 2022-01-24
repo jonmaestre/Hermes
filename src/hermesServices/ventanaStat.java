@@ -124,7 +124,15 @@ public class ventanaStat {
 			public void keyPressed(KeyEvent e) {
 				// TODO Auto-generated method stub
 				if(e.getKeyCode()==KeyEvent.VK_ENTER) {
-					ventanaSaveSlots vss= new ventanaSaveSlots(1900, 800);
+					
+					try {
+						finDelDia();
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					ventanaSaveSlots vss= new ventanaSaveSlots();
+					
 
 					
 					//Para OpenGL en Mac/Linux
@@ -140,7 +148,7 @@ public class ventanaStat {
 					
 					Juego gp = new Juego("JUEGO", Constantes.ANCHO_PANTALLA_COMPLETA,
 							Constantes.ALTO_PANTALLA_COMPLETA);
-
+					
 					gp.iniciarJuego();
 					gp.iniciarBuclePrincipal();
 						
@@ -197,7 +205,7 @@ public class ventanaStat {
 		JLabel textoExperienciaActual=new JLabel("Actualmente tienes: "+jugador.getExp()+" exp");
 		JLabel textoIngresoNeto=new JLabel("El ingreso neto de hoy es: "+(ingresoNeto1-ingresoNeto2)+"k");		
 		JLabel textoNumCompras=new JLabel("El numero de productos comprados hoy es: "+contp);		
-		JLabel textoNumVentas=new JLabel("El numero de productos vendidos hoy es: "+contp);
+		JLabel textoNumVentas=new JLabel("El numero de productos vendidos hoy es: "+contv);
 		JLabel textoEscape=new JLabel("Pulsa Esc para salir de la ventana");
 		
 		n.add(textoEscape);
@@ -536,4 +544,15 @@ public JFreeChart createSBMaterial() {
         return ChartFactory.createStackedBarChart("Demanda por material", "", "Cantidad",dataset, PlotOrientation.HORIZONTAL, true, true, true);
         		
 	}
+	public void finDelDia() throws SQLException, Exception {
+		
+		jugador.setDia(jugador.getDia()+1);
+		bd.guardarDatos();
+		bd.reiniciarBD();	
+		bd.inicializarBD(jugador);
+		
+		
+		
+	
+}
 }

@@ -1,6 +1,5 @@
 package hermesServices;
 
-import java.awt.Color;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -76,7 +75,7 @@ public class BDynamic {
 	}
 	
 	
-	//Agregar un nuevo producto a la BD.    FALTAN METODOS DE SELECT VENTAS Y PRODUCTOS EN LA OTRA BD
+	//Abrir la BD, introducir los productos/ventas según el usuario
 		public void inicializarBD(Jugador jugador) {
 			try (Statement statement = ((java.sql.Connection) conn).createStatement()) {
 				reiniciarBD();
