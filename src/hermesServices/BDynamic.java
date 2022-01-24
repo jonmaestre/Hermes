@@ -2,6 +2,7 @@ package hermesServices;
 
 import java.awt.Color;
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,13 +12,13 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.sun.jdi.connect.spi.Connection;
+
 
 import datos.Hermes.*;
 
 public class BDynamic {
 	
-	private Connection conn;
+	private static Connection conn;
 	private BDStatic bd;
 	private Logger logger = Logger.getLogger( "BaseDatos" );
 	
@@ -28,7 +29,7 @@ public class BDynamic {
 			logger.log( Level.INFO, "Carga de libreria org.sqlite.JDBC" );
 			Class.forName("org.sqlite.JDBC");  // Carga la clase de BD para sqlite
 			logger.log( Level.INFO, "Abriendo conexion con basedatosdyn.bd");
-			conn = (Connection) DriverManager.getConnection("jdbc:sqlite:basedatosdyn.bd");
+			conn = DriverManager.getConnection("jdbc:sqlite:basedatosdyn.bd");
 		} catch(Exception e) {
 			logger.log( Level.SEVERE, "Excepcion al abrir conexion", e );
 		}
@@ -43,8 +44,8 @@ public class BDynamic {
 	}
 	
 	public void reiniciarBD()  throws IOException, SQLException {
-		try {
-		Statement statement =  ((java.sql.Connection) conn).createStatement();
+		try (Statement statement =  conn.createStatement();){
+		
 		String sent;
 		
 		sent = "DROP TABLE IF EXISTS usuario;";
@@ -65,7 +66,7 @@ public class BDynamic {
 		sent = "DROP TABLE IF EXISTS ventas;";
 		logger.log( Level.INFO, "Statement: " + sent );
 		statement.executeUpdate( sent );
-		sent = "CREATE TABLE ventas (codigoVenta INT(3) NOT NULL, tipoMueble varchar(20), tematica varchar(30), color varchar(30), material varchar(30), precioVenta dec, precioCompra dec, diaCompra int(2), codTienda varchar(20),cod_u INT(3) NOT NULL, PRIMARY KEY(codigoVenta),FOREIGN KEY(cod_u) REFERENCES usuario(cod_u) ;";
+		sent = "CREATE TABLE ventas (codigoVenta INT(3) NOT NULL, tipoMueble varchar(20), tematica varchar(30), color varchar(30), material varchar(30), precioVenta dec, precioCompra dec, diaCompra int(2), diaVenta int(2), codTienda varchar(20),cod_u INT(3) NOT NULL, PRIMARY KEY(codigoVenta),FOREIGN KEY(cod_u) REFERENCES usuario(cod_u)) ;";
 		logger.log( Level.INFO, "Statement: " + sent );
 		statement.executeUpdate( sent );		
 
@@ -162,11 +163,11 @@ public class BDynamic {
 			ResultSet rs= statement.executeQuery("SELECT * FROM usuario;");
 			while(rs.next()) {
 				u=new Jugador(
-					rs.getInt("idJugador"),
-					rs.getString("nombre"),
+					rs.getInt("cod_u"),
+					rs.getString("nombre_u"),
 					rs.getInt("dia"),
 					rs.getInt("exp"),
-					rs.getDouble("cartera")
+					rs.getDouble("kromer")
 					);
 			}
 		}
@@ -179,7 +180,7 @@ public class BDynamic {
 			ResultSet rs= statement.executeQuery("SELECT * FROM producto;");
 			while(rs.next()) {
 				Producto p=new Producto(
-						rs.getInt("codigoObjeto"),
+						rs.getInt("codigoProducto"),
 						tipoMueble.valueOf(rs.getString("tipoMueble")),
 						tematica.valueOf(rs.getString("tematica")),
 						color.valueOf(rs.getString("color")),
@@ -187,8 +188,8 @@ public class BDynamic {
 						rs.getDouble("precioVenta"),
 						rs.getDouble("precioCompra"),
 						rs.getInt("diaCompra"),
-						rs.getString("tienda"),
-						rs.getInt("codU")
+						rs.getString("codTienda"),
+						rs.getInt("cod_u")
 						);
 				listaProds.add(p);
 			}
@@ -199,7 +200,7 @@ public class BDynamic {
 	public ArrayList<Venta> selectVenta() throws SQLException{
 		ArrayList<Venta> listaVentas= new ArrayList<>();
 		try(Statement statement = ((java.sql.Connection) conn).createStatement()){
-			ResultSet rs= statement.executeQuery("SELECT * FROM venta;");
+			ResultSet rs= statement.executeQuery("SELECT * FROM ventas;");
 			while(rs.next()) {
 				Venta v=new Venta(
 						rs.getInt("codigoVenta"),
@@ -211,8 +212,8 @@ public class BDynamic {
 						rs.getDouble("precioCompra"),
 						rs.getInt("diaCompra"),
 						rs.getInt("diaVenta"),
-						rs.getString("tienda"),
-						rs.getInt("codU")
+						rs.getString("codTienda"),
+						rs.getInt("cod_u")
 						);
 				listaVentas.add(v);
 			}
