@@ -42,7 +42,7 @@ public class ventanaHermes extends JFrame{
 	private JTable tablaVenta;
 	private Jugador jugador;
 	private List<Producto> almacenProd;
-	private List<Producto> display;
+	private List<Venta> todoVentas;
 	private JButton btnVender= new JButton("Vender Producto");
 	private JButton btnFiltrar= new JButton("Filtrar Productos");
 	private JButton btnVista= new JButton("Enseñar Todos Los Producto");
@@ -51,6 +51,7 @@ public class ventanaHermes extends JFrame{
 	private JComboBox<tematica> comBoxTematica= new JComboBox<>();;
 	private JComboBox<color> comBoxColor= new JComboBox<>();;
 	private JComboBox<material> comBoxMaterial= new JComboBox<>();;
+	private JComboBox<Cliente> comBoxCliente= new JComboBox<>();;
 	private ArrayList<Producto> listaProd;
 	private JLabel texto=new JLabel("Clientes Entrantes: PulsE ENTER PARA ABRIR LAS PUERTAS DE TU TIENDA");
 	
@@ -60,7 +61,7 @@ public class ventanaHermes extends JFrame{
 		JPanel panBotones=new JPanel();
 		JPanel filtro=new JPanel();
 		JPanel panelAbajo=new JPanel();
-		panelAbajo.add(texto);
+		
 		this.setSize(1900, 800);
 		this.setLayout(new BorderLayout());
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -110,6 +111,11 @@ public class ventanaHermes extends JFrame{
 		listaCliente1.add(c11);
 		listaCliente1.add(c12);
 		listaCliente1.add(c13);
+		for(Cliente cliente:listaCliente1) {
+			comBoxCliente.addItem(cliente);
+		}
+		panelAbajo.add(texto);
+		panelAbajo.add(comBoxCliente);
 
 		//usu cargar usuarios de la bdd en la lista
 		bd = new BDynamic();
@@ -124,6 +130,7 @@ public class ventanaHermes extends JFrame{
 			//todosJugadores = bd.getUsuarios();
 			jugador = bd.selectUsuario();
 			almacenProd=bd.selectProducto();
+			todoVentas=bd.selectVenta();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -208,7 +215,7 @@ public class ventanaHermes extends JFrame{
 			public void keyPressed(KeyEvent e) {
 				// TODO Auto-generated method stub
 				if(e.getKeyCode()==KeyEvent.VK_ESCAPE) {
-					ventanaStat vs=new ventanaStat(1900, 800);
+					ventanaStat vs=new ventanaStat();
 					
 				}
 			}
@@ -220,18 +227,18 @@ public class ventanaHermes extends JFrame{
 	private void actualizarTabla(List<Producto> productos) {
 		tablaVenta.setModel(new LaunchTabla(productos));
 	}
-	private int satisfaccion(Cliente cliente, Venta v) {
+	private int satisfaccion(Object object, Venta v) {
 		int satis=0;
-		if(cliente.getTipoMueble().equals(v.getTipoMueble())) {
+		if(((Cliente) object).getTipoMueble().equals(v.getTipoMueble())) {
 			satis++;
 		}
-		if(cliente.getTematica().equals(v.getTematica())) {
+		if(((Cliente) object).getTematica().equals(v.getTematica())) {
 			satis++;
 		}
-		if(cliente.getColor().equals(v.getColor())) {
+		if(((Cliente) object).getColor().equals(v.getColor())) {
 			satis++;
 		}
-		if(cliente.getMaterial().equals(v.getMaterial())) {
+		if(((Cliente) object).getMaterial().equals(v.getMaterial())) {
 			satis++;
 		}
 		return satis;
@@ -266,9 +273,9 @@ public class ventanaHermes extends JFrame{
 		int dia=jugador.getDia();
 		double precio= p.getPrecioVenta();	
 		jugador.setCartera(cartera + precio);
-		Venta venta=new Venta(bd.generadorCodV(null),p.getTipoMueble(),p.getTematica(),p.getColor(),p.getMaterial(),
-			precio,p.getPrecioCompra(),p.getDiaCompra(),dia,p.getTienda(),p.getCodU());
-		int satis=satisfaccion(null, venta);
+		Venta venta=new Venta(bd.generadorCodV(todoVentas),p.getTipoMueble(),p.getTematica(),p.getColor(),p.getMaterial(),
+		precio,p.getPrecioCompra(),p.getDiaCompra(),dia,p.getTienda(),p.getCodU());
+		int satis=satisfaccion(comBoxCliente.getSelectedItem(), venta);
 		valoracion(satis);
 		bd.updateUsuario(jugador);
 		bd.eliminarProducto(p, jugador);
