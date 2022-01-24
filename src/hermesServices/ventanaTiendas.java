@@ -5,6 +5,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -14,8 +16,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
-
-import hermesServices.*;
 import datos.Hermes.*;
 
 public class ventanaTiendas {
@@ -29,11 +29,11 @@ public class ventanaTiendas {
 	private JButton btnComprar= new JButton("Comprar producto");
 	private BDynamic bd;
 	
-	public ventanaTiendas(int ancho, int altura, String nombre) {
+	public ventanaTiendas(String nombre) {
 		
 		JFrame  v= new JFrame("Hermes: Tienda "+nombre);	
 		
-		v.setSize(ancho, altura);
+		v.setSize(1900, 800);
 		v.setLayout(new BorderLayout());
 		v.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		v.setVisible(true);
@@ -93,10 +93,13 @@ public class ventanaTiendas {
 				// TODO Auto-generated method stub
 				if(e.getKeyCode()==KeyEvent.VK_ESCAPE) {
 					
-					
-					
-					
-					
+					try {
+						bd.cerrarConexion();
+						v.dispose();
+					} catch (IOException | SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}	
 				}
 			}
 

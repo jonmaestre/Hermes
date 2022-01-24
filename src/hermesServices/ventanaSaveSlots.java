@@ -32,6 +32,7 @@ import datos.Hermes.*;
 public class ventanaSaveSlots extends JFrame {
 	
 	private static final long serialVersionUID = 1L;
+	private JFrame v= new JFrame("Hermes: Partidas");
 	private JPanel panelSouth= new JPanel();
 	private JTable jotaTabla;
 	private List<Jugador> todosJugadores;
@@ -44,8 +45,6 @@ public class ventanaSaveSlots extends JFrame {
 	
 
 	public ventanaSaveSlots() {
-		
-		JFrame  v= new JFrame("Hermes: Partidas");
 
 		panelSouth.setLayout(new GridLayout(1,2));
 		
@@ -107,6 +106,14 @@ public class ventanaSaveSlots extends JFrame {
 				int row = jotaTabla.getSelectedRow();
 				Jugador j= new Jugador((Integer) jotaTabla.getValueAt(row, 0),jotaTabla.getValueAt(row, 1).toString(), (Integer) jotaTabla.getValueAt(row, 2), (Integer) jotaTabla.getValueAt(row, 3), (Integer) jotaTabla.getValueAt(row, 4));
 				cargarUsuario(v, j);
+				try {
+					bds.cerrarConexion();
+					bdd.cerrarConexion();
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			
 				//Para OpenGL en Mac/Linux
 				//System.setProperty("sun.java2d.opengl", "True");
 				
@@ -134,7 +141,7 @@ public class ventanaSaveSlots extends JFrame {
 				// TODO Auto-generated method stub
 				try {
 				int row = jotaTabla.getSelectedRow();
-				Jugador j= new Jugador((Integer) jotaTabla.getValueAt(row, 0),jotaTabla.getValueAt(row, 1).toString(), (Integer) jotaTabla.getValueAt(row, 2), (Integer) jotaTabla.getValueAt(row, 3), (Integer) jotaTabla.getValueAt(row, 4));
+				Jugador j= new Jugador((Integer) jotaTabla.getValueAt(row, 0),jotaTabla.getValueAt(row, 1).toString(), (Integer) jotaTabla.getValueAt(row, 2), (Integer) jotaTabla.getValueAt(row, 3), (Double) jotaTabla.getValueAt(row, 4));
 				borrarUsuario(v,j);
 				todosJugadores = bds.seleccionarUsuario();
 				actualizarTabla(todosJugadores);
@@ -161,15 +168,13 @@ public class ventanaSaveSlots extends JFrame {
 					
 				}
 			}
-
 		});
-
-	
-	
 	}
 	
 	private void actualizarTabla(List<Jugador> jugadores) {
 		jotaTabla.setModel(new LaunchTab(jugadores));
+		v.setVisible(false);
+		v.setVisible(true);
 	}
 	
 	private void nuevoUsuario(JFrame  frame,List<Jugador> jugadores) throws SQLException {
@@ -191,7 +196,7 @@ public class ventanaSaveSlots extends JFrame {
 			}
 		}
 		
-		Jugador n =new Jugador(cont, s, 1, 0, 0);
+		Jugador n =new Jugador(cont, s, 1, 0, 500);
 		bds.insertarUsuario(n);
 		JOptionPane.showMessageDialog(frame,"La operación se ha realizado exitosamente");
 	}

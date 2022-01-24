@@ -43,7 +43,7 @@ public class ventanaStat {
 	private JComboBox combo = new JComboBox<String>();
 	private JButton btnDatos= new JButton("Más Datos");
 	
-	public ventanaStat(int ancho, int altura) {
+	public ventanaStat() {
 		
 		//JFreeChart chart= createDayAreaBegFin();
 		
@@ -58,7 +58,7 @@ public class ventanaStat {
 		
 			
 		
-		v.setSize(ancho, altura);
+		v.setSize(1900, 800);
 		v.setLayout(new BorderLayout());
 		v.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		//v.add(cp,BorderLayout.CENTER);
