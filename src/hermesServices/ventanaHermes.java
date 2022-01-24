@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
+
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -50,7 +51,7 @@ public class ventanaHermes extends JFrame{
 	private JComboBox<color> comBoxColor= new JComboBox<>();;
 	private JComboBox<material> comBoxMaterial= new JComboBox<>();;
 	private ArrayList<Producto> listaProd;
-	private JLabel texto=new JLabel("");
+	private JLabel texto=new JLabel("Clientes Entrantes: PulsE ENTER PARA ABRIR LAS PUERTAS DE TU TIENDA");
 	
 	public ventanaHermes( String nombre) {
 		
@@ -63,6 +64,7 @@ public class ventanaHermes extends JFrame{
 		this.setLayout(new BorderLayout());
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setVisible(true);
+		panBotones.setLayout(new GridLayout(2,1));
 		panBotones.add(btnVender);
 		panBotones.add(btnFiltrar);
 		this.add(panBotones,BorderLayout.EAST);
@@ -78,7 +80,10 @@ public class ventanaHermes extends JFrame{
 		}
 		
 		for (color color : color.values()) {
+			String c="Color." + color; 
 			comBoxColor.addItem(color);
+			comBoxColor.setBackground(new Color(10,10,10));
+			
 		}
 		
 		for(material mat: material.values()) {
@@ -122,30 +127,22 @@ public class ventanaHermes extends JFrame{
 			e.printStackTrace();
 		}
 	
-//		tablaVenta.getColumnModel().getColumn(0).setMinWidth(100);
-//		tablaVenta.getColumnModel().getColumn(1).setMinWidth(200);
-//		tablaVenta.getColumnModel().getColumn(2).setMinWidth(100);
-//		tablaVenta.getColumnModel().getColumn(3).setMinWidth(100);
-//		tablaVenta.getColumnModel().getColumn(4).setMinWidth(100);
-//		tablaVenta.getColumnModel().getColumn(5).setMinWidth(100);
-//		tablaVenta.getColumnModel().getColumn(6).setMinWidth(100);
-//		tablaVenta.getColumnModel().getColumn(7).setMinWidth(100);
-//		tablaVenta.getColumnModel().getColumn(8).setMinWidth(100);
-//		tablaVenta.getColumnModel().getColumn(9).setMinWidth(100);
+
 		
 		
 		actualizarTabla(almacenProd);
-	
-		Thread hilo;
-		v.addKeyListener(new KeyAdapter() {
+		
+		//if(jugador.getDia()==1) { SI NOS RUNEASE EL PROGRAMA AL COMPLETO LANZARÍAMOS DISTINTOS HILOS CORRESPONDIENTES AL DÍA EN EL QUE NOS ENCONTREMOS.
+		this.addKeyListener(new KeyAdapter() {
 			public void keyPressed(KeyEvent e) {
-				if(e.getKeyCode()==KeyEvent.VK_ESCAPE) {
+				if(e.getKeyCode()==KeyEvent.VK_ENTER) {
 					(new Thread() {
 						public void run() {
 							for (Cliente cliente : listaCliente1) {
-								texto.setText(cliente.getDescripcion());
+								texto.setText(cliente.getNombre() + ":   " + cliente.getDescripcion());
+								texto.setBackground(Color.BLUE);
 								try {
-									Thread.sleep(2000);
+									Thread.sleep(6000);
 								}catch(InterruptedException e) {
 									
 								}
@@ -156,6 +153,7 @@ public class ventanaHermes extends JFrame{
 			}
 			
 		});
+		//}
 			
 			
 			

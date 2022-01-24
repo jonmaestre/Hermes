@@ -27,7 +27,7 @@ public class BDStatic {
 		try(Statement statement = conn.createStatement()){
 		String sent = "DROP TABLE IF EXISTS usuario;";
 		statement.executeUpdate(sent);
-		sent = "CREATE TABLE usuario (idJugador INTEGER PRIMARY KEY AUTOINCREMENT, nombre varchar (12), dia int(4), exp int(10), cartera dec);";
+		sent = "CREATE TABLE usuario (idJugador INTEGER PRIMARY KEY, nombre varchar (12), dia int(4), exp int(10), cartera dec);";
 		statement.executeUpdate( sent );
 		sent = "DROP TABLE IF EXISTS venta;";
 		statement.executeUpdate(sent);
@@ -39,7 +39,7 @@ public class BDStatic {
 		statement.executeUpdate(sent);
 		sent = "CREATE TABLE producto (codigoObjeto INTEGER PRIMARY KEY, tipoMueble varchar(50), "
 				+ "tematica varchar(50), color varchar(50), material varchar(50), precioVenta dec, precioCompra dec,"
-				+ "diaCompra int(4), tienda varchar(50), codU int(4)) ;";
+				+ "diaCompra int(4), tienda varchar(50), codU int(4),FOREIGN KEY(codU) REFERENCES usuario(idJugador)) ;";
 		statement.executeUpdate( sent );
 		}
 	}
@@ -116,6 +116,7 @@ public class BDStatic {
 		}
 		return listaProds;
 	}
+
 	
 	public ArrayList<Venta> seleccionarVenta(Jugador usuario) throws SQLException{
 		ArrayList<Venta> listaVentas= new ArrayList<>();
