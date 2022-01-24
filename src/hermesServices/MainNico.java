@@ -6,7 +6,7 @@ public class MainNico {
 		// TODO Auto-generated method stub
 		
 
-		ventanaStat v= new ventanaStat(1900,800);
+		ventanaSaveSlots v= new ventanaSaveSlots();
 	}
 
 }
