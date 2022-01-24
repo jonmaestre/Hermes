@@ -86,6 +86,7 @@ public class ventanaHermes extends JFrame{
 			
 		}
 		
+		
 		for(material mat: material.values()) {
 			comBoxMaterial.addItem(mat);
 		}
@@ -172,16 +173,6 @@ public class ventanaHermes extends JFrame{
 					Object mat=comBoxMaterial.getSelectedItem();
 					filtrarTabla(tm,tematica,c,mat);
 					
-//					for (Producto producto : almacenProd) {
-//						if(tm.equals(producto.getTipoMueble()) & tematica.equals(producto.getTematica())
-//								& c.equals(producto.getColor()) & mat.equals(producto.getMaterial())) {
-//							listaProd.add(producto);
-//						}else {
-//							JOptionPane.showMessageDialog(v, "No se han encontrado productos de esas características");
-//						}
-//					}
-					
-					
 				}catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -218,7 +209,7 @@ public class ventanaHermes extends JFrame{
 				// TODO Auto-generated method stub
 				if(e.getKeyCode()==KeyEvent.VK_ESCAPE) {
 					ventanaStat vs=new ventanaStat(1900, 800);
-					v.dispose();
+					
 				}
 			}
 		});
