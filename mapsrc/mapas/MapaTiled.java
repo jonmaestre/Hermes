@@ -424,18 +424,18 @@ public class MapaTiled {
         return new Rectangle(x, y, ancho, alto);
 	}
 	public Object ventanaColisionMU(final int posicionX, final int posicionY) {
-		ventanaTiendas Derecha = new  ventanaTiendas(100, 200,"Muebles Carmele");
+		ventanaTiendas Derecha = new  ventanaTiendas("Muebles Carmele");
 		
 		return Derecha ;
 	}
 	public Object ventanaColisionCO(final int posicionX, final int posicionY) {
-		ventanaTiendas Abajo = new  ventanaTiendas(100, 200,"Colchones Iñaki");
+		ventanaTiendas Abajo = new  ventanaTiendas("Colchones Iñaki");
 		
 		return Abajo;
 	}
 
 	public Object ventanaColisionI(final int posicionX, final int posicionY) {
-		ventanaTiendas Izquierda = new  ventanaTiendas(100, 200,"Interiores Alex");
+		ventanaTiendas Izquierda = new  ventanaTiendas("Interiores Alex");
 		
 		return Izquierda;
 	}
