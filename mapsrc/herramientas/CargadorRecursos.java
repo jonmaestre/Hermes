@@ -112,6 +112,15 @@ public class CargadorRecursos {
 		return fuente;
 	}
 	
+	/*
+	 private void loadResources() throws FontFormatException, IOException  {
+        Font fontRaw = Font.createFont(Font.TRUETYPE_FONT, new File("resources/fonts/slkscr.ttf"));
+        Font fontBase = fontRaw.deriveFont(28f);
+        this.font = new TrueTypeFont(fontBase, false);
+}
+	 */
+	
+	
 	public static Clip cargarSonido(final String ruta) {
 		Clip clip = null;
 		
