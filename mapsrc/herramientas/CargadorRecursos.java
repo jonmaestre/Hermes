@@ -94,30 +94,34 @@ public class CargadorRecursos {
 		return contenido;
 	}
 
-	public static Font cargarFuente(final String ruta) {
-		Font fuente = null;
-
-		InputStream entradaBytes = ClassLoader.class.getResourceAsStream(ruta);
-
+	public static Font cargarFuente(final String ruta)  {
 		try {
-			fuente = Font.createFont(Font.TRUETYPE_FONT, entradaBytes);
-		} catch (FontFormatException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		Font fuente = null;
+		
+		InputStream entradaBytes = ClassLoader.class.getResourceAsStream(ruta);
+		fuente = Font.createFont(Font.TRUETYPE_FONT, entradaBytes);
 
 		fuente = fuente.deriveFont(12f);
-
+		
 		return fuente;
-	}
+		
+		} catch (FontFormatException e) {
+			e.printStackTrace();
+			return null;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+		
+		
+		
+		}
 	
 	/*
-	 private void loadResources() throws FontFormatException, IOException  {
+	 
         Font fontRaw = Font.createFont(Font.TRUETYPE_FONT, new File("resources/fonts/slkscr.ttf"));
         Font fontBase = fontRaw.deriveFont(28f);
         this.font = new TrueTypeFont(fontBase, false);
-}
 	 */
 	
 	
