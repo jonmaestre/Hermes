@@ -72,8 +72,14 @@ public class ventanaSaveSlots extends JFrame {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		if(todosJugadores.isEmpty()) {
+			List<Jugador> temp = new ArrayList<Jugador>();
+			temp.add(new Jugador(0,"NULL",0,0,0.0));
+			actualizarTabla(temp);
+		} else {
+			actualizarTabla(todosJugadores);
+		}
 		
-		actualizarTabla(todosJugadores);
 		
 		jotaTabla.getColumnModel().getColumn(0).setMinWidth(100);
 		jotaTabla.getColumnModel().getColumn(1).setMinWidth(200);
@@ -88,7 +94,10 @@ public class ventanaSaveSlots extends JFrame {
 					try {
 						nuevoUsuario(v,todosJugadores);
 						todosJugadores = bds.seleccionarUsuario();
-						actualizarTabla(todosJugadores);
+						if(!todosJugadores.isEmpty()) {
+							actualizarTabla(todosJugadores);
+						}
+						
 						System.out.println("Nuevo");
 					} catch (SQLException e1) {
 						// TODO Auto-generated catch block
@@ -104,7 +113,7 @@ public class ventanaSaveSlots extends JFrame {
 				// TODO Auto-generated method stub
 				//cargar usuario elegido en el último punto
 				int row = jotaTabla.getSelectedRow();
-				Jugador j= new Jugador((Integer) jotaTabla.getValueAt(row, 0),jotaTabla.getValueAt(row, 1).toString(), (Integer) jotaTabla.getValueAt(row, 2), (Integer) jotaTabla.getValueAt(row, 3), (Integer) jotaTabla.getValueAt(row, 4));
+				Jugador j= new Jugador((Integer) jotaTabla.getValueAt(row, 0),jotaTabla.getValueAt(row, 1).toString(), (Integer) jotaTabla.getValueAt(row, 2), (Integer) jotaTabla.getValueAt(row, 3), (Double) jotaTabla.getValueAt(row, 4));
 				cargarUsuario(v, j);
 				try {
 					bds.cerrarConexion();

@@ -23,7 +23,7 @@ public class ventanaI extends JFrame{
 		textoInicio=new JLabel("PRESS ENTER TO START");
 		textoInicio.setForeground(Color.BLUE);
 		imagen= new JLabel("", JLabel.CENTER);
-		imagen.setIcon(new ImageIcon("src/recursosAudioVisuales/fondoVentanaInicial.png"));
+		imagen.setIcon(new ImageIcon("mapsrc/recursosAudioVisuales/fondoVentanaInicial.png"));
 		v.setSize(1900, 800);
 		v.setLayout(new BorderLayout());
 		v.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

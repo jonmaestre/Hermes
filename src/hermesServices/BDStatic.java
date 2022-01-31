@@ -1,13 +1,12 @@
 package hermesServices;
 
-
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-
 
 import datos.Hermes.Jugador;
 import datos.Hermes.Producto;
@@ -21,10 +20,21 @@ public class BDStatic {
 	private static Connection conn;
 	
 	public void abrirConexion() throws ClassNotFoundException, SQLException {
-		Class.forName("org.sqlite.JDBC");
-		conn = DriverManager.getConnection("jdbc:sqlite:basedatossta.bd");
 			
-		try(Statement statement = conn.createStatement()){
+		try{
+			Class.forName("org.sqlite.JDBC");
+			conn = DriverManager.getConnection("jdbc:sqlite:basedatossta.bd");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void cerrarConexion() throws SQLException {
+		conn.close();
+	}
+	
+	public void reiniciarBDS()  throws IOException, SQLException {
+		try (Statement statement =  conn.createStatement();){
 		String sent = "DROP TABLE IF EXISTS usuario;";
 		statement.executeUpdate(sent);
 		sent = "CREATE TABLE usuario (idJugador INTEGER PRIMARY KEY, nombre varchar (12), dia int(4), exp int(10), cartera dec);";
@@ -40,12 +50,13 @@ public class BDStatic {
 		sent = "CREATE TABLE producto (codigoObjeto INTEGER PRIMARY KEY, tipoMueble varchar(50), "
 				+ "tematica varchar(50), color varchar(50), material varchar(50), precioVenta dec, precioCompra dec,"
 				+ "diaCompra int(4), tienda varchar(50), codU int(4),FOREIGN KEY(codU) REFERENCES usuario(idJugador)) ;";
-		statement.executeUpdate( sent );
+		statement.executeUpdate( sent );		
+
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
-	public void cerrarConexion() throws SQLException {
-		conn.close();
-	}
+	
 	
 	public void insertarUsuario(Jugador usuario) throws SQLException {
 		try(Statement stmnt=conn.createStatement()){

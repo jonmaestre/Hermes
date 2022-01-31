@@ -21,6 +21,7 @@ import datos.Hermes.*;
 public class ventanaTiendas {
 	
 	private static final long serialVersionUID = 1L;
+	private JFrame v;
 	private JTable tablaVenta;
 	private Jugador jugador;
 	private List<Producto> almacenProd;
@@ -31,7 +32,7 @@ public class ventanaTiendas {
 	
 	public ventanaTiendas(String nombre) {
 		
-		JFrame  v= new JFrame("Hermes: Tienda "+nombre);	
+		v= new JFrame("Hermes: Tienda "+nombre);	
 		
 		v.setSize(1900, 800);
 		v.setLayout(new BorderLayout());
@@ -65,7 +66,7 @@ public class ventanaTiendas {
 					// TODO Auto-generated method stub
 				try {
 				int row = tablaVenta.getSelectedRow();
-				Producto p= new Producto((Integer) tablaVenta.getValueAt(row, 0), tipoMueble.valueOf(tablaVenta.getValueAt(row, 1).toString()), tematica.valueOf(tablaVenta.getValueAt(row, 2).toString()), color.valueOf(tablaVenta.getValueAt(row, 3).toString()), material.valueOf(tablaVenta.getValueAt(row, 4).toString()), (Integer) tablaVenta.getValueAt(row, 5), (Integer) tablaVenta.getValueAt(row, 6), (Integer) tablaVenta.getValueAt(row, 7), tablaVenta.getValueAt(row, 8).toString(), (Integer) tablaVenta.getValueAt(row, 9));
+				Producto p= new Producto((Integer) tablaVenta.getValueAt(row, 0), tipoMueble.valueOf(tablaVenta.getValueAt(row, 1).toString()), tematica.valueOf(tablaVenta.getValueAt(row, 2).toString()), color.valueOf(tablaVenta.getValueAt(row, 3).toString()), material.valueOf(tablaVenta.getValueAt(row, 4).toString()), (Double) tablaVenta.getValueAt(row, 5), (Double) tablaVenta.getValueAt(row, 6), (Integer) tablaVenta.getValueAt(row, 7), tablaVenta.getValueAt(row, 8).toString(), (Integer) tablaVenta.getValueAt(row, 9));
 				double kromer= jugador.getCartera();
 				if (kromer >= p.getPrecioCompra()) {
 					compraProducto(p,jugador,nombre);
@@ -120,6 +121,8 @@ public class ventanaTiendas {
 	
 	private void actualizarTienda(List<Producto> productos) {
 		tablaVenta.setModel(new LaunchTienda(productos));
+		v.setVisible(false);
+		v.setVisible(true);
 	}
 	
 	

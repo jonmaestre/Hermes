@@ -43,7 +43,7 @@ public class MainAitorI {
 		System.out.println(listaUsuTest);
 		ventanaHermes vh= new ventanaHermes("Hola");
 		ventanaI vi= new ventanaI();
-		ventanaTiendas vt=new ventanaTiendas(1900, 800, "Hola");
+		ventanaTiendas vt=new ventanaTiendas("Hola");
 	}
 
 }

@@ -32,7 +32,8 @@ public class BDynamic {
 		} catch(Exception e) {
 			logger.log( Level.SEVERE, "Excepcion al abrir conexion", e );
 		}
-	}	
+	}
+	
 	public void cerrarConexion() throws IOException, SQLException {
 		try {
 			logger.log( Level.INFO, "Cerrando conexion" );
@@ -43,8 +44,8 @@ public class BDynamic {
 	}
 	
 	public void reiniciarBD()  throws IOException, SQLException {
-		try (Statement statement =  conn.createStatement();){
 		
+		try (Statement statement =  conn.createStatement();){
 		String sent;
 		
 		sent = "DROP TABLE IF EXISTS usuario;";

@@ -7,9 +7,9 @@ public class MainNico {
 		
 
 		//ventanaI vi= new ventanaI();
-		ventanaSaveSlots vi= new ventanaSaveSlots();
+		//ventanaSaveSlots vi= new ventanaSaveSlots();
 		//ventanaTiendas vi= new ventanaTiendas("Muebles Carmele");
-		//ventanaStat vi= new ventanaStat();
+		ventanaStat vi= new ventanaStat();
 		
 	}
 
