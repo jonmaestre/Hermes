@@ -8,6 +8,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -38,7 +39,7 @@ public class ventanaStat {
 	private List<Venta> todoVentas;
 	private BDynamic bd;
 	private JFreeChart chart;
-	private ChartPanel cp;
+	private ChartPanel cp = new ChartPanel(null);
 	private JTextField tf = new JTextField(30);
 	private JComboBox combo = new JComboBox<String>();
 	private JButton btnDatos= new JButton("Más Datos");
@@ -61,7 +62,7 @@ public class ventanaStat {
 		v.setSize(1900, 800);
 		v.setLayout(new BorderLayout());
 		v.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//v.add(cp,BorderLayout.CENTER);
+		v.add(cp,BorderLayout.CENTER);
 		JPanel u= new JPanel();
 		v.add(u,BorderLayout.SOUTH);
 		u.add(tf);
@@ -74,15 +75,34 @@ public class ventanaStat {
 		
 //		//usu cargar usuarios de la bdd en la lista
 		bd = new BDynamic();
-		try {
-			bd.abrirBD();
-			//todosJugadores = bd.getUsuarios();
-			jugador = bd.selectUsuario();
-			todoProductos=bd.selectProducto();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+//		try {
+//			bd.abrirBD();
+//			jugador = bd.selectUsuario();
+//			todoProductos=bd.selectProducto();
+//			todoVentas=bd.selectVenta();
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
 		
+		 todoProductos= new ArrayList<Producto>();
+		 todoVentas= new ArrayList<Venta>();
+		
+		jugador= new Jugador(0, "Aitor", 1, 2000, 800);
+		
+		Producto p1= new Producto(0, tipoMueble.SOFA, tematica.INVIERNO, color.GRIS, material.PLASTICO, 835.12, 500.00, 1, "Apolo´s", 0);
+		Producto p2= new Producto(1, tipoMueble.SILLA, tematica.HALLOWEEN, color.BLANCO, material.M_ABEDUL, 100.13, 80.14, 1, "Polo´s", 0);
+		Producto p3= new Producto(2, tipoMueble.SILLA, tematica.HALLOWEEN, color.BLANCO, material.M_ABEDUL, 100.13, 80.14, 1, "Polo´s", 0);
+		todoProductos.add(p1);
+		todoProductos.add(p2);
+		todoProductos.add(p3);
+
+		Venta v1= new Venta(0, tipoMueble.SOFA, tematica.INVIERNO, color.GRIS, material.PLASTICO, 835.12, 500.00, 1, 1, "Apolo´s", 0);
+		Venta v2= new Venta(1, tipoMueble.SILLA, tematica.HALLOWEEN, color.BLANCO, material.M_ABEDUL, 100.13, 80.14, 1, 1, "Polo´s", 0);
+		Venta v3= new Venta(2, tipoMueble.SILLA, tematica.HALLOWEEN, color.BLANCO, material.M_ABEDUL, 100.13, 80.14, 1, 1, "Polo´s", 0);
+		todoVentas.add(v1);
+		todoVentas.add(v2);
+		todoVentas.add(v3);
+
 		combo.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
