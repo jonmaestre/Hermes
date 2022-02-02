@@ -72,7 +72,7 @@ public class Producto{
 	}
 	
 	public int getCodU() {
-		return diaCompra;
+		return codU;
 	}
 
 	public void setCodU(int codU) {

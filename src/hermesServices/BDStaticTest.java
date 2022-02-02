@@ -2,7 +2,7 @@ package hermesServices;
 
 import static org.junit.Assert.*;
 
-
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -25,9 +25,10 @@ public class BDStaticTest {
 	private ArrayList<Venta> listaVentas =new ArrayList<>();
 	
 	@Before
-	public void setUp() throws ClassNotFoundException, SQLException {
+	public void setUp() throws ClassNotFoundException, SQLException, IOException {
 		bdStatic= new BDStatic();
 		bdStatic.abrirConexion();
+		bdStatic.reiniciarBDS();
 		
 		
 		Jugador u1= new Jugador(0, "Aitor", 14, 2000, 1001);
@@ -98,7 +99,7 @@ public class BDStaticTest {
 		ArrayList<Jugador> listaUsuTest=bdStatic.seleccionarUsuario();
 		ArrayList<Producto> listaProds=bdStatic.seleccionarProducto(listaUsuTest.get(1));
 		assertEquals(1,listaProds.size());
-		assertEquals(1,listaProds.get(0).getCodigoObjeto());
+		assertEquals(0,listaProds.get(0).getCodigoObjeto());
 	}
 	@Test
 	public void borrarProductoTest() throws SQLException {
