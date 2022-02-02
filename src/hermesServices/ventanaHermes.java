@@ -1,17 +1,15 @@
 package hermesServices;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 
 
@@ -23,8 +21,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import javax.swing.table.AbstractTableModel;
 
 import datos.Hermes.Cliente;
@@ -35,10 +31,10 @@ import datos.Hermes.color;
 import datos.Hermes.material;
 import datos.Hermes.tematica;
 import datos.Hermes.tipoMueble;
-import hermesServices.ventanaTiendas.LaunchTienda;
 
 public class ventanaHermes extends JFrame{
 	private static final long serialVersionUID = 1L;
+	private JFrame v= new JFrame("Tienda Hermes");
 	private JTable tablaVenta;
 	private Jugador jugador;
 	private List<Producto> almacenProd;
@@ -55,23 +51,22 @@ public class ventanaHermes extends JFrame{
 	private ArrayList<Producto> listaProd;
 	private JLabel texto=new JLabel("Clientes Entrantes: PulsE ENTER PARA ABRIR LAS PUERTAS DE TU TIENDA");
 	
-	public ventanaHermes( String nombre) {
+	public ventanaHermes() {
 		
-		JFrame  v= new JFrame("Tienda Hermes");	
 		JPanel panBotones=new JPanel();
 		JPanel filtro=new JPanel();
 		JPanel panelAbajo=new JPanel();
 		
-		this.setSize(1900, 800);
-		this.setLayout(new BorderLayout());
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setVisible(true);
+		v.setSize(1900, 800);
+		v.setLayout(new BorderLayout());
+		v.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		v.setVisible(true);
 		panBotones.setLayout(new GridLayout(3,1));
 		panBotones.add(btnVender);
 		panBotones.add(btnFiltrar);
 		panBotones.add(btnVista);
-		this.add(panBotones,BorderLayout.EAST);
-		this.add(panelAbajo,BorderLayout.SOUTH);
+		v.add(panBotones,BorderLayout.EAST);
+		v.add(panelAbajo,BorderLayout.SOUTH);
 		
 		for(tipoMueble tm:tipoMueble.values()) {
 			comBoxMueble.addItem(tm);
@@ -101,8 +96,8 @@ public class ventanaHermes extends JFrame{
 		filtro.add(comBoxTematica);
 		filtro.add(comBoxColor);
 		filtro.add(comBoxMaterial);
-		this.add(filtro,BorderLayout.NORTH);
-		this.setVisible(true);
+		v.add(filtro,BorderLayout.NORTH);
+		v.setVisible(true);
 		
 		Cliente c11=new Cliente("Nico", tipoMueble.SILLA, tematica.RUSTICO, color.AMARILLO, material.M_PINO, "Buenos días, quiero una silla de colores chillones. Añoro mi juventud en el campo, con ese olor a pino tan característico.");
 		Cliente c12=new Cliente("Sara",tipoMueble.CAMA, tematica.OTOÑO, color.NARANJA, material.M_ROBLE,"¡Quiero dormir mejor!Lo quiero de un estilo Otoñal, y de esos colores que recuerdan al Otoño.¿El material? ¡Siempre Madera!");
@@ -111,9 +106,6 @@ public class ventanaHermes extends JFrame{
 		listaCliente1.add(c11);
 		listaCliente1.add(c12);
 		listaCliente1.add(c13);
-		for(Cliente cliente:listaCliente1) {
-			comBoxCliente.addItem(cliente);
-		}
 		panelAbajo.add(texto);
 		panelAbajo.add(comBoxCliente);
 
@@ -121,7 +113,7 @@ public class ventanaHermes extends JFrame{
 		bd = new BDynamic();
 		
 		tablaVenta = new JTable();
-		this.add(new JScrollPane(tablaVenta), BorderLayout.CENTER);
+		v.add(new JScrollPane(tablaVenta), BorderLayout.CENTER);
 		
 		
 		
@@ -141,13 +133,14 @@ public class ventanaHermes extends JFrame{
 		actualizarTabla(almacenProd);
 		
 		//if(jugador.getDia()==1) { SI NOS RUNEASE EL PROGRAMA AL COMPLETO LANZARÍAMOS DISTINTOS HILOS CORRESPONDIENTES AL DÍA EN EL QUE NOS ENCONTREMOS.
-		this.addKeyListener(new KeyAdapter() {
+		v.addKeyListener(new KeyAdapter() {
 			public void keyPressed(KeyEvent e) {
 				if(e.getKeyCode()==KeyEvent.VK_ENTER) {
 					(new Thread() {
 						public void run() {
 							for (Cliente cliente : listaCliente1) {
 								texto.setText(cliente.getNombre() + ":   " + cliente.getDescripcion());
+								comBoxCliente.addItem(cliente);
 								try {
 									Thread.sleep(60000);
 								}catch(InterruptedException e) {
@@ -199,7 +192,7 @@ public class ventanaHermes extends JFrame{
 					// TODO Auto-generated method stub
 				try {
 				int row = tablaVenta.getSelectedRow();
-				Producto p= new Producto((Integer) tablaVenta.getValueAt(row, 0), tipoMueble.valueOf(tablaVenta.getValueAt(row, 1).toString()), tematica.valueOf(tablaVenta.getValueAt(row, 2).toString()), color.valueOf(tablaVenta.getValueAt(row, 3).toString()), material.valueOf(tablaVenta.getValueAt(row, 4).toString()), (Integer) tablaVenta.getValueAt(row, 5), (Integer) tablaVenta.getValueAt(row, 6), (Integer) tablaVenta.getValueAt(row, 7), tablaVenta.getValueAt(row, 8).toString(), (Integer) tablaVenta.getValueAt(row, 9));
+				Producto p= new Producto((Integer) tablaVenta.getValueAt(row, 0), tipoMueble.valueOf(tablaVenta.getValueAt(row, 1).toString()), tematica.valueOf(tablaVenta.getValueAt(row, 2).toString()), color.valueOf(tablaVenta.getValueAt(row, 3).toString()), material.valueOf(tablaVenta.getValueAt(row, 4).toString()), (Double) tablaVenta.getValueAt(row, 5), (Double) tablaVenta.getValueAt(row, 6), (Integer) tablaVenta.getValueAt(row, 7), tablaVenta.getValueAt(row, 8).toString(), (Integer) tablaVenta.getValueAt(row, 9));
 				venderProducto(p, jugador);
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
@@ -210,13 +203,19 @@ public class ventanaHermes extends JFrame{
 		
 	});
 		
-		this.addKeyListener(new KeyAdapter() {//Evento cerrar la ventana para saltar a la siguiente
+		v.addKeyListener(new KeyAdapter() {//Evento cerrar la ventana para saltar a la siguiente
 
 			public void keyPressed(KeyEvent e) {
 				// TODO Auto-generated method stub
 				if(e.getKeyCode()==KeyEvent.VK_ESCAPE) {
+					try {
+						bd.cerrarConexion();
+					} catch (IOException | SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					ventanaStat vs=new ventanaStat();
-					
+					v.setVisible(false);
 				}
 			}
 		});
@@ -225,7 +224,22 @@ public class ventanaHermes extends JFrame{
 	
 	
 	private void actualizarTabla(List<Producto> productos) {
-		tablaVenta.setModel(new LaunchTabla(productos));
+		if (productos.isEmpty()) {
+			List<Producto> temp = new ArrayList<Producto>();
+			temp.add(new Producto(0, null, null, null, null, 0.0, 0.0, 0, "", 0));
+			JOptionPane.showMessageDialog(v, "No tienes más productos que vender.\nCerraremos la tienda por hoy.");
+			try {
+				bd.cerrarConexion();
+			} catch (IOException | SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			ventanaStat vs=new ventanaStat();
+			v.setVisible(false);
+		} else {
+			tablaVenta.setModel(new LaunchTabla(productos));
+		}
+		
 	}
 	private int satisfaccion(Object object, Venta v) {
 		int satis=0;
