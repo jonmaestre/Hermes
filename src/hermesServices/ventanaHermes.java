@@ -2,6 +2,8 @@ package hermesServices;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -42,6 +44,7 @@ public class ventanaHermes extends JFrame{
 	private JButton btnVender= new JButton("Vender Producto");
 	private JButton btnFiltrar= new JButton("Filtrar Productos");
 	private JButton btnVista= new JButton("Enseñar Todos Los Producto");
+	private JButton btnAbrir= new JButton("ABRIR LAS PUERTAS DE TU TIENDA");
 	private BDynamic bd;
 	private JComboBox<tipoMueble> comBoxMueble= new JComboBox<>();;
 	private JComboBox<tematica> comBoxTematica= new JComboBox<>();;
@@ -49,7 +52,7 @@ public class ventanaHermes extends JFrame{
 	private JComboBox<material> comBoxMaterial= new JComboBox<>();;
 	private JComboBox<Cliente> comBoxCliente= new JComboBox<>();;
 	private ArrayList<Producto> listaProd;
-	private JLabel texto=new JLabel("Clientes Entrantes: PulsE ENTER PARA ABRIR LAS PUERTAS DE TU TIENDA");
+	private JLabel texto=new JLabel("Clientes Entrantes: ");
 	
 	public ventanaHermes() {
 		
@@ -106,8 +109,9 @@ public class ventanaHermes extends JFrame{
 		listaCliente1.add(c11);
 		listaCliente1.add(c12);
 		listaCliente1.add(c13);
-		panelAbajo.add(texto);
-		panelAbajo.add(comBoxCliente);
+		panelAbajo.add(texto,BorderLayout.WEST);
+		panelAbajo.add(comBoxCliente,BorderLayout.CENTER);
+		panelAbajo.add(btnAbrir,BorderLayout.EAST);
 
 		//usu cargar usuarios de la bdd en la lista
 		bd = new BDynamic();
@@ -131,37 +135,35 @@ public class ventanaHermes extends JFrame{
 		
 		
 		actualizarTabla(almacenProd);
-		
-		//if(jugador.getDia()==1) { SI NOS RUNEASE EL PROGRAMA AL COMPLETO LANZARÍAMOS DISTINTOS HILOS CORRESPONDIENTES AL DÍA EN EL QUE NOS ENCONTREMOS.
-		v.addKeyListener(new KeyAdapter() {
-			public void keyPressed(KeyEvent e) {
-				if(e.getKeyCode()==KeyEvent.VK_ENTER) {
-					(new Thread() {
-						public void run() {
-							for (Cliente cliente : listaCliente1) {
-								texto.setText(cliente.getNombre() + ":   " + cliente.getDescripcion());
-								comBoxCliente.addItem(cliente);
-								try {
-									Thread.sleep(60000);
-								}catch(InterruptedException e) {
-									
-								}
+			
+		btnAbrir.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				(new Thread() {
+					public void run() {
+						for (Cliente cliente : listaCliente1) {
+							texto.setText(cliente.getNombre() + ":   " + cliente.getDescripcion());
+							comBoxCliente.addItem(cliente);
+							try {
+								Thread.sleep(60000);
+							}catch(InterruptedException e) {
+								
 							}
-							texto.setText("Cuando finalices el último pedido, puedes dar por concluido el día. Pulse ESC para terminar el día.");
 						}
-					}).start();
-				}
-			}
-			
-		});
-		//}
-			
-			
+						texto.setText("Cuando finalices el último pedido, puedes dar por concluido el día. Pulse ESC para terminar el día.");
+					}
+				}).start();
+				
+				btnAbrir.setVisible(false);
+			}});
 			
 			
-			
-			
-	
+		comBoxCliente.addActionListener (new ActionListener () {
+		    public void actionPerformed(ActionEvent e) {
+		    	Cliente cliente= (Cliente) comBoxCliente.getSelectedItem();
+		    	texto.setText(cliente.getNombre() + ":   " + cliente.getDescripcion());
+		    }
+		});	
+		
 		
 		btnFiltrar.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
@@ -282,11 +284,12 @@ public class ventanaHermes extends JFrame{
 			jugador.setExp(antExp + 400);
 		}
 	}
-	private void venderProducto(Producto p, Jugador jugador) {
+	private void venderProducto(Producto p, Jugador jugador) throws SQLException {
 		double cartera= jugador.getCartera();
 		int dia=jugador.getDia();
 		double precio= p.getPrecioVenta();	
 		jugador.setCartera(cartera + precio);
+		todoVentas=bd.selectVenta();
 		Venta venta=new Venta(bd.generadorCodV(todoVentas),p.getTipoMueble(),p.getTematica(),p.getColor(),p.getMaterial(),
 		precio,p.getPrecioCompra(),p.getDiaCompra(),dia,p.getTienda(),p.getCodU());
 		int satis=satisfaccion(comBoxCliente.getSelectedItem(), venta);
@@ -295,6 +298,7 @@ public class ventanaHermes extends JFrame{
 		bd.eliminarProducto(p, jugador);
 		bd.insertarVenta(venta, jugador);
 		almacenProd.remove(p);
+		comBoxCliente.remove(comBoxCliente.getSelectedIndex());
 		actualizarTabla(almacenProd);
 	}
 

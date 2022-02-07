@@ -36,6 +36,7 @@ public class ventanaSaveSlots extends JFrame {
 	private JPanel panelSouth= new JPanel();
 	private JTable jotaTabla;
 	private List<Jugador> todosJugadores;
+	private JButton btnEsc= new JButton("Vuelve a Inicio");
 	private JButton btnNew= new JButton("Crear Partida");
 	private JButton btnLoad= new JButton("Cargar Partida");
 	private JButton btnBorrar = new JButton("Borrar Partida");
@@ -54,6 +55,7 @@ public class ventanaSaveSlots extends JFrame {
 		v.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		v.setVisible(true);
 		
+		v.add(btnEsc,BorderLayout.NORTH);
 		v.add(panelSouth,BorderLayout.SOUTH);
 		panelSouth.add(btnNew);
 		panelSouth.add(btnLoad);
@@ -123,22 +125,24 @@ public class ventanaSaveSlots extends JFrame {
 					e1.printStackTrace();
 				}
 			
-				//Para OpenGL en Mac/Linux
-				//System.setProperty("sun.java2d.opengl", "True");
+//				//Para OpenGL en Mac/Linux
+//				//System.setProperty("sun.java2d.opengl", "True");
+//				
+//				
+//				  //Para Directx en Windows
+//				  System.setProperty("sun.java2d.d3d", "True");
+//				  System.setProperty("sun.java2d.ddforcevram", "True");
+//				 
+//				
+//				//System.setProperty("sun.java2d.transaccel", "True");
+//				
+//				Juego gp = new Juego("JUEGO", Constantes.ANCHO_PANTALLA_COMPLETA,
+//						Constantes.ALTO_PANTALLA_COMPLETA);
+//
+//				gp.iniciarJuego();
+//				gp.iniciarBuclePrincipal();
 				
-				
-				  //Para Directx en Windows
-				  System.setProperty("sun.java2d.d3d", "True");
-				  System.setProperty("sun.java2d.ddforcevram", "True");
-				 
-				
-				//System.setProperty("sun.java2d.transaccel", "True");
-				
-				Juego gp = new Juego("JUEGO", Constantes.ANCHO_PANTALLA_COMPLETA,
-						Constantes.ALTO_PANTALLA_COMPLETA);
-
-				gp.iniciarJuego();
-				gp.iniciarBuclePrincipal();
+				ventanaProb vp = new ventanaProb();
 				v.dispose();
 				System.out.println("Carga");
 			}
@@ -163,21 +167,23 @@ public class ventanaSaveSlots extends JFrame {
 			}
 		});
 		
-		//Evento volver a la ventana inicio
-		v.addKeyListener(new KeyAdapter() {//Evento cerrar la ventana para saltar a la siguiente
-
-			public void keyPressed(KeyEvent e) {
-				// TODO Auto-generated method stub
-				if(e.getKeyCode()==KeyEvent.VK_ESCAPE) {
-					ventanaI vi= new ventanaI();
-					vi.setVisible(true);
-					v.setVisible(false);
-					
-					
-					
+		//Evento volver a la ventana inicio	
+		btnEsc.addMouseListener(new MouseAdapter()	{	
+			@Override
+			public void mouseClicked(MouseEvent e) {
+					// TODO Auto-generated method stub
+				try {
+					bds.cerrarConexion();
+					bdd.cerrarConexion();
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
+				ventanaI vi= new ventanaI();
+				v.dispose();
 			}
 		});
+		
 	}
 	
 	private void actualizarTabla(List<Jugador> jugadores) {

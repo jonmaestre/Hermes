@@ -40,8 +40,7 @@ public class ventanaI extends JFrame{
 				// TODO Auto-generated method stub
 				if(e.getKeyCode()==KeyEvent.VK_ENTER) {
 					ventanaSaveSlots vss= new ventanaSaveSlots();
-					vss.setVisible(false);
-					v.setVisible(false);
+					v.dispose();
 				}
 			}
 

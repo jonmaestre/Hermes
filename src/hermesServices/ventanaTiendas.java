@@ -28,6 +28,7 @@ public class ventanaTiendas {
 	private List<Producto> todoProd;
 	private List<Producto> display;
 	private JButton btnComprar= new JButton("Comprar producto");
+	private JButton btnEsc= new JButton("Vuelve a la interfaz de tiendas");
 	private BDynamic bd;
 	
 	public ventanaTiendas(String nombre) {
@@ -38,6 +39,7 @@ public class ventanaTiendas {
 		v.setLayout(new BorderLayout());
 		v.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		v.setVisible(true);
+		v.add(btnEsc,BorderLayout.NORTH);
 		v.add(btnComprar,BorderLayout.SOUTH);
 		
 
@@ -75,6 +77,7 @@ public class ventanaTiendas {
 					jugador = bd.selectUsuario();
 					almacenProd=bd.selectProducto();
 					actualizarTienda(display);
+					JOptionPane.showMessageDialog(v,"Compra realizada.\nTienes actualmente"+jugador.getCartera()+" kromer");
 				} else {
 					JOptionPane.showMessageDialog(v,"No tienes suficiente Kromer para realizar esta compra.");
 
@@ -86,6 +89,21 @@ public class ventanaTiendas {
 					
 			}
 
+		});
+		
+		btnEsc.addMouseListener(new MouseAdapter()	{	
+			@Override
+			public void mouseClicked(MouseEvent e) {
+					// TODO Auto-generated method stub
+				try {
+					bd.cerrarConexion();
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				ventanaProb vp = new ventanaProb();
+				v.dispose();
+			}
 		});
 		
 		v.addKeyListener(new KeyAdapter() {//Evento cerrar la ventana para saltar a la siguiente
