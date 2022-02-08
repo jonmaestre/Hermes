@@ -59,6 +59,7 @@ public class ventanaHermes extends JFrame{
 		JPanel panBotones=new JPanel();
 		JPanel filtro=new JPanel();
 		JPanel panelAbajo=new JPanel();
+		JPanel panelInfo=new JPanel();
 		
 		v.setSize(1900, 800);
 		v.setLayout(new BorderLayout());
@@ -71,10 +72,6 @@ public class ventanaHermes extends JFrame{
 		v.add(panBotones,BorderLayout.EAST);
 		v.add(panelAbajo,BorderLayout.SOUTH);
 		
-		comBoxMueble.addItem(" - ");
-		comBoxTematica.addItem(" - ");
-		comBoxColor.addItem(" - ");
-		comBoxMaterial.addItem(" - ");
 		for(tipoMueble tm:tipoMueble.values()) {
 			comBoxMueble.addItem(tm);
 			
@@ -109,10 +106,20 @@ public class ventanaHermes extends JFrame{
 		Cliente c1=new Cliente("Nico", tipoMueble.SILLA, tematica.RUSTICO, color.AMARILLO, material.M_PINO, "Buenos días, quiero una silla de colores chillones. Añoro mi juventud en el campo, con ese olor a pino tan característico.",1);
 		Cliente c2=new Cliente("Sara",tipoMueble.CAMA, tematica.OTOÑO, color.NARANJA, material.M_ROBLE,"¡Quiero dormir mejor!Lo quiero de un estilo Otoñal, y de esos colores que recuerdan al Otoño.¿El material? ¡Siempre Madera!",1);
 		Cliente c3=new Cliente("Andoni", tipoMueble.MESA,tematica.PRIMAVERA,color.ROJO,material.M_ROBLE,"Me apetece tener un sitio donde comer que me recuerde a la primavera y a esos colores vivos!.",1);
+		Cliente c4=new Cliente("Beñat", tipoMueble.MESA,tematica.PRIMAVERA,color.ROJO,material.M_ROBLE,"Me apetece tener un sitio donde comer que me recuerde a la primavera y a esos colores vivos!.",2);
+		Cliente c5=new Cliente("Mikel", tipoMueble.MESA,tematica.PRIMAVERA,color.ROJO,material.M_ROBLE,"Me apetece tener un sitio donde comer que me recuerde a la primavera y a esos colores vivos!.",2);
+		Cliente c6=new Cliente("Maider", tipoMueble.MESA,tematica.PRIMAVERA,color.ROJO,material.M_ROBLE,"Me apetece tener un sitio donde comer que me recuerde a la primavera y a esos colores vivos!.",2);
+		Cliente c7=new Cliente("Lara", tipoMueble.MESA,tematica.PRIMAVERA,color.ROJO,material.M_ROBLE,"Me apetece tener un sitio donde comer que me recuerde a la primavera y a esos colores vivos!.",2);
+		
 		ArrayList<Cliente> listaCliente= new ArrayList<>();
 		listaCliente.add(c1);
 		listaCliente.add(c2);
 		listaCliente.add(c3);
+		listaCliente.add(c4);
+		listaCliente.add(c5);
+		listaCliente.add(c6);
+		listaCliente.add(c7);
+		panelInfo.setLayout(new GridLayout(2,5));
 		panelAbajo.add(texto,BorderLayout.WEST);
 		panelAbajo.add(comBoxCliente,BorderLayout.CENTER);
 		panelAbajo.add(btnAbrir,BorderLayout.EAST);
@@ -134,7 +141,22 @@ public class ventanaHermes extends JFrame{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	
+		jugador.setDia(2);
+		JLabel cartera=new JLabel(String.valueOf(jugador.getCartera()) + "(-)");
+		JLabel exp= new JLabel(String.valueOf(jugador.getExp()) + "(-)");
+		panelInfo.add(new JLabel("CARTERA:"));
+		panelInfo.add(new JLabel());
+		panelInfo.add(new JLabel("DIA:"));
+		panelInfo.add(new JLabel());
+		panelInfo.add(new JLabel("EXPERIENCIA:"));
+		panelInfo.add(new JLabel());
+		panelInfo.add(cartera);
+		panelInfo.add(new JLabel());
+		panelInfo.add(new JLabel(String.valueOf(jugador.getDia())));
+		panelInfo.add(new JLabel());
+		panelInfo.add(exp);
+		panelAbajo.add(panelInfo,BorderLayout.WEST);
+		
 
 		
 		actualizarTabla(almacenProd);
@@ -147,12 +169,13 @@ public class ventanaHermes extends JFrame{
 							texto.setText(cliente.getNombre() + ":   " + cliente.getDescripcion());
 							comBoxCliente.addItem(cliente);
 							try {
-								Thread.sleep(60000);
+								Thread.sleep(15000);
 							}catch(InterruptedException e) {
 								
 							}
 						}
 						texto.setText("Cuando finalices el último pedido, puedes dar por concluido el día. Pulse ESC para terminar el día.");
+						
 					}
 				}).start();
 				
@@ -199,6 +222,8 @@ public class ventanaHermes extends JFrame{
 				int row = tablaVenta.getSelectedRow();
 				Producto p= new Producto((Integer) tablaVenta.getValueAt(row, 0), tipoMueble.valueOf(tablaVenta.getValueAt(row, 1).toString()), tematica.valueOf(tablaVenta.getValueAt(row, 2).toString()), color.valueOf(tablaVenta.getValueAt(row, 3).toString()), material.valueOf(tablaVenta.getValueAt(row, 4).toString()), (Double) tablaVenta.getValueAt(row, 5), (Double) tablaVenta.getValueAt(row, 6), (Integer) tablaVenta.getValueAt(row, 7), tablaVenta.getValueAt(row, 8).toString(), (Integer) tablaVenta.getValueAt(row, 9));
 				venderProducto(p, jugador);
+				cartera.setText(String.valueOf(jugador.getCartera()) + "(" + todoVentas.get(todoVentas.size()-1).getPrecioVenta() + ")");
+				exp.setText(String.valueOf(jugador.getExp()));
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 				e1.printStackTrace();
