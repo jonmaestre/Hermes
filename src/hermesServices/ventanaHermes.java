@@ -144,11 +144,11 @@ public class ventanaHermes extends JFrame{
 		jugador.setDia(2);
 		JLabel cartera=new JLabel(String.valueOf(jugador.getCartera()) + "(-)");
 		JLabel exp= new JLabel(String.valueOf(jugador.getExp()) + "(-)");
-		panelInfo.add(new JLabel("CARTERA:"));
+		panelInfo.add(new JLabel("CARTERA(Última):"));
 		panelInfo.add(new JLabel());
 		panelInfo.add(new JLabel("DIA:"));
 		panelInfo.add(new JLabel());
-		panelInfo.add(new JLabel("EXPERIENCIA:"));
+		panelInfo.add(new JLabel("EXP(Última):"));
 		panelInfo.add(new JLabel());
 		panelInfo.add(cartera);
 		panelInfo.add(new JLabel());
@@ -219,11 +219,13 @@ public class ventanaHermes extends JFrame{
 			public void mouseClicked(MouseEvent e) {
 					// TODO Auto-generated method stub
 				try {
+				int expAnt=jugador.getExp();
 				int row = tablaVenta.getSelectedRow();
 				Producto p= new Producto((Integer) tablaVenta.getValueAt(row, 0), tipoMueble.valueOf(tablaVenta.getValueAt(row, 1).toString()), tematica.valueOf(tablaVenta.getValueAt(row, 2).toString()), color.valueOf(tablaVenta.getValueAt(row, 3).toString()), material.valueOf(tablaVenta.getValueAt(row, 4).toString()), (Double) tablaVenta.getValueAt(row, 5), (Double) tablaVenta.getValueAt(row, 6), (Integer) tablaVenta.getValueAt(row, 7), tablaVenta.getValueAt(row, 8).toString(), (Integer) tablaVenta.getValueAt(row, 9));
 				venderProducto(p, jugador);
+				todoVentas=bd.selectVenta();
 				cartera.setText(String.valueOf(jugador.getCartera()) + "(" + todoVentas.get(todoVentas.size()-1).getPrecioVenta() + ")");
-				exp.setText(String.valueOf(jugador.getExp()));
+				exp.setText(String.valueOf(jugador.getExp())  + "(" + String.valueOf(jugador.getExp()- expAnt) + ")");
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 				e1.printStackTrace();
