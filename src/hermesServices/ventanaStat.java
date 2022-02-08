@@ -25,6 +25,8 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.general.DatasetUtilities;
 import org.jfree.data.xy.XYDataset;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
 
 import datos.Hermes.*;
 import juego.Constantes;
@@ -281,7 +283,10 @@ public class ventanaStat {
 	
 	public JFreeChart createLineaCrecimiento() {
 		
-		Double[][] data = new Double[0][jugador.getDia()-1];
+		
+		XYSeriesCollection dataset = new XYSeriesCollection();
+	    XYSeries series1 = new XYSeries("Crecimiento Económico");
+	
 		Double dinero=500.0;
 		for (int i = 1; i < jugador.getDia(); i++) {
 			Double dineroCompra=0.0;
@@ -300,11 +305,13 @@ public class ventanaStat {
 				}
 			}
 			dinero=dinero-dineroCompra+dineroVenta;
-			data[0][i-1]=dinero;
-			
+			series1.add(jugador.getDia(), dinero);
 		}
-		CategoryDataset dataset = DatasetUtilities.createCategoryDataset("Kromer","Dia ", data);
-        return ChartFactory.createXYLineChart("Crecimiento de dinero/dia", "Dia", "Kromer", (XYDataset) dataset, PlotOrientation.VERTICAL, true, true, true);
+		
+
+	    dataset.addSeries(series1);
+
+        return ChartFactory.createXYLineChart("Crecimiento de dinero/dia", "Dia", "Kromer", dataset, PlotOrientation.VERTICAL, true, true, true);
         		
 	}
 	

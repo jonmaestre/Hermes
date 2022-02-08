@@ -297,8 +297,10 @@ public class ventanaHermes extends JFrame{
 		bd.updateUsuario(jugador);
 		bd.eliminarProducto(p, jugador);
 		bd.insertarVenta(venta, jugador);
-		almacenProd.remove(p);
+		almacenProd=bd.selectProducto();
 		comBoxCliente.remove(comBoxCliente.getSelectedIndex());
+		comBoxCliente.setVisible(false);
+		comBoxCliente.setVisible(true);
 		actualizarTabla(almacenProd);
 	}
 
