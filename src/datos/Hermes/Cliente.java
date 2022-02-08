@@ -7,9 +7,10 @@ public class Cliente {
 	protected color color;
 	protected material material;
 	protected String descripcion;
+	protected int dia;
 	
 	public Cliente(String nombre,datos.Hermes.tipoMueble tipoMueble, datos.Hermes.tematica tematica, datos.Hermes.color color,
-			datos.Hermes.material material, String descripcion) {
+			datos.Hermes.material material, String descripcion, int dia) {
 		super();
 		this.nombre=nombre;
 		this.tipoMueble = tipoMueble;
@@ -17,6 +18,7 @@ public class Cliente {
 		this.color = color;
 		this.material = material;
 		this.descripcion=descripcion;
+		this.dia=dia;
 	}
 	
 	
@@ -63,6 +65,16 @@ public class Cliente {
 
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
+	}
+
+	
+	public int getDia() {
+		return dia;
+	}
+
+
+	public void setDia(int dia) {
+		this.dia = dia;
 	}
 
 

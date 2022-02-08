@@ -106,13 +106,13 @@ public class ventanaHermes extends JFrame{
 		v.add(filtro,BorderLayout.NORTH);
 		v.setVisible(true);
 		
-		Cliente c11=new Cliente("Nico", tipoMueble.SILLA, tematica.RUSTICO, color.AMARILLO, material.M_PINO, "Buenos días, quiero una silla de colores chillones. Añoro mi juventud en el campo, con ese olor a pino tan característico.");
-		Cliente c12=new Cliente("Sara",tipoMueble.CAMA, tematica.OTOÑO, color.NARANJA, material.M_ROBLE,"¡Quiero dormir mejor!Lo quiero de un estilo Otoñal, y de esos colores que recuerdan al Otoño.¿El material? ¡Siempre Madera!");
-		Cliente c13=new Cliente("Andoni", tipoMueble.MESA,tematica.PRIMAVERA,color.ROJO,material.M_ROBLE,"Me apetece tener un sitio donde comer que me recuerde a la primavera y a esos colores vivos!.");
-		ArrayList<Cliente> listaCliente1= new ArrayList<>();
-		listaCliente1.add(c11);
-		listaCliente1.add(c12);
-		listaCliente1.add(c13);
+		Cliente c1=new Cliente("Nico", tipoMueble.SILLA, tematica.RUSTICO, color.AMARILLO, material.M_PINO, "Buenos días, quiero una silla de colores chillones. Añoro mi juventud en el campo, con ese olor a pino tan característico.",1);
+		Cliente c2=new Cliente("Sara",tipoMueble.CAMA, tematica.OTOÑO, color.NARANJA, material.M_ROBLE,"¡Quiero dormir mejor!Lo quiero de un estilo Otoñal, y de esos colores que recuerdan al Otoño.¿El material? ¡Siempre Madera!",1);
+		Cliente c3=new Cliente("Andoni", tipoMueble.MESA,tematica.PRIMAVERA,color.ROJO,material.M_ROBLE,"Me apetece tener un sitio donde comer que me recuerde a la primavera y a esos colores vivos!.",1);
+		ArrayList<Cliente> listaCliente= new ArrayList<>();
+		listaCliente.add(c1);
+		listaCliente.add(c2);
+		listaCliente.add(c3);
 		panelAbajo.add(texto,BorderLayout.WEST);
 		panelAbajo.add(comBoxCliente,BorderLayout.CENTER);
 		panelAbajo.add(btnAbrir,BorderLayout.EAST);
@@ -137,14 +137,13 @@ public class ventanaHermes extends JFrame{
 	
 
 		
-		
 		actualizarTabla(almacenProd);
 			
 		btnAbrir.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				(new Thread() {
 					public void run() {
-						for (Cliente cliente : listaCliente1) {
+						for (Cliente cliente : listaClientesDelDia(jugador.getDia(), listaCliente)) {
 							texto.setText(cliente.getNombre() + ":   " + cliente.getDescripcion());
 							comBoxCliente.addItem(cliente);
 							try {
@@ -325,6 +324,16 @@ public class ventanaHermes extends JFrame{
 		
 
 		}
+	public ArrayList<Cliente> listaClientesDelDia(int dia,ArrayList<Cliente>listaClientes){
+		ArrayList<Cliente> listaC=new ArrayList<>();
+		for(Cliente c:listaClientes) {
+			if(c.getDia()==dia) {
+				listaC.add(c);
+			}
+		}
+		return listaC;
+		
+	}
 	
 	public class LaunchTabla  extends AbstractTableModel {
 		
