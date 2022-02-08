@@ -46,10 +46,10 @@ public class ventanaHermes extends JFrame{
 	private JButton btnVista= new JButton("Enseñar Todos Los Producto");
 	private JButton btnAbrir= new JButton("ABRIR LAS PUERTAS DE TU TIENDA");
 	private BDynamic bd;
-	private JComboBox<tipoMueble> comBoxMueble= new JComboBox<>();;
-	private JComboBox<tematica> comBoxTematica= new JComboBox<>();;
-	private JComboBox<color> comBoxColor= new JComboBox<>();;
-	private JComboBox<material> comBoxMaterial= new JComboBox<>();;
+	private JComboBox<Object> comBoxMueble= new JComboBox<>();;
+	private JComboBox<Object> comBoxTematica= new JComboBox<>();;
+	private JComboBox<Object> comBoxColor= new JComboBox<>();;
+	private JComboBox<Object> comBoxMaterial= new JComboBox<>();;
 	private JComboBox<Cliente> comBoxCliente= new JComboBox<>();;
 	private ArrayList<Producto> listaProd;
 	private JLabel texto=new JLabel("Clientes Entrantes: ");
@@ -71,6 +71,10 @@ public class ventanaHermes extends JFrame{
 		v.add(panBotones,BorderLayout.EAST);
 		v.add(panelAbajo,BorderLayout.SOUTH);
 		
+		comBoxMueble.addItem(" - ");
+		comBoxTematica.addItem(" - ");
+		comBoxColor.addItem(" - ");
+		comBoxMaterial.addItem(" - ");
 		for(tipoMueble tm:tipoMueble.values()) {
 			comBoxMueble.addItem(tm);
 			
@@ -168,12 +172,12 @@ public class ventanaHermes extends JFrame{
 		btnFiltrar.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				try {
-					listaProd=new ArrayList<>();
-					Object tm=comBoxMueble.getSelectedItem();
-					Object tematica=comBoxMueble.getSelectedItem();
-					Object c=comBoxColor.getSelectedItem();
-					Object mat=comBoxMaterial.getSelectedItem();
-					filtrarTabla(tm,tematica,c,mat);
+					
+					String tm=comBoxMueble.getSelectedItem().toString();
+					String tematica=comBoxTematica.getSelectedItem().toString();
+					String c=comBoxColor.getSelectedItem().toString();
+					String mat=comBoxMaterial.getSelectedItem().toString();
+					filtrarTabla(tm,tematica,c,mat,almacenProd);
 					
 				}catch (Exception e1) {
 					// TODO Auto-generated catch block
@@ -304,17 +308,21 @@ public class ventanaHermes extends JFrame{
 		actualizarTabla(almacenProd);
 	}
 
-	public void filtrarTabla(Object a, Object b, Object c, Object d) {
+	public void filtrarTabla(String a, String b, String c, String d,List<Producto> lista) {
 		listaProd= new ArrayList<Producto>();
-		for (Producto producto : almacenProd) {
-		if(a.equals(producto.getTipoMueble()) & b.equals(producto.getTematica())
-		& c.equals(producto.getColor()) & d.equals(producto.getMaterial())) {
+		for (Producto producto : lista) {
+		if(producto.getTipoMueble().toString().equals(a) & producto.getTematica().toString().equals(b) 
+				& producto.getColor().toString().equals(c) & producto.getMaterial().toString().equals(d)) {
 		listaProd.add(producto);
-		actualizarTabla(listaProd);
-		}else {
-		JOptionPane.showMessageDialog(this, "No se han encontrado productos de esas características");
 		}
+		
 		}
+		if(listaProd.isEmpty()) {
+			JOptionPane.showMessageDialog(this, "No se han encontrado productos de esas características");
+		}else{
+			actualizarTabla(listaProd);
+		}
+		
 
 		}
 	
