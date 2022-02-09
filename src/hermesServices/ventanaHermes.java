@@ -106,10 +106,17 @@ public class ventanaHermes extends JFrame{
 		Cliente c1=new Cliente("Nico", tipoMueble.SILLA, tematica.RUSTICO, color.AMARILLO, material.M_PINO, "Buenos días, quiero una silla de colores chillones. Añoro mi juventud en el campo, con ese olor a pino tan característico.",1);
 		Cliente c2=new Cliente("Sara",tipoMueble.CAMA, tematica.OTOÑO, color.NARANJA, material.M_ROBLE,"¡Quiero dormir mejor!Lo quiero de un estilo Otoñal, y de esos colores que recuerdan al Otoño.¿El material? ¡Siempre Madera!",1);
 		Cliente c3=new Cliente("Andoni", tipoMueble.MESA,tematica.PRIMAVERA,color.ROJO,material.M_ROBLE,"Me apetece tener un sitio donde comer que me recuerde a la primavera y a esos colores vivos!.",1);
-		Cliente c4=new Cliente("Beñat", tipoMueble.MESA,tematica.PRIMAVERA,color.ROJO,material.M_ROBLE,"Me apetece tener un sitio donde comer que me recuerde a la primavera y a esos colores vivos!.",2);
-		Cliente c5=new Cliente("Mikel", tipoMueble.MESA,tematica.PRIMAVERA,color.ROJO,material.M_ROBLE,"Me apetece tener un sitio donde comer que me recuerde a la primavera y a esos colores vivos!.",2);
-		Cliente c6=new Cliente("Maider", tipoMueble.MESA,tematica.PRIMAVERA,color.ROJO,material.M_ROBLE,"Me apetece tener un sitio donde comer que me recuerde a la primavera y a esos colores vivos!.",2);
-		Cliente c7=new Cliente("Lara", tipoMueble.MESA,tematica.PRIMAVERA,color.ROJO,material.M_ROBLE,"Me apetece tener un sitio donde comer que me recuerde a la primavera y a esos colores vivos!.",2);
+		Cliente c4=new Cliente("Beñat", tipoMueble.ESTANTERIA,tematica.ST_PATRICKS_DAY,color.VERDE,material.PLASTICO,"Necesito un sitio donde dejar los nuevos libros referentes a la historia de Irlanda, pero no quiero barnizar el mueble nunca!.",2);
+		Cliente c5=new Cliente("Mikel", tipoMueble.SILLA,tematica.NAVIDAD,color.BLANCO,material.ACERO,"Quiero un asiento para ver las auroras boreales que me encantan, como también todo lo industrial.",2);
+		Cliente c6=new Cliente("Maider", tipoMueble.LAMPARA,tematica.HALLOWEEN,color.MORADO,material.PLASTICO,"EXIJO UN MUEBLE QUE DE LUZ A MI CASA TÉTRICA, QUE PAREZCA DE UN MATERIAL PESADO PERO QUE SEA LIVIANO.",2);
+		Cliente c7=new Cliente("Lara", tipoMueble.PUERTA,tematica.MEDIEVAL,color.GRIS,material.ACERO,"NO QUIERO MÁS ROBOS!Consigueme algo antiguo, gris e inexpugnable para la entrada.",2);
+		Cliente c8=new Cliente("Lee Sin", tipoMueble.SOFA,tematica.ANYO_NUEVO_CHINO,color.MARRON,material.M_ABEDUL,"Quiero un mueble desde donde ver el mundial de Pekin. Quiero un color sobrio acompañado de madera de abedul.",3);
+		Cliente c9=new Cliente("Anónimo", tipoMueble.LAMPARA,tematica.DESCONOCIDA,color.GRIS,material.DESCONOCIDO,"Quiero la lampara más extravagante jamas construida, con un color jamas visto. Me encanta lo raro.¿Mi nombre? No te hace falta...",3);
+		Cliente c10=new Cliente("Maite", tipoMueble.ARMARIO,tematica.RUSTICO,color.ROSA,material.M_ROBLE,"Quiero guardar toda mi nueva ropa en un nuevo mueble que sea rustico y color apastelado.",3);
+		Cliente c11=new Cliente("Aitor", tipoMueble.CAMA,tematica.OTOÑO,color.NARANJA,material.M_PINO,"Me encanta echarme la siestas, casi tanto como el tiempo en Noviembre y ese color de las hojas.",3);
+		Cliente c12=new Cliente("Pedro", tipoMueble.MESA,tematica.HALLOWEEN,color.GRANATE,material.PLASTICO,"Necesito un mueble para mi comedor, decorado de forma que de miedo y de un color rojizo, imposible de sacar de la madera. ",3);
+		
+		
 		
 		ArrayList<Cliente> listaCliente= new ArrayList<>();
 		listaCliente.add(c1);
@@ -119,6 +126,11 @@ public class ventanaHermes extends JFrame{
 		listaCliente.add(c5);
 		listaCliente.add(c6);
 		listaCliente.add(c7);
+		listaCliente.add(c8);
+		listaCliente.add(c9);
+		listaCliente.add(c10);
+		listaCliente.add(c11);
+		listaCliente.add(c12);
 		panelInfo.setLayout(new GridLayout(2,5));
 		panelAbajo.add(texto,BorderLayout.WEST);
 		panelAbajo.add(comBoxCliente,BorderLayout.CENTER);
@@ -142,18 +154,18 @@ public class ventanaHermes extends JFrame{
 		
 		JLabel cartera=new JLabel(String.valueOf(jugador.getCartera()) + "(-)");
 		JLabel exp= new JLabel(String.valueOf(jugador.getExp()) + "(-)");
-		panelInfo.add(new JLabel("CARTERA(Última):"));
+		panelInfo.add(new JLabel("KROMER:"));
 		panelInfo.add(new JLabel());
 		panelInfo.add(new JLabel("DIA:"));
 		panelInfo.add(new JLabel());
-		panelInfo.add(new JLabel("EXP(Última):"));
+		panelInfo.add(new JLabel("EXP:"));
 		panelInfo.add(new JLabel());
 		panelInfo.add(cartera);
 		panelInfo.add(new JLabel());
 		panelInfo.add(new JLabel(String.valueOf(jugador.getDia())));
 		panelInfo.add(new JLabel());
 		panelInfo.add(exp);
-		panelAbajo.add(panelInfo,BorderLayout.WEST);
+		panelAbajo.add(panelInfo);
 		
 
 		
