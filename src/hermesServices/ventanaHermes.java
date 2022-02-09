@@ -129,9 +129,7 @@ public class ventanaHermes extends JFrame{
 		
 		tablaVenta = new JTable();
 		v.add(new JScrollPane(tablaVenta), BorderLayout.CENTER);
-		
-		
-		
+			
 		try {
 			bd.abrirBD();
 			//todosJugadores = bd.getUsuarios();
@@ -141,7 +139,7 @@ public class ventanaHermes extends JFrame{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		jugador.setDia(2);
+		
 		JLabel cartera=new JLabel(String.valueOf(jugador.getCartera()) + "(-)");
 		JLabel exp= new JLabel(String.valueOf(jugador.getExp()) + "(-)");
 		panelInfo.add(new JLabel("CARTERA(Última):"));
@@ -171,9 +169,12 @@ public class ventanaHermes extends JFrame{
 							try {
 								Thread.sleep(15000);
 							}catch(InterruptedException e) {
-								
+								e.printStackTrace();
 							}
+							
 						}
+						JOptionPane.showMessageDialog(v, "No tienes más clientes.\nCerraremos la tienda por hoy.");
+			    		cerrarTienda();
 						texto.setText("Cuando finalices el último pedido, puedes dar por concluido el día. Pulse ESC para terminar el día.");
 						
 					}
@@ -185,8 +186,15 @@ public class ventanaHermes extends JFrame{
 			
 		comBoxCliente.addActionListener (new ActionListener () {
 		    public void actionPerformed(ActionEvent e) {
-		    	Cliente cliente= (Cliente) comBoxCliente.getSelectedItem();
-		    	texto.setText(cliente.getNombre() + ":   " + cliente.getDescripcion());
+		    	Cliente c1= (Cliente) comBoxCliente.getSelectedItem();
+		    	
+		    	if(c1==null){
+		    		texto.setText("Espera a que aparezca el siguiente cliente");
+		    	} else {
+		    		Cliente cliente= (Cliente) comBoxCliente.getSelectedItem();
+			    	texto.setText(cliente.getNombre() + ":   " + cliente.getDescripcion());
+		    	}
+		    	
 		    }
 		});	
 		
@@ -240,39 +248,37 @@ public class ventanaHermes extends JFrame{
 			public void keyPressed(KeyEvent e) {
 				// TODO Auto-generated method stub
 				if(e.getKeyCode()==KeyEvent.VK_ESCAPE) {
-					try {
-						bd.cerrarConexion();
-					} catch (IOException | SQLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-					ventanaStat vs=new ventanaStat();
-					v.setVisible(false);
+					cerrarTienda();
 				}
 			}
 		});
 	}
-
-	
 	
 	private void actualizarTabla(List<Producto> productos) {
 		if (productos.isEmpty()) {
 			List<Producto> temp = new ArrayList<Producto>();
 			temp.add(new Producto(0, null, null, null, null, 0.0, 0.0, 0, "", 0));
 			JOptionPane.showMessageDialog(v, "No tienes más productos que vender.\nCerraremos la tienda por hoy.");
-			try {
-				bd.cerrarConexion();
-			} catch (IOException | SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			ventanaStat vs=new ventanaStat();
-			v.setVisible(false);
+			cerrarTienda();
+			
 		} else {
 			tablaVenta.setModel(new LaunchTabla(productos));
 		}
 		
 	}
+	
+	private void cerrarTienda() {
+		try {
+			bd.cerrarConexion();
+		} catch (IOException | SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		ventanaStat vs=new ventanaStat();
+		v.setVisible(false);
+	}
+	
+	
 	private int satisfaccion(Object object, Venta v) {
 		int satis=0;
 		if(((Cliente) object).getTipoMueble().equals(v.getTipoMueble())) {
@@ -328,7 +334,14 @@ public class ventanaHermes extends JFrame{
 		bd.eliminarProducto(p, jugador);
 		bd.insertarVenta(venta, jugador);
 		almacenProd=bd.selectProducto();
-		comBoxCliente.remove(comBoxCliente.getSelectedIndex());
+		for (int i = 0; i < comBoxCliente.getSize().getWidth(); i++) {
+			Cliente c1= comBoxCliente.getItemAt(i);
+			Cliente c2= (Cliente) comBoxCliente.getSelectedItem();
+			if(c1.getNombre()==c2.getNombre()) {
+				comBoxCliente.removeItem(comBoxCliente.getSelectedItem());
+				break;
+			}
+		}
 		comBoxCliente.setVisible(false);
 		comBoxCliente.setVisible(true);
 		actualizarTabla(almacenProd);

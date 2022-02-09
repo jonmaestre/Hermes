@@ -65,6 +65,7 @@ public class ventanaStat {
 		v.setLayout(new BorderLayout());
 		v.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		v.add(cp,BorderLayout.CENTER);
+
 		JPanel u= new JPanel();
 		v.add(u,BorderLayout.SOUTH);
 		u.add(tf);
@@ -77,34 +78,36 @@ public class ventanaStat {
 		
 //		//usu cargar usuarios de la bdd en la lista
 		bd = new BDynamic();
-//		try {
-//			bd.abrirBD();
-//			jugador = bd.selectUsuario();
-//			todoProductos=bd.selectProducto();
-//			todoVentas=bd.selectVenta();
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
+		try {
+			bd.abrirBD();
+			jugador = bd.selectUsuario();
+			todoProductos=bd.selectProducto();
+			todoVentas=bd.selectVenta();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
-		 todoProductos= new ArrayList<Producto>();
-		 todoVentas= new ArrayList<Venta>();
+//		 todoProductos= new ArrayList<Producto>();
+//		 todoVentas= new ArrayList<Venta>();
+//		
+////		jugador= new Jugador(0, "Aitor", 1, 2000, 800);
+////		
+////		Producto p1= new Producto(0, tipoMueble.SOFA, tematica.INVIERNO, color.GRIS, material.PLASTICO, 835.12, 500.00, 1, "Apolo큦", 0);
+////		Producto p2= new Producto(1, tipoMueble.SILLA, tematica.HALLOWEEN, color.BLANCO, material.M_ABEDUL, 100.13, 80.14, 1, "Polo큦", 0);
+////		Producto p3= new Producto(2, tipoMueble.SILLA, tematica.HALLOWEEN, color.BLANCO, material.M_ABEDUL, 100.13, 80.14, 1, "Polo큦", 0);
+////		todoProductos.add(p1);
+////		todoProductos.add(p2);
+////		todoProductos.add(p3);
+////
+////		Venta v1= new Venta(0, tipoMueble.SOFA, tematica.INVIERNO, color.GRIS, material.PLASTICO, 835.12, 500.00, 1, 1, "Apolo큦", 0);
+////		Venta v2= new Venta(1, tipoMueble.SILLA, tematica.HALLOWEEN, color.BLANCO, material.M_ABEDUL, 100.13, 80.14, 1, 1, "Polo큦", 0);
+////		Venta v3= new Venta(2, tipoMueble.SILLA, tematica.HALLOWEEN, color.BLANCO, material.M_ABEDUL, 100.13, 80.14, 1, 1, "Polo큦", 0);
+////		todoVentas.add(v1);
+////		todoVentas.add(v2);
+////		todoVentas.add(v3);
 		
-		jugador= new Jugador(0, "Aitor", 1, 2000, 800);
 		
-		Producto p1= new Producto(0, tipoMueble.SOFA, tematica.INVIERNO, color.GRIS, material.PLASTICO, 835.12, 500.00, 1, "Apolo큦", 0);
-		Producto p2= new Producto(1, tipoMueble.SILLA, tematica.HALLOWEEN, color.BLANCO, material.M_ABEDUL, 100.13, 80.14, 1, "Polo큦", 0);
-		Producto p3= new Producto(2, tipoMueble.SILLA, tematica.HALLOWEEN, color.BLANCO, material.M_ABEDUL, 100.13, 80.14, 1, "Polo큦", 0);
-		todoProductos.add(p1);
-		todoProductos.add(p2);
-		todoProductos.add(p3);
-
-		Venta v1= new Venta(0, tipoMueble.SOFA, tematica.INVIERNO, color.GRIS, material.PLASTICO, 835.12, 500.00, 1, 1, "Apolo큦", 0);
-		Venta v2= new Venta(1, tipoMueble.SILLA, tematica.HALLOWEEN, color.BLANCO, material.M_ABEDUL, 100.13, 80.14, 1, 1, "Polo큦", 0);
-		Venta v3= new Venta(2, tipoMueble.SILLA, tematica.HALLOWEEN, color.BLANCO, material.M_ABEDUL, 100.13, 80.14, 1, 1, "Polo큦", 0);
-		todoVentas.add(v1);
-		todoVentas.add(v2);
-		todoVentas.add(v3);
-
+		
 		combo.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -185,8 +188,8 @@ public class ventanaStat {
 	public void refreshChartpanel(JFreeChart charts) {
 		chart=charts;
 		cp = new ChartPanel(chart);
-		v.setVisible(false);
-		v.setVisible(true);
+		cp.setVisible(false);
+		cp.setVisible(true);
 	}
 	
 	public void ventanamasDatos() {
@@ -253,7 +256,7 @@ public class ventanaStat {
 	
 	public JFreeChart createDayAreaBegFin() {
 		
-		Double[][] data = new Double[1][jugador.getDia()-1];
+		Double[][] data = new Double[2][jugador.getDia()-1];
 		Double[] iniciales= new Double[jugador.getDia()-1];
 		Double[] finales= new Double[jugador.getDia()-1];
 		for (int i = 1; i < jugador.getDia(); i++) {
@@ -275,8 +278,13 @@ public class ventanaStat {
 			iniciales[i-1]=dineroCompra;
 			finales[i-1]=dineroVenta;
 		}
-		data[0]=iniciales;
-		data[1]=finales;
+		for (int i = 0; i < iniciales.length; i++) {
+			data[0][i]=iniciales[i];
+		}
+		for (int i = 0; i < finales.length; i++) {
+			data[1][i]=finales[i];
+		}
+
         CategoryDataset dataset = DatasetUtilities.createCategoryDataset("Kromer","Dia ", data);
         return ChartFactory.createStackedAreaChart("Dinero invertido/Producido","Kromer", "Dia",dataset,PlotOrientation.VERTICAL,true,true,true);
     }

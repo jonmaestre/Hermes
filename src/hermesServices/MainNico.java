@@ -10,7 +10,7 @@ public class MainNico {
 		//ventanaSaveSlots vi= new ventanaSaveSlots();
 		//ventanaProb vp = new ventanaProb();
 		//ventanaTiendas vi= new ventanaTiendas("Muebles Carmele");
-		//ventanaStat vi= new ventanaStat();
+		ventanaStat vi= new ventanaStat();
 		//ventanaHermes vh= new ventanaHermes();
 		
 		
