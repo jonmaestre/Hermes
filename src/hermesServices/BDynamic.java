@@ -223,26 +223,27 @@ public class BDynamic {
 		
 	public void guardarDatos() throws SQLException, Exception {
 		try (Statement statement = ((java.sql.Connection) conn).createStatement()) {
-			
+
 			Jugador jugador= selectUsuario();
 			ArrayList<Producto> productos=selectProducto();
 			ArrayList<Venta> ventas=selectVenta();
-			
+
 			bd = new BDStatic();
 			try {
 				bd.abrirConexion();
+
+				bd.insertarProductos(productos);
+				bd.insertarVentas(ventas);
+				bd.actualizarUsuario(jugador);
+
+				reiniciarBD();
+				inicializarBD(jugador);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			bd.insertarProductos(productos);
-			bd.insertarVentas(ventas);
-			bd.actualizarUsuario(jugador);
-			
-			reiniciarBD();
-			inicializarBD(jugador);
 		}		
 	}
-	
+
 	public int generadorCodP(List<Producto> productos) {
 		int code=0;
 		for (Producto p : productos) {

@@ -8,7 +8,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -24,13 +23,10 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.general.DatasetUtilities;
-import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
 import datos.Hermes.*;
-import juego.Constantes;
-import juego.Juego;
 
 public class ventanaStat {
 	
@@ -45,6 +41,7 @@ public class ventanaStat {
 	private JTextField tf = new JTextField(30);
 	private JComboBox combo = new JComboBox<String>();
 	private JButton btnDatos= new JButton("Más Datos");
+	private JButton btnFin= new JButton("Fin del día");
 	
 	public ventanaStat() {
 		
@@ -64,10 +61,11 @@ public class ventanaStat {
 		v.setSize(1900, 800);
 		v.setLayout(new BorderLayout());
 		v.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		v.add(cp,BorderLayout.CENTER);
-
 		JPanel u= new JPanel();
+		v.add(btnFin,BorderLayout.NORTH);
+		v.add(cp,BorderLayout.CENTER);
 		v.add(u,BorderLayout.SOUTH);
+		
 		u.add(tf);
 		u.add(combo);
 		u.add(btnDatos);
@@ -86,27 +84,7 @@ public class ventanaStat {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-//		 todoProductos= new ArrayList<Producto>();
-//		 todoVentas= new ArrayList<Venta>();
-//		
-////		jugador= new Jugador(0, "Aitor", 1, 2000, 800);
-////		
-////		Producto p1= new Producto(0, tipoMueble.SOFA, tematica.INVIERNO, color.GRIS, material.PLASTICO, 835.12, 500.00, 1, "Apolo´s", 0);
-////		Producto p2= new Producto(1, tipoMueble.SILLA, tematica.HALLOWEEN, color.BLANCO, material.M_ABEDUL, 100.13, 80.14, 1, "Polo´s", 0);
-////		Producto p3= new Producto(2, tipoMueble.SILLA, tematica.HALLOWEEN, color.BLANCO, material.M_ABEDUL, 100.13, 80.14, 1, "Polo´s", 0);
-////		todoProductos.add(p1);
-////		todoProductos.add(p2);
-////		todoProductos.add(p3);
-////
-////		Venta v1= new Venta(0, tipoMueble.SOFA, tematica.INVIERNO, color.GRIS, material.PLASTICO, 835.12, 500.00, 1, 1, "Apolo´s", 0);
-////		Venta v2= new Venta(1, tipoMueble.SILLA, tematica.HALLOWEEN, color.BLANCO, material.M_ABEDUL, 100.13, 80.14, 1, 1, "Polo´s", 0);
-////		Venta v3= new Venta(2, tipoMueble.SILLA, tematica.HALLOWEEN, color.BLANCO, material.M_ABEDUL, 100.13, 80.14, 1, 1, "Polo´s", 0);
-////		todoVentas.add(v1);
-////		todoVentas.add(v2);
-////		todoVentas.add(v3);
-		
-		
+			
 		
 		combo.addActionListener(new ActionListener() {
 			@Override
@@ -138,48 +116,24 @@ public class ventanaStat {
 		btnDatos.addMouseListener(new MouseAdapter()	{	
 			@Override
 			public void mouseClicked(MouseEvent e) {
-					// TODO Auto-generated method stub				
+					// TODO Auto-generated method stub		
 				ventanamasDatos();
 			}
 
 		});
-	
-		v.addKeyListener(new KeyAdapter() {//Evento cerrar la ventana para saltar a la siguiente
-
-			public void keyPressed(KeyEvent e) {
-				// TODO Auto-generated method stub
-				if(e.getKeyCode()==KeyEvent.VK_ENTER) {
-					
-					try {
-						finDelDia();
-					} catch (Exception e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-					ventanaSaveSlots vss= new ventanaSaveSlots();
-					
-
-					
-					//Para OpenGL en Mac/Linux
-					//System.setProperty("sun.java2d.opengl", "True");
-					
-					
-					//  Para Directx en Windows
-					  System.setProperty("sun.java2d.d3d", "True");
-					  System.setProperty("sun.java2d.ddforcevram", "True");
-					 
-					
-					//System.setProperty("sun.java2d.transaccel", "True");
-					
-					Juego gp = new Juego("JUEGO", Constantes.ANCHO_PANTALLA_COMPLETA,
-							Constantes.ALTO_PANTALLA_COMPLETA);
-					
-					gp.iniciarJuego();
-					gp.iniciarBuclePrincipal();
-						
-					v.setVisible(false);
-					
+		
+		btnFin.addMouseListener(new MouseAdapter()	{	
+			@Override
+			public void mouseClicked(MouseEvent e) {
+					// TODO Auto-generated method stub				
+				try {
+					finDelDia();
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
+				ventanaSaveSlots vss= new ventanaSaveSlots();					
+				v.setVisible(false);
 			}
 
 		});
@@ -247,7 +201,8 @@ public class ventanaStat {
 			public void keyPressed(KeyEvent e) {
 				// TODO Auto-generated method stub
 				if(e.getKeyCode()==KeyEvent.VK_ESCAPE) {
-					v.dispose();					
+					ventanaStat vs=new ventanaStat();
+					v.dispose();				
 				}
 			}
 
@@ -582,9 +537,8 @@ public JFreeChart createSBMaterial() {
 	public void finDelDia() throws SQLException, Exception {
 		
 		jugador.setDia(jugador.getDia()+1);
+		bd.updateUsuario(jugador);
 		bd.guardarDatos();
-		bd.reiniciarBD();	
-		bd.inicializarBD(jugador);
 		
 		
 		
